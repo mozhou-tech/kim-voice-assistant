@@ -783,8 +783,8 @@ def get_engine_by_slug(slug=None):
     if not slug or type(slug) is not str:
         raise TypeError("Invalid slug '%s'", slug)
 
-    selected_engines = filter(lambda engine: hasattr(engine, "SLUG") and
-                              engine.SLUG == slug, get_engines())
+    selected_engines = list(filter(lambda engine: hasattr(engine, "SLUG") and
+                              engine.SLUG == slug, get_engines()))
     if len(selected_engines) == 0:
         raise ValueError("No TTS engine found for slug '%s'" % slug)
     else:

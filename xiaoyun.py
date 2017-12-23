@@ -184,20 +184,10 @@ class xiaoyun(object):
 
 if __name__ == "__main__":
 
-    print('''
-*****************************************************************"
-*             小云 - 开源智能音箱               *
-*          (c) 2017 刘远程 <tenstone@foxmail.com>             *
-*   https://github.com/tenstone/xiaoyun-smart-speaker.git       *
-*****************************************************************
-
-如需查看log，可以执行 `tail -f 叮当所在目录/temp/xiaoyun.log`
-
-''')
 
     logging.basicConfig(
         filename=os.path.join(
-            xiaoyunpath.TEMP_PATH, "xiaoyun.log"
+            xiaoyunpath.LOG_PATH, "xiaoyun.log"
         ),
         filemode="w",
         format='%(asctime)s %(filename)s[line:%(lineno)d] \
@@ -219,10 +209,5 @@ if __name__ == "__main__":
         failed_checks = diagnose.run()
         sys.exit(0 if not failed_checks else 1)
 
-    try:
-        app = xiaoyun()
-    except Exception:
-        logger.error("Error occured!", exc_info=True)
-        sys.exit(1)
-
+    app = xiaoyun()
     app.run()
