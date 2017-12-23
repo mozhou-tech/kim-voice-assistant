@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 import os
-# Dingdang main directory
+# xiaoyun main directory
 APP_PATH = os.path.normpath(os.path.join(
     os.path.dirname(os.path.abspath(__file__)), os.pardir))
 
@@ -11,13 +11,13 @@ TEMP_PATH = os.path.join(APP_PATH, "temp")
 PLUGIN_PATH = os.path.join(LIB_PATH, "plugins")
 
 CONFIG_PATH = os.path.expanduser(
-    os.getenv('DINGDANG_CONFIG', '~/.dingdang')
+    os.getenv('xiaoyun_CONFIG', '~/.xiaoyun')
 )
 CONTRIB_PATH = os.path.expanduser(
-    os.getenv('DINGDANG_CONFIG', '~/.dingdang/contrib')
+    os.getenv('xiaoyun_CONFIG', '~/.xiaoyun/contrib')
 )
 CUSTOM_PATH = os.path.expanduser(
-    os.getenv('DINGDANG_CONFIG', '~/.dingdang/custom')
+    os.getenv('xiaoyun_CONFIG', '~/.xiaoyun/custom')
 )
 
 

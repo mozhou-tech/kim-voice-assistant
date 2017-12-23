@@ -20,7 +20,7 @@ def handle(text, mic, profile, wxbot=None):
                    number)
         wxbot -- wechat bot instance
     """
-    sys.path.append(mic.dingdangpath.LIB_PATH)
+    sys.path.append(mic.xiaoyunpath.LIB_PATH)
     from app_utils import sendToUser
 
     quality = 100
@@ -93,7 +93,7 @@ def handle(text, mic, profile, wxbot=None):
                 mic.say(u"拍照失败，请检查相机是否连接正确")
             return
         if sound:
-            mic.play(mic.dingdangpath.data('audio', 'camera.wav'))
+            mic.play(mic.xiaoyunpath.data('audio', 'camera.wav'))
         # send to user
         if send_to_user:
             target = '邮箱'

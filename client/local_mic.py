@@ -2,7 +2,7 @@
 """
 A drop-in replacement for the Mic class that allows for all I/O to occur
 over the terminal. Useful for debugging. Unlike with the typical Mic
-implementation, Dingdang is always active listening with local_mic.
+implementation, xiaoyun is always active listening with local_mic.
 """
 
 
@@ -16,7 +16,7 @@ class Mic:
         return
 
     def passiveListen(self, PERSONA):
-        return True, "DINGDANG"
+        return True, "xiaoyun"
 
     def activeListenToAllOptions(self, THRESHOLD=None, LISTEN=True,
                                  MUSIC=False):
@@ -32,4 +32,4 @@ class Mic:
         return input
 
     def say(self, phrase, OPTIONS=None):
-        print("DINGDANG: %s" % phrase)
+        print("xiaoyun: %s" % phrase)

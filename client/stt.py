@@ -11,7 +11,7 @@ import urllib
 from abc import ABCMeta, abstractmethod
 import requests
 import yaml
-from client import dingdangpath,diagnose,vocabcompiler
+from client import xiaoyunpath,diagnose,vocabcompiler
 from uuid import getnode as get_mac
 import hashlib
 import datetime
@@ -40,7 +40,7 @@ class AbstractSTTEngine(object):
         config = cls.get_config()
         if cls.VOCABULARY_TYPE:
             vocabulary = cls.VOCABULARY_TYPE(vocabulary_name,
-                                             path=dingdangpath.config(
+                                             path=xiaoyunpath.config(
                                                  'vocabularies'))
             if not vocabulary.matches_phrases(phrases):
                 vocabulary.compile(phrases)
@@ -145,7 +145,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
 
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
@@ -215,7 +215,7 @@ class BaiduSTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get baidu_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -229,7 +229,7 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
-        cache = open(os.path.join(dingdangpath.TEMP_PATH, 'baidustt.ini'),
+        cache = open(os.path.join(xiaoyunpath.TEMP_PATH, 'baidustt.ini'),
                      'a+')
         try:
             pms = cache.readlines()
@@ -337,7 +337,7 @@ class IFlyTekSTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get iflytek_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -434,7 +434,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get ali_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -539,7 +539,7 @@ class SnowboySTT(AbstractSTTEngine):
     Snowboy STT 离线识别引擎（只适用于离线唤醒）
         ...
         snowboy:
-            model: '/home/pi/.dingdang/snowboy/dingdangdingdang.pmdl'  # 唤醒词模型
+            model: '/home/pi/.xiaoyun/snowboy/xiaoyunxiaoyun.pmdl'  # 唤醒词模型
             sensitivity: "0.5"  # 敏感度
         ...
     """
@@ -551,7 +551,7 @@ class SnowboySTT(AbstractSTTEngine):
         self.sensitivity = sensitivity
         self.hotword = hotword
         self.model = model
-        self.resource_file = os.path.join(dingdangpath.LIB_PATH,
+        self.resource_file = os.path.join(xiaoyunpath.LIB_PATH,
                                           'snowboy/common.res')
         try:
             from snowboy import snowboydetect
@@ -572,7 +572,7 @@ class SnowboySTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get snowboy config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -582,7 +582,7 @@ class SnowboySTT(AbstractSTTEngine):
                             profile['snowboy']['model']
                     else:
                         config['model'] = os.path.join(
-                            dingdangpath.LIB_PATH, 'snowboy/dingdang.pmdl')
+                            xiaoyunpath.LIB_PATH, 'snowboy/xiaoyun.pmdl')
                     if 'sensitivity' in profile['snowboy']:
                         config['sensitivity'] = \
                             profile['snowboy']['sensitivity']
@@ -591,7 +591,7 @@ class SnowboySTT(AbstractSTTEngine):
                     if 'robot_name' in profile:
                         config['hotword'] = profile['robot_name']
                     else:
-                        config['hotword'] = 'DINGDANG'
+                        config['hotword'] = 'xiaoyun'
         return config
 
     def transcribe(self, fp):
@@ -693,7 +693,7 @@ class GoogleSTT(AbstractSTTEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)

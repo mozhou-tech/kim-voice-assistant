@@ -14,7 +14,7 @@ class Mic:
         self.outputs = []
 
     def passiveListen(self, PERSONA):
-        return True, "DINGDANG"
+        return True, "xiaoyun"
 
     def activeListenToAllOptions(self, THRESHOLD=None, LISTEN=True,
                                  MUSIC=False):

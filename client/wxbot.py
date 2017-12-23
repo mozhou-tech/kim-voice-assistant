@@ -14,7 +14,7 @@ import urllib
 import time
 import re
 import random
-from client import dingdangpath
+from client import xiaoyunpath
 from traceback import format_exc
 from requests.exceptions import ConnectionError, ReadTimeout
 from html.parser import HTMLParser
@@ -42,7 +42,7 @@ def show_image(file_path):
         command = "open -a /Applications/Preview.app %s&" % quote(file_path)
         os.system(command)
     else:
-        webbrowser.open(os.path.join(dingdangpath.TEMP_PATH, file_path))
+        webbrowser.open(os.path.join(xiaoyunpath.TEMP_PATH, file_path))
 
 
 class SafeSession(requests.Session):
@@ -93,9 +93,9 @@ class WXBot:
         self.cursor = 0   #拉取联系人信息的游标
         self.is_big_contact = False  #通讯录人数过多，无法直接获取
         #文件缓存目录
-        self.temp_pwd  =  dingdangpath.TEMP_PATH
+        self.temp_pwd  =  xiaoyunpath.TEMP_PATH
         #登录图片所在目录
-        self.login_pwd  =  dingdangpath.LOGIN_PATH
+        self.login_pwd  =  xiaoyunpath.LOGIN_PATH
         if os.path.exists(self.temp_pwd) == False:
             os.makedirs(self.temp_pwd)
 
@@ -1175,7 +1175,7 @@ class WXBot:
 
     def run(self, Mic=None):
         self.get_uuid()
-        self.gen_qr_code(os.path.join(dingdangpath.LOGIN_PATH,'wxqr.png'))
+        self.gen_qr_code(os.path.join(xiaoyunpath.LOGIN_PATH,'wxqr.png'))
         print('[INFO] Please use WeChat to scan the QR code .')
 
         result = self.wait4login()

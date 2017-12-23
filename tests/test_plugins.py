@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
 from nose.tools import *
-from client import test_mic, diagnose, dingdangpath
+from client import test_mic, diagnose, xiaoyunpath
 from client.plugins import Time, Echo, Email, SendQR
 
 DEFAULT_PROFILE = {

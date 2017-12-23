@@ -7,7 +7,7 @@ import logging
 
 import yaml
 
-from client import diagnose,dingdangpath
+from client import diagnose,xiaoyunpath
 
 
 class PhonetisaurusG2P(object):
@@ -64,10 +64,10 @@ class PhonetisaurusG2P(object):
 
     @classmethod
     def get_config(cls):
-        conf = {'fst_model': os.path.join(dingdangpath.APP_PATH, os.pardir,
+        conf = {'fst_model': os.path.join(xiaoyunpath.APP_PATH, os.pardir,
                                           'phonetisaurus', 'g014b2b.fst')}
         # Try to get fst_model from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)

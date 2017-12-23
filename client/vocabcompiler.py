@@ -16,7 +16,7 @@ import shutil
 from abc import ABCMeta, abstractmethod, abstractproperty
 import yaml
 
-from client import brain,dingdangpath
+from client import brain,xiaoyunpath
 
 from client.g2p import PhonetisaurusG2P
 try:
@@ -415,12 +415,12 @@ class JuliusVocabulary(AbstractVocabulary):
         return word_defs
 
     def _compile_vocabulary(self, phrases):
-        prefix = 'dingdang'
+        prefix = 'xiaoyun'
         tmpdir = tempfile.mkdtemp()
 
-        lexicon_file = dingdangpath.data('julius-stt', 'VoxForge.tgz')
+        lexicon_file = xiaoyunpath.data('julius-stt', 'VoxForge.tgz')
         lexicon_archive_member = 'VoxForge/VoxForgeDict'
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -490,14 +490,14 @@ def get_phrases_from_plugin(plugin):
 
 def get_keyword_phrases():
     """
-    Gets the keyword phrases from the keywords file in the dingdang data dir.
+    Gets the keyword phrases from the keywords file in the xiaoyun data dir.
 
     Returns:
         A list of keyword phrases.
     """
     phrases = []
 
-    with open(dingdangpath.data('keyword_phrases'), mode="r") as f:
+    with open(xiaoyunpath.data('keyword_phrases'), mode="r") as f:
         for line in f:
             phrase = line.strip()
             if phrase:

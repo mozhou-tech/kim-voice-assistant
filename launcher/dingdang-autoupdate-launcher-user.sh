@@ -2,7 +2,7 @@
 sleep 1
 
 # tmux session name
-session_name="dingdang"
+session_name="xiaoyun"
 
 #Delete Cache
 sudo rm -r $HOME/.cache
@@ -11,19 +11,19 @@ sudo rm -r $HOME/userInfo
 sleep 1
 
 #AutoUpdate Before Launch
-#Update dingdang-robot
-cd $HOME/dingdang
+#Update xiaoyun-robot
+cd $HOME/xiaoyun
 git pull
 
-#Update dingdang Requirements
+#Update xiaoyun Requirements
 sudo pip install --upgrade -r client/requirements.txt
 sleep 1
 
-#Update dingdang-contrib
-cd $HOME/.dingdang/contrib
+#Update xiaoyun-contrib
+cd $HOME/.xiaoyun/contrib
 git pull
 
-#Update dingdang-contrib Requirements
+#Update xiaoyun-contrib Requirements
 sudo pip install --upgrade -r requirements.txt
 sleep 1
 
@@ -33,8 +33,8 @@ if [ -f $HOME/asound.state ]; then
    sleep 1
 fi
 
-#Launch Dingdang in tmux
-tmux new-session -d -s $session_name $HOME/dingdang/dingdang.py
+#Launch xiaoyun in tmux
+tmux new-session -d -s $session_name $HOME/xiaoyun/xiaoyun.py
 sleep 1
 
 #Start Respeaker-Switcher in Background
@@ -42,4 +42,4 @@ if [ -d $HOME/ReSpeaker-Switcher ]; then
     sudo python $HOME/ReSpeaker-Switcher/switcher.py &
 fi
 
-cd $HOME/dingdang
+cd $HOME/xiaoyun

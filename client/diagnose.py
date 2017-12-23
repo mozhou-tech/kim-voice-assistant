@@ -7,7 +7,7 @@ import subprocess
 import pkgutil
 import logging
 import pip.req
-from client import dingdangpath
+from client import xiaoyunpath
 if sys.version_info < (3, 3):
     from distutils.spawn import find_executable
 else:
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def check_network_connection(server="www.baidu.com"):
     """
-    Checks if dingdang can connect a network server.
+    Checks if xiaoyun can connect a network server.
 
     Arguments:
         server -- (optional) the server to connect with (Default:
@@ -89,7 +89,7 @@ def check_python_import(package_or_module):
     return found
 
 
-def get_pip_requirements(fname=os.path.join(dingdangpath.LIB_PATH,
+def get_pip_requirements(fname=os.path.join(xiaoyunpath.LIB_PATH,
                                             'requirements.txt')):
     """
     Gets the PIP requirements from a text file. If the files does not exists
@@ -147,7 +147,7 @@ def run():
     if loglvl == logging.NOTSET or loglvl > logging.INFO:
         logger.setLevel(logging.INFO)
 
-    logger.info("Starting dingdang diagnostic at %s" % time.strftime("%c"))
+    logger.info("Starting xiaoyun diagnostic at %s" % time.strftime("%c"))
     logger.info("Git revision: %r", get_git_revision())
 
     failed_checks = 0
@@ -168,7 +168,7 @@ def run():
         else:
             logger.debug("PIP package '%s' found", req.name)
 
-    for fname in [os.path.join(dingdangpath.APP_PATH, os.pardir,
+    for fname in [os.path.join(xiaoyunpath.APP_PATH, os.pardir,
                                "phonetisaurus",
                                "g014b2b.fst")]:
         logger.debug("Checking file '%s'...", fname)

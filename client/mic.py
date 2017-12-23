@@ -9,7 +9,7 @@ import wave
 import audioop
 import time
 import pyaudio
-import dingdangpath
+import xiaoyunpath
 import mute_alsa
 from app_utils import wechatUser
 
@@ -26,9 +26,9 @@ class Mic:
         Arguments:
         profile -- config profile
         speaker -- handles platform-independent audio output
-        passive_stt_engine -- performs STT while Dingdang is in passive listen
+        passive_stt_engine -- performs STT while xiaoyun is in passive listen
                               mode
-        acive_stt_engine -- performs STT while Dingdang is in active listen
+        acive_stt_engine -- performs STT while xiaoyun is in active listen
                             mode
         """
         self.profile = profile
@@ -40,7 +40,7 @@ class Mic:
         self.wxbot = None
         self.passive_stt_engine = passive_stt_engine
         self.active_stt_engine = active_stt_engine
-        self.dingdangpath = dingdangpath
+        self.xiaoyunpath = xiaoyunpath
         self._logger.info("Initializing PyAudio. ALSA/Jack error messages " +
                           "that pop up during this process are normal and " +
                           "can usually be safely ignored.")
@@ -284,7 +284,7 @@ class Mic:
                                   input=True,
                                   frames_per_buffer=CHUNK)
 
-        self.speaker.play(dingdangpath.data('audio', 'beep_hi.wav'))
+        self.speaker.play(xiaoyunpath.data('audio', 'beep_hi.wav'))
 
         frames = []
         # increasing the range # results in longer pause after command
@@ -309,7 +309,7 @@ class Mic:
                 self._logger.error(e)
                 continue
 
-        self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
+        self.speaker.play(xiaoyunpath.data('audio', 'beep_lo.wav'))
 
         # save the audio data
         try:

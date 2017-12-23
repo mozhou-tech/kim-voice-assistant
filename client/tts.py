@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 """
-A Speaker handles audio output from Dingdang to the user
+A Speaker handles audio output from xiaoyun to the user
 
 Speaker methods:
     say - output 'phrase' as speech
@@ -28,7 +28,7 @@ import argparse
 import yaml
 
 from client import diagnose
-from client import dingdangpath
+from client import xiaoyunpath
 
 try:
     import gtts
@@ -109,7 +109,7 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
 
     def say(self, phrase, cache=False):
         self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
-        cache_file_path = dingdangpath.data(
+        cache_file_path = xiaoyunpath.data(
             'audio',
             self.SLUG + phrase + '.mp3'
         )
@@ -166,7 +166,7 @@ class DummyTTS(AbstractTTSEngine):
 
 class EspeakTTS(AbstractTTSEngine):
     """
-    Uses the eSpeak speech synthesizer included in the Dingdang disk image
+    Uses the eSpeak speech synthesizer included in the xiaoyun disk image
     Requires espeak to be available
     """
 
@@ -185,7 +185,7 @@ class EspeakTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -307,7 +307,7 @@ class FliteTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -404,7 +404,7 @@ class PicoTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -479,7 +479,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get baidu_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -500,7 +500,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return diagnose.check_network_connection()
 
     def get_token(self):
-        cache = open(os.path.join(dingdangpath.TEMP_PATH, 'baidustt.ini'),
+        cache = open(os.path.join(xiaoyunpath.TEMP_PATH, 'baidustt.ini'),
                      'a+')
         try:
             pms = cache.readlines()
@@ -580,7 +580,7 @@ class IFlyTekTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get iflytek_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -638,7 +638,7 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get ali_yuyin config from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -737,7 +737,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = dingdangpath.config('profile.yml')
+        profile_path = xiaoyunpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -811,7 +811,7 @@ def get_engines():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Dingdang TTS module')
+    parser = argparse.ArgumentParser(description='xiaoyun TTS module')
     parser.add_argument('--debug', action='store_true',
                         help='Show debug messages')
     args = parser.parse_args()

@@ -10,7 +10,7 @@ import argparse
 import threading
 from client import tts
 from client import stt
-from client import dingdangpath
+from client import xiaoyunpath
 from client import diagnose
 from client.wxbot import WXBot
 from client.conversation import Conversation
@@ -18,10 +18,10 @@ from client.tts import SimpleMp3Player
 
 from client.audio_utils import mp3_to_wav
 
-# Add dingdangpath.LIB_PATH to sys.path
-sys.path.append(dingdangpath.LIB_PATH)
+# Add xiaoyunpath.LIB_PATH to sys.path
+sys.path.append(xiaoyunpath.LIB_PATH)
 
-parser = argparse.ArgumentParser(description='Dingdang Voice Control Center')
+parser = argparse.ArgumentParser(description='xiaoyun Voice Control Center')
 parser.add_argument('--local', action='store_true',
                     help='Use text input instead of a real microphone')
 parser.add_argument('--no-network-check', action='store_true',
@@ -73,7 +73,7 @@ class WechatBot(WXBot):
                     return self.handle_music_mode(msg_data)
                 self.brain.query([msg_data], self, True)
             elif msg['content']['type'] == 4:
-                mp3_file = os.path.join(dingdangpath.TEMP_PATH,
+                mp3_file = os.path.join(xiaoyunpath.TEMP_PATH,
                                         'voice_%s.mp3' % msg['msg_id'])
                 # echo or command?
                 if 'wechat_echo' in profile and not profile['wechat_echo']:
@@ -94,26 +94,26 @@ class WechatBot(WXBot):
                     player.play_mp3(mp3_file)
 
 
-class Dingdang(object):
+class xiaoyun(object):
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
         # Create config dir if it does not exist yet
-        if not os.path.exists(dingdangpath.CONFIG_PATH):
+        if not os.path.exists(xiaoyunpath.CONFIG_PATH):
             try:
-                os.makedirs(dingdangpath.CONFIG_PATH)
+                os.makedirs(xiaoyunpath.CONFIG_PATH)
             except OSError:
                 self._logger.error("Could not create config dir: '%s'",
-                                   dingdangpath.CONFIG_PATH, exc_info=True)
+                                   xiaoyunpath.CONFIG_PATH, exc_info=True)
                 raise
 
         # Check if config dir is writable
-        if not os.access(dingdangpath.CONFIG_PATH, os.W_OK):
-            self._logger.critical("Config dir %s is not writable. Dingdang " +
+        if not os.access(xiaoyunpath.CONFIG_PATH, os.W_OK):
+            self._logger.critical("Config dir %s is not writable. xiaoyun " +
                                   "won't work correctly.",
-                                  dingdangpath.CONFIG_PATH)
+                                  xiaoyunpath.CONFIG_PATH)
 
-        config_file = dingdangpath.config('profile.yml')
+        config_file = xiaoyunpath.config('profile.yml')
         # Read config
         self._logger.debug("Trying to read config file: '%s'", config_file)
         try:
@@ -164,7 +164,7 @@ class Dingdang(object):
         else:
             salutation = "主人，我能为您做什么?"
 
-        persona = 'DINGDANG'
+        persona = 'xiaoyun'
         if 'robot_name' in self.config:
             persona = self.config["robot_name"]
         conversation = Conversation(persona, self.mic, self.config)
@@ -191,13 +191,13 @@ if __name__ == "__main__":
 *   https://github.com/tenstone/xiaoyun-smart-speaker.git       *
 *****************************************************************
 
-如需查看log，可以执行 `tail -f 叮当所在目录/temp/dingdang.log`
+如需查看log，可以执行 `tail -f 叮当所在目录/temp/xiaoyun.log`
 
 ''')
 
     logging.basicConfig(
         filename=os.path.join(
-            dingdangpath.TEMP_PATH, "dingdang.log"
+            xiaoyunpath.TEMP_PATH, "xiaoyun.log"
         ),
         filemode="w",
         format='%(asctime)s %(filename)s[line:%(lineno)d] \
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         logger.setLevel(logging.INFO)
 
     if not args.no_network_check and not diagnose.check_network_connection():
-        logger.warning("Network not connected. This may prevent Dingdang " +
+        logger.warning("Network not connected. This may prevent xiaoyun " +
                        "from running properly.")
 
     if args.diagnose:
@@ -220,7 +220,7 @@ if __name__ == "__main__":
         sys.exit(0 if not failed_checks else 1)
 
     try:
-        app = Dingdang()
+        app = xiaoyun()
     except Exception:
         logger.error("Error occured!", exc_info=True)
         sys.exit(1)
