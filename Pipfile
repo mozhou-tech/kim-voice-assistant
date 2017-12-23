@@ -1,7 +1,7 @@
 [[source]]
 
-url = "https://mirrors.aliyun.com/pypi/simple"
-verify_ssl = true
+url = "http://mirrors.aliyun.com/pypi/simple"
+verify_ssl = false
 name = "pypi"
 
 
