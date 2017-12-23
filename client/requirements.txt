@@ -1,0 +1,24 @@
+# Xmei core dependencies
+APScheduler==3.0.1
+argparse==1.2.2
+mock==1.0.1
+pytz==2014.10
+PyYAML==3.11
+requests==2.5.0
+
+# Pocketsphinx STT engine
+cmuclmtk==0.1.5
+
+# Email plugin
+python-dateutil==2.3
+
+# Time plugin
+semantic==1.0.3
+
+# wxbot
+PyQRCode==1.2.1
+pydub==0.18.0
+pypng==0.0.18
+
+
+
