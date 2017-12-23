@@ -17,6 +17,7 @@ brew install xxx
 | pyAudio | | 依赖portAudio | 音频播放 | 
 | Pocketsphinx  | Pocketsphinx STT engine | CMUCLMTK | |
 | pydub | 依赖ffmpeg，如果你使用的是Mac，可以执行brew install ffmpeg安装 | | 
+| Phonetisaurus G2P | speech recognition | | |
 
 
 # 感谢
