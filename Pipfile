@@ -38,6 +38,7 @@ mock = "*"
 pytz = "*"
 pydub = "*"
 pypng = "*"
+pyaudio = "*"
 
 
 [dev-packages]
