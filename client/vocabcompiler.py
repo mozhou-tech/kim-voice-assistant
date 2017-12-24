@@ -18,13 +18,13 @@ import yaml
 
 from client import brain,xiaoyunpath
 
-from client.g2p import PhonetisaurusG2P
-try:
-    import cmuclmtk
-except ImportError:
-    logging.getLogger(__name__).error("Error importing CMUCLMTK plugin. " +
-                                      "PocketsphinxVocabulary will not work " +
-                                      "correctly.", exc_info=True)
+# from client.g2p import PhonetisaurusG2P
+# try:
+#     import cmuclmtk
+# except ImportError:
+#     logging.getLogger(__name__).error("Error importing CMUCLMTK plugin. " +
+#                                       "PocketsphinxVocabulary will not work " +
+#                                       "correctly.", exc_info=True)
 
 
 class AbstractVocabulary(object):
@@ -204,130 +204,130 @@ class DummyVocabulary(AbstractVocabulary):
         """
         pass
 
-
-class PocketsphinxVocabulary(AbstractVocabulary):
-
-    PATH_PREFIX = 'pocketsphinx-vocabulary'
-
-    @property
-    def languagemodel_file(self):
-        """
-        Returns:
-            The path of the the pocketsphinx languagemodel file as string
-        """
-        return os.path.join(self.path, 'languagemodel')
-
-    @property
-    def dictionary_file(self):
-        """
-        Returns:
-            The path of the pocketsphinx dictionary file as string
-        """
-        return os.path.join(self.path, 'dictionary')
-
-    @property
-    def is_compiled(self):
-        """
-        Checks if the vocabulary is compiled by checking if the revision,
-        languagemodel and dictionary files are readable.
-
-        Returns:
-            True if this vocabulary has been compiled, else False
-        """
-        return (super(self.__class__, self).is_compiled and
-                os.access(self.languagemodel_file, os.R_OK) and
-                os.access(self.dictionary_file, os.R_OK))
-
-    @property
-    def decoder_kwargs(self):
-        """
-        Convenience property to use this Vocabulary with the __init__() method
-        of the pocketsphinx.Decoder class.
-
-        Returns:
-            A dict containing kwargs for the pocketsphinx.Decoder.__init__()
-            method.
-
-        Example:
-            decoder = pocketsphinx.Decoder(**vocab_instance.decoder_kwargs,
-                                           hmm='/path/to/hmm')
-
-        """
-        return {'lm': self.languagemodel_file, 'dict': self.dictionary_file}
-
-    def _compile_vocabulary(self, phrases):
-        """
-        Compiles the vocabulary to the Pocketsphinx format by creating a
-        languagemodel and a dictionary.
-
-        Arguments:
-            phrases -- a list of phrases that this vocabulary will contain
-        """
-        text = " ".join([("<s> %s </s>" % phrase) for phrase in phrases])
-        self._logger.debug('Compiling languagemodel...')
-        vocabulary = self._compile_languagemodel(text, self.languagemodel_file)
-        self._logger.debug('Starting dictionary...')
-        self._compile_dictionary(vocabulary, self.dictionary_file)
-
-    def _compile_languagemodel(self, text, output_file):
-        """
-        Compiles the languagemodel from a text.
-
-        Arguments:
-            text -- the text the languagemodel will be generated from
-            output_file -- the path of the file this languagemodel will
-                           be written to
-
-        Returns:
-            A list of all unique words this vocabulary contains.
-        """
-        with tempfile.NamedTemporaryFile(suffix='.vocab', delete=False) as f:
-            vocab_file = f.name
-
-        # Create vocab file from text
-        self._logger.debug("Creating vocab file: '%s'", vocab_file)
-        cmuclmtk.text2vocab(text, vocab_file)
-
-        # Create language model from text
-        self._logger.debug("Creating languagemodel file: '%s'", output_file)
-        cmuclmtk.text2lm(text, output_file, vocab_file=vocab_file)
-
-        # Get words from vocab file
-        self._logger.debug("Getting words from vocab file and removing it " +
-                           "afterwards...")
-        words = []
-        with open(vocab_file, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if not line.startswith('#') and line not in ('<s>', '</s>'):
-                    words.append(line)
-        os.remove(vocab_file)
-
-        return words
-
-    def _compile_dictionary(self, words, output_file):
-        """
-        Compiles the dictionary from a list of words.
-
-        Arguments:
-            words -- a list of all unique words this vocabulary contains
-            output_file -- the path of the file this dictionary will
-                           be written to
-        """
-        # create the dictionary
-        self._logger.debug("Getting phonemes for %d words...", len(words))
-        g2pconverter = PhonetisaurusG2P(**PhonetisaurusG2P.get_config())
-        phonemes = g2pconverter.translate(words)
-
-        self._logger.debug("Creating dict file: '%s'", output_file)
-        with open(output_file, "w") as f:
-            for word, pronounciations in phonemes.items():
-                for i, pronounciation in enumerate(pronounciations, start=1):
-                    if i == 1:
-                        line = "%s\t%s\n" % (word, pronounciation)
-                    else:
-                        line = "%s(%d)\t%s\n" % (word, i, pronounciation)
-                    f.write(line)
+#
+# class PocketsphinxVocabulary(AbstractVocabulary):
+#
+#     PATH_PREFIX = 'pocketsphinx-vocabulary'
+#
+#     @property
+#     def languagemodel_file(self):
+#         """
+#         Returns:
+#             The path of the the pocketsphinx languagemodel file as string
+#         """
+#         return os.path.join(self.path, 'languagemodel')
+#
+#     @property
+#     def dictionary_file(self):
+#         """
+#         Returns:
+#             The path of the pocketsphinx dictionary file as string
+#         """
+#         return os.path.join(self.path, 'dictionary')
+#
+#     @property
+#     def is_compiled(self):
+#         """
+#         Checks if the vocabulary is compiled by checking if the revision,
+#         languagemodel and dictionary files are readable.
+#
+#         Returns:
+#             True if this vocabulary has been compiled, else False
+#         """
+#         return (super(self.__class__, self).is_compiled and
+#                 os.access(self.languagemodel_file, os.R_OK) and
+#                 os.access(self.dictionary_file, os.R_OK))
+#
+#     @property
+#     def decoder_kwargs(self):
+#         """
+#         Convenience property to use this Vocabulary with the __init__() method
+#         of the pocketsphinx.Decoder class.
+#
+#         Returns:
+#             A dict containing kwargs for the pocketsphinx.Decoder.__init__()
+#             method.
+#
+#         Example:
+#             decoder = pocketsphinx.Decoder(**vocab_instance.decoder_kwargs,
+#                                            hmm='/path/to/hmm')
+#
+#         """
+#         return {'lm': self.languagemodel_file, 'dict': self.dictionary_file}
+#
+#     def _compile_vocabulary(self, phrases):
+#         """
+#         Compiles the vocabulary to the Pocketsphinx format by creating a
+#         languagemodel and a dictionary.
+#
+#         Arguments:
+#             phrases -- a list of phrases that this vocabulary will contain
+#         """
+#         text = " ".join([("<s> %s </s>" % phrase) for phrase in phrases])
+#         self._logger.debug('Compiling languagemodel...')
+#         vocabulary = self._compile_languagemodel(text, self.languagemodel_file)
+#         self._logger.debug('Starting dictionary...')
+#         self._compile_dictionary(vocabulary, self.dictionary_file)
+#
+#     def _compile_languagemodel(self, text, output_file):
+#         """
+#         Compiles the languagemodel from a text.
+#
+#         Arguments:
+#             text -- the text the languagemodel will be generated from
+#             output_file -- the path of the file this languagemodel will
+#                            be written to
+#
+#         Returns:
+#             A list of all unique words this vocabulary contains.
+#         """
+#         with tempfile.NamedTemporaryFile(suffix='.vocab', delete=False) as f:
+#             vocab_file = f.name
+#
+#         # Create vocab file from text
+#         self._logger.debug("Creating vocab file: '%s'", vocab_file)
+#         cmuclmtk.text2vocab(text, vocab_file)
+#
+#         # Create language model from text
+#         self._logger.debug("Creating languagemodel file: '%s'", output_file)
+#         cmuclmtk.text2lm(text, output_file, vocab_file=vocab_file)
+#
+#         # Get words from vocab file
+#         self._logger.debug("Getting words from vocab file and removing it " +
+#                            "afterwards...")
+#         words = []
+#         with open(vocab_file, 'r') as f:
+#             for line in f:
+#                 line = line.strip()
+#                 if not line.startswith('#') and line not in ('<s>', '</s>'):
+#                     words.append(line)
+#         os.remove(vocab_file)
+#
+#         return words
+#
+#     def _compile_dictionary(self, words, output_file):
+#         """
+#         Compiles the dictionary from a list of words.
+#
+#         Arguments:
+#             words -- a list of all unique words this vocabulary contains
+#             output_file -- the path of the file this dictionary will
+#                            be written to
+#         """
+#         # create the dictionary
+#         self._logger.debug("Getting phonemes for %d words...", len(words))
+#         g2pconverter = PhonetisaurusG2P(**PhonetisaurusG2P.get_config())
+#         phonemes = g2pconverter.translate(words)
+#
+#         self._logger.debug("Creating dict file: '%s'", output_file)
+#         with open(output_file, "w") as f:
+#             for word, pronounciations in phonemes.items():
+#                 for i, pronounciation in enumerate(pronounciations, start=1):
+#                     if i == 1:
+#                         line = "%s\t%s\n" % (word, pronounciation)
+#                     else:
+#                         line = "%s(%d)\t%s\n" % (word, i, pronounciation)
+#                     f.write(line)
 
 
 class JuliusVocabulary(AbstractVocabulary):
