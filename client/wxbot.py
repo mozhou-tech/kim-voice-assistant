@@ -94,7 +94,7 @@ class WXBot:
         self.cursor = 0   #拉取联系人信息的游标
         self.is_big_contact = False  #通讯录人数过多，无法直接获取
         #文件缓存目录
-        self.temp_pwd  =  xiaoyunpath.TEMP_PATH
+        self.temp_pwd  =  xiaoyunpath.CACHE_WX_PATH
         #登录图片所在目录
         self.login_pwd  =  xiaoyunpath.LOGIN_PATH
         if os.path.exists(self.temp_pwd) == False:
