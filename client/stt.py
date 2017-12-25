@@ -39,9 +39,7 @@ class AbstractSTTEngine(object):
     def get_instance(cls, vocabulary_name, phrases):
         config = cls.get_config()
         if cls.VOCABULARY_TYPE:
-            vocabulary = cls.VOCABULARY_TYPE(vocabulary_name,
-                                             path=config_path.config(
-                                                 'vocabularies'))
+            vocabulary = cls.VOCABULARY_TYPE(vocabulary_name, path=config_path.config('vocabularies'))
             if not vocabulary.matches_phrases(phrases):
                 vocabulary.compile(phrases)
             config['vocabulary'] = vocabulary
@@ -91,17 +89,16 @@ class SnowboySTT(AbstractSTTEngine):
         self.hotword = hotword
         self.model = model
         self.resource_file = os.path.join(config_path.LIB_PATH, 'snowboy/common.res')
+        from client.snowboy import snowboydetect
         try:
-            from snowboy import snowboydetect
+            pass
         except Exception as e:
             self._logger.critical(e)
-            if 'libf77blas.so' in e.message:
+            if 'libf77blas.so' in e:
                 self._logger.critical("您可能需要安装一个so包加载库：" +
                                       "sudo apt-get install libatlas-base-dev")
             return
-        self.detector = snowboydetect.SnowboyDetect(
-            resource_filename=self.resource_file,
-            model_str=self.model)
+        self.detector = snowboydetect.SnowboyDetect(resource_filename=self.resource_file, model_str=self.model)
         self.detector.SetAudioGain(1)
         self.detector.SetSensitivity(self.sensitivity)
 
@@ -116,14 +113,12 @@ class SnowboySTT(AbstractSTTEngine):
                 profile = yaml.safe_load(f)
                 if 'snowboy' in profile:
                     if 'model' in profile['snowboy']:
-                        config['model'] = \
-                            profile['snowboy']['model']
+                        config['model'] = profile['snowboy']['model']
                     else:
                         config['model'] = os.path.join(
-                            config_path.LIB_PATH, 'snowboy/xiaoyun.pmdl')
+                            config_path.LIB_PATH, 'snowboy/dingdang.pmdl')
                     if 'sensitivity' in profile['snowboy']:
-                        config['sensitivity'] = \
-                            profile['snowboy']['sensitivity']
+                        config['sensitivity'] = profile['snowboy']['sensitivity']
                     else:
                         config['sensitivity'] = "0.5"
                     if 'robot_name' in profile:
@@ -239,16 +234,13 @@ class ALiBaBaSTT(AbstractSTTEngine):
             if 'result' in r.json():
                 text = r.json()['result'].encode('utf-8')
         except requests.exceptions.HTTPError:
-            self._logger.critical('Request failed with response: %r',
-                                  r.text,
-                                  exc_info=True)
+            self._logger.critical('Request failed with response: %r', r.text, exc_info=True)
             return []
         except requests.exceptions.RequestException:
             self._logger.critical('Request failed.', exc_info=True)
             return []
         except ValueError as e:
-            self._logger.critical('Cannot parse response: %s',
-                                  e.args[0])
+            self._logger.critical('Cannot parse response: %s', e.args[0])
             return []
         except KeyError:
             self._logger.critical('Cannot parse response.', exc_info=True)

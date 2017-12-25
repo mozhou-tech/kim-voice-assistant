@@ -288,7 +288,7 @@ class Mic:
         # generation
         lastN = [THRESHOLD * 1.2 for i in range(40)]
 
-        for i in range(0, RATE / CHUNK * LISTEN_TIME):
+        for i in range(0, int(RATE / CHUNK * LISTEN_TIME)):
             try:
                 data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
@@ -321,15 +321,13 @@ class Mic:
             wav_fp.setnchannels(1)
             wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
             wav_fp.setframerate(RATE)
-            wav_fp.writeframes(''.join(frames))
+            wav_fp.writeframes(''.join(str(frames, 'utf-8')))
             wav_fp.close()
             f.seek(0)
             frames = []
             return self.active_stt_engine.transcribe(f)
 
-    def say(self, phrase,
-            OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav",
-            cache=False):
+    def say(self, phrase, OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav", cache=False):
         self._logger.info(u"机器人说：%s" % phrase)
         self.stop_passive = True
         if self.wxbot is not None:

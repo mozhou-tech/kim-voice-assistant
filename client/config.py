@@ -26,7 +26,6 @@ DATA_PATH = os.path.join(APP_PATH, "data/static")
 LOGIN_PATH = os.path.join(APP_PATH, "data/login")
 
 
-
 def config(*fname):
     return os.path.join(CONFIG_PATH, *fname)
 

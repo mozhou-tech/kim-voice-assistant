@@ -59,7 +59,7 @@ class AbstractTTSEngine(object):
     @classmethod
     @abstractmethod
     def is_available(cls):
-        return diagnose.check_executable('aplay')
+        return diagnose.check_executable('play')
 
     def __init__(self, **kwargs):
         self._logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ class AbstractTTSEngine(object):
         pass
 
     def play(self, filename):
-        cmd = ['aplay', str(filename)]
+        cmd = ['play', str(filename)]
         self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
                                                      for arg in cmd]))
         with tempfile.TemporaryFile() as f:

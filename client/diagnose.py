@@ -17,7 +17,7 @@ else:
 logger = logging.getLogger(__name__)
 
 
-def check_network_connection(server="www.baidu.com"):
+def check_network_connection(server="www.aliyun.com"):
     """
     Checks if xiaoyun can connect a network server.
 

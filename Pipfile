@@ -38,6 +38,7 @@ pydub = "*"
 pypng = "*"
 pyaudio = "*"
 pocketsphinx = "*"
+snowboy = "*"
 
 
 [dev-packages]
