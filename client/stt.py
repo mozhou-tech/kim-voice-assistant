@@ -426,7 +426,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
             transcribed = []
             if text:
                 transcribed.append(text.upper())
-            self._logger.info(u'阿里云语音识别到了: %s' % text)
+            self._logger.info(u'阿里云语音识别到了: %s' % str(text,'utf-8'))
             return transcribed
 
     @classmethod
