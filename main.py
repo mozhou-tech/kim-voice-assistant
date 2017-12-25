@@ -14,11 +14,10 @@ from client import diagnose
 from client.conversation import Conversation
 from utils import WechatBot
 from client.audio_utils import mp3_to_wav
+from utils import logger
 
 
-
-# Add xiaoyunpath.LIB_PATH to sys.path
-sys.path.append(config.LIB_PATH)
+sys.path.append(config.LIB_PATH)  # Add config_path.LIB_PATH to sys.path
 
 parser = argparse.ArgumentParser(description='xiaoyun Voice Control Center')
 parser.add_argument('--local', action='store_true',
@@ -37,7 +36,7 @@ else:
     from client.mic import Mic
 
 
-class xiaoyun(object):
+class main(object):
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
@@ -126,22 +125,7 @@ class xiaoyun(object):
 
 
 if __name__ == "__main__":
-
-    logging.basicConfig(
-        filename=os.path.join(
-            config.LOG_PATH, "xiaoyun.log"
-        ),
-        filemode="w",
-        format='%(asctime)s %(filename)s[line:%(lineno)d] \
-        %(levelname)s %(message)s',
-        level=logging.INFO)
-    logger = logging.getLogger()
-    logger.getChild("client.stt").setLevel(logging.INFO)
-
-    if args.debug:
-        logger.setLevel(logging.DEBUG)
-    elif args.info:
-        logger.setLevel(logging.INFO)
+    logger = logger.init(args)
 
     if not args.no_network_check and not diagnose.check_network_connection():
         logger.warning("Network not connected. This may prevent xiaoyun " +
@@ -151,5 +135,8 @@ if __name__ == "__main__":
         failed_checks = diagnose.run()
         sys.exit(0 if not failed_checks else 1)
 
-    app = xiaoyun()
+    """
+    运行APP
+    """
+    app = main()
     app.run()
