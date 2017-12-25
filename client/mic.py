@@ -151,7 +151,7 @@ class Mic:
         didDetect = False
 
         # calculate the long run average, and thereby the proper threshold
-        for i in range(0, RATE / CHUNK * THRESHOLD_TIME):
+        for i in range(0, int(RATE / CHUNK * THRESHOLD_TIME)):
 
             try:
                 if self.stop_passive:
@@ -178,7 +178,7 @@ class Mic:
                 pass
 
         # start passively listening for disturbance above threshold
-        for i in range(0, RATE / CHUNK * LISTEN_TIME):
+        for i in range(0, int(RATE / CHUNK * LISTEN_TIME)):
 
             try:
                 if self.stop_passive:
@@ -212,7 +212,7 @@ class Mic:
 
         # otherwise, let's keep recording for few seconds and save the file
         DELAY_MULTIPLIER = 1
-        for i in range(0, RATE / CHUNK * DELAY_MULTIPLIER):
+        for i in range(0, int(RATE / CHUNK * DELAY_MULTIPLIER)):
 
             try:
                 if self.stop_passive:
@@ -237,7 +237,7 @@ class Mic:
             wav_fp.setnchannels(1)
             wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
             wav_fp.setframerate(RATE)
-            wav_fp.writeframes(''.join(frames))
+            wav_fp.writeframes(b''.join(frames))
             wav_fp.close()
             f.seek(0)
             frames = []
@@ -341,7 +341,7 @@ class Mic:
         # incase calling say() method which
         # have not implement cache feature yet.
         # the count of args should be 3.
-        if self.speaker.say.func_code.co_argcount > 2:
+        if cache:
             self.speaker.say(phrase, cache)
         else:
             self.speaker.say(phrase)

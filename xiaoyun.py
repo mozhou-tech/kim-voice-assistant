@@ -178,7 +178,7 @@ class xiaoyun(object):
             t = threading.Thread(target=self.start_wxbot)
             t.start()
 
-        self.mic.say(salutation, cache=True)
+        self.mic.say(salutation)
         conversation.handleForever()
 
 

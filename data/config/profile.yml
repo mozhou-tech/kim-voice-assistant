@@ -1,8 +1,8 @@
-stt_engine: sphinx
-pocketsphinx:
-  fst_model: '../phonetisaurus/g014b2b.fst'                              #optional
-  hmm_dir: '/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k' #optional
+stt_engine: baidu-stt
 
-baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
-        api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
-        secret_key: '14dbd10057xu7b256e537455698c0e4e'
+baidu_yuyin:
+  api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
+  secret_key: '14dbd10057xu7b256e537455698c0e4e'
+
+
+wechat: false

@@ -221,16 +221,13 @@ class BaiduSTT(AbstractSTTEngine):
                 profile = yaml.safe_load(f)
                 if 'baidu_yuyin' in profile:
                     if 'api_key' in profile['baidu_yuyin']:
-                        config['api_key'] = \
-                            profile['baidu_yuyin']['api_key']
+                        config['api_key'] = profile['baidu_yuyin']['api_key']
                     if 'secret_key' in profile['baidu_yuyin']:
-                        config['secret_key'] = \
-                            profile['baidu_yuyin']['secret_key']
+                        config['secret_key'] = profile['baidu_yuyin']['secret_key']
         return config
 
     def get_token(self):
-        cache = open(os.path.join(xiaoyunpath.TEMP_PATH, 'baidustt.ini'),
-                     'a+')
+        cache = open(os.path.join(xiaoyunpath.CONFIG_PATH, 'baidustt.ini'), 'a+')
         try:
             pms = cache.readlines()
             if len(pms) > 0:
@@ -244,7 +241,7 @@ class BaiduSTT(AbstractSTTEngine):
         finally:
             cache.close()
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
-        params = urllib.urlencode({'grant_type': 'client_credentials',
+        params = urllib.parse.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
                                    'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
@@ -279,7 +276,7 @@ class BaiduSTT(AbstractSTTEngine):
                 "speech": base_data,
                 "cuid": str(get_mac())[:32],
                 "channel": 1}
-        data = json.dumps(data)
+        # data = json.dumps(data)
         r = requests.post('http://vop.baidu.com/server_api',
                           data=data,
                           headers={'content-type': 'application/json'})
@@ -675,7 +672,7 @@ class GoogleSTT(AbstractSTTEngine):
 
     def _regenerate_request_url(self):
         if self.api_key and self.language:
-            query = urllib.urlencode({'output': 'json',
+            query = urllib.parse.urlencode({'output': 'json',
                                       'client': 'chromium',
                                       'key': self.api_key,
                                       'lang': self.language,
