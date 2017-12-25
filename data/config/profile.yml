@@ -1,4 +1,4 @@
-stt_engine: ali-stt
+stt_engine: snowboy-stt
 tts_engine: ali-tts
 
 ali_yuyin:
@@ -11,4 +11,6 @@ wechat:
 first_name: 远程
 
 robot_name_cn: 小云
+
+robot_name: 小云
 

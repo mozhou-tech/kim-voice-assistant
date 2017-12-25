@@ -106,9 +106,10 @@ class main(object):
         else:
             salutation = "主人，我能为您做什么?"
 
-        persona = 'xiaoyun'
         if 'robot_name' in self.config:
             persona = self.config["robot_name"]
+        else:
+            print('config your robot_name in profile.yml');
         conversation = Conversation(persona, self.mic, self.config)
 
         # create wechat robot
