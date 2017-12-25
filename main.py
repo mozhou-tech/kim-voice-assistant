@@ -8,18 +8,17 @@ import time
 import yaml
 import argparse
 import threading
-from client import tts
+from client import tts, config
 from client import stt
-from client import xiaoyunpath
 from client import diagnose
-from client.wxbot import WXBot
 from client.conversation import Conversation
-from client.tts import SimpleMp3Player
-
+from utils import WechatBot
 from client.audio_utils import mp3_to_wav
 
+
+
 # Add xiaoyunpath.LIB_PATH to sys.path
-sys.path.append(xiaoyunpath.LIB_PATH)
+sys.path.append(config.LIB_PATH)
 
 parser = argparse.ArgumentParser(description='xiaoyun Voice Control Center')
 parser.add_argument('--local', action='store_true',
@@ -38,82 +37,26 @@ else:
     from client.mic import Mic
 
 
-class WechatBot(WXBot):
-    def __init__(self, brain):
-        WXBot.__init__(self)
-        self.brain = brain
-        self.music_mode = None
-        self.last = time.time()
-
-    def handle_music_mode(self, msg_data):
-        # avoid repeating command
-        now = time.time()
-        if (now - self.last) > 0.5:
-            # stop passive listening
-            self.brain.mic.stopPassiveListen()
-            self.last = now
-            if not self.music_mode.delegating:
-                self.music_mode.delegating = True
-                self.music_mode.delegateInput(msg_data, True)
-                if self.music_mode is not None:
-                    self.music_mode.delegating = False
-
-    def handle_msg_all(self, msg):
-        # ignore the msg when handling plugins
-        if msg['msg_type_id'] == 1 and \
-           msg['to_user_id'] == self.my_account['UserName']:
-            profile = self.brain.profile
-            # reply to self
-            if msg['content']['type'] == 0:
-                msg_data = msg['content']['data']
-                print(msg_data)
-                if msg_data.startswith(profile['robot_name_cn']+": "):
-                    return
-                if self.music_mode is not None:
-                    return self.handle_music_mode(msg_data)
-                self.brain.query([msg_data], self, True)
-            elif msg['content']['type'] == 4:
-                mp3_file = os.path.join(xiaoyunpath.TEMP_PATH,
-                                        'voice_%s.mp3' % msg['msg_id'])
-                # echo or command?
-                if 'wechat_echo' in profile and not profile['wechat_echo']:
-                    # 执行命令
-                    mic = self.brain.mic
-                    wav_file = mp3_to_wav(mp3_file)
-                    with open(wav_file) as f:
-                        command = mic.active_stt_engine.transcribe(f)
-                        if command:
-                            if self.music_mode is not None:
-                                return self.handle_music_mode(msg_data)
-                            self.brain.query(command, self, True)
-                        else:
-                            mic.say("什么？", cache=True)
-                else:
-                    # 播放语音
-                    player = SimpleMp3Player()
-                    player.play_mp3(mp3_file)
-
-
 class xiaoyun(object):
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
         # Create config dir if it does not exist yet
-        if not os.path.exists(xiaoyunpath.CONFIG_PATH):
+        if not os.path.exists(config.CONFIG_PATH):
             try:
-                os.makedirs(xiaoyunpath.CONFIG_PATH)
+                os.makedirs(config.CONFIG_PATH)
             except OSError:
                 self._logger.error("Could not create config dir: '%s'",
-                                   xiaoyunpath.CONFIG_PATH, exc_info=True)
+                                   config.CONFIG_PATH, exc_info=True)
                 raise
 
         # Check if config dir is writable
-        if not os.access(xiaoyunpath.CONFIG_PATH, os.W_OK):
+        if not os.access(config.CONFIG_PATH, os.W_OK):
             self._logger.critical("Config dir %s is not writable. xiaoyun " +
                                   "won't work correctly.",
-                                  xiaoyunpath.CONFIG_PATH)
+                                  config.CONFIG_PATH)
 
-        config_file = xiaoyunpath.config('profile.yml')
+        config_file = config.config('profile.yml')
         # Read config
         self._logger.debug("Trying to read config file: '%s'", config_file)
         try:
@@ -184,10 +127,9 @@ class xiaoyun(object):
 
 if __name__ == "__main__":
 
-
     logging.basicConfig(
         filename=os.path.join(
-            xiaoyunpath.LOG_PATH, "xiaoyun.log"
+            config.LOG_PATH, "xiaoyun.log"
         ),
         filemode="w",
         format='%(asctime)s %(filename)s[line:%(lineno)d] \

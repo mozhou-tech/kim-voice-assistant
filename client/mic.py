@@ -9,9 +9,9 @@ import wave
 import audioop
 import time
 import pyaudio
-import xiaoyunpath
-import mute_alsa
-from app_utils import wechatUser
+from client import config as config_path
+import client.mute_alsa
+from client.app_utils import wechatUser
 
 
 class Mic:
@@ -40,7 +40,7 @@ class Mic:
         self.wxbot = None
         self.passive_stt_engine = passive_stt_engine
         self.active_stt_engine = active_stt_engine
-        self.xiaoyunpath = xiaoyunpath
+        self.xiaoyunpath = config_path
         self._logger.info("Initializing PyAudio. ALSA/Jack error messages " +
                           "that pop up during this process are normal and " +
                           "can usually be safely ignored.")
@@ -284,7 +284,7 @@ class Mic:
                                   input=True,
                                   frames_per_buffer=CHUNK)
 
-        self.speaker.play(xiaoyunpath.data('audio', 'beep_hi.wav'))
+        self.speaker.play(config_path.data('audio', 'beep_hi.wav'))
 
         frames = []
         # increasing the range # results in longer pause after command
@@ -309,7 +309,7 @@ class Mic:
                 self._logger.error(e)
                 continue
 
-        self.speaker.play(xiaoyunpath.data('audio', 'beep_lo.wav'))
+        self.speaker.play(config_path.data('audio', 'beep_lo.wav'))
 
         # save the audio data
         try:

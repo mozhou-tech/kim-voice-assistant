@@ -16,7 +16,8 @@ import shutil
 from abc import ABCMeta, abstractmethod, abstractproperty
 import yaml
 
-from client import brain,xiaoyunpath
+from client import brain, config as config_path
+
 
 # from client.g2p import PhonetisaurusG2P
 # try:
@@ -418,9 +419,9 @@ class JuliusVocabulary(AbstractVocabulary):
         prefix = 'xiaoyun'
         tmpdir = tempfile.mkdtemp()
 
-        lexicon_file = xiaoyunpath.data('julius-stt', 'VoxForge.tgz')
+        lexicon_file = config_path.data('julius-stt', 'VoxForge.tgz')
         lexicon_archive_member = 'VoxForge/VoxForgeDict'
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -497,7 +498,7 @@ def get_keyword_phrases():
     """
     phrases = []
 
-    with open(xiaoyunpath.data('keyword_phrases'), mode="r") as f:
+    with open(config_path.data('keyword_phrases'), mode="r") as f:
         for line in f:
             phrase = line.strip()
             if phrase:

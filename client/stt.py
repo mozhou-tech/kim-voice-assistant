@@ -11,7 +11,7 @@ import urllib
 from abc import ABCMeta, abstractmethod
 import requests
 import yaml
-from client import xiaoyunpath,diagnose,vocabcompiler
+from client import diagnose, vocabcompiler, config as config_path
 from uuid import getnode as get_mac
 import hashlib
 import datetime
@@ -40,7 +40,7 @@ class AbstractSTTEngine(object):
         config = cls.get_config()
         if cls.VOCABULARY_TYPE:
             vocabulary = cls.VOCABULARY_TYPE(vocabulary_name,
-                                             path=xiaoyunpath.config(
+                                             path=config_path.config(
                                                  'vocabularies'))
             if not vocabulary.matches_phrases(phrases):
                 vocabulary.compile(phrases)
@@ -215,7 +215,7 @@ class BaiduSTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get baidu_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -227,7 +227,7 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
-        cache = open(os.path.join(xiaoyunpath.CONFIG_PATH, 'baidustt.ini'), 'a+')
+        cache = open(os.path.join(config_path.CONFIG_PATH, 'baidustt.ini'), 'a+')
         try:
             pms = cache.readlines()
             if len(pms) > 0:
@@ -313,105 +313,6 @@ class BaiduSTT(AbstractSTTEngine):
         return diagnose.check_network_connection()
 
 
-class IFlyTekSTT(AbstractSTTEngine):
-    """
-    科大讯飞的语音识别API.
-    要使用本模块, 首先到 http://aiui.xfyun.cn/default/index 注册一个开发者账号,
-    之后创建一个新应用, 然后在应用管理的那查看 API id 和 API Key
-    填入 profile.xml 中.
-    """
-
-    SLUG = "iflytek-stt"
-
-    def __init__(self, api_id, api_key, url):
-        self._logger = logging.getLogger(__name__)
-        self.api_id = api_id
-        self.api_key = api_key
-        self.url = url
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # Try to get iflytek_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'iflytek_yuyin' in profile:
-                    if 'api_id' in profile['iflytek_yuyin']:
-                        config['api_id'] = \
-                            profile['iflytek_yuyin']['api_id']
-                    if 'api_key' in profile['iflytek_yuyin']:
-                        config['api_key'] = \
-                            profile['iflytek_yuyin']['api_key']
-                    if 'url' in profile['iflytek_yuyin']:
-                        config['url'] = \
-                            profile['iflytek_yuyin']['url']
-        return config
-
-    def transcribe(self, fp):
-        try:
-            wav_file = wave.open(fp, 'rb')
-        except IOError:
-            self._logger.critical('wav file not found: %s',
-                                  fp,
-                                  exc_info=True)
-            return []
-        n_frames = wav_file.getnframes()
-        frame_rate = wav_file.getframerate()
-        Param = str({
-            "auf": "16k",
-            "aue": "raw",
-            "scene": "main",
-            "sample_rate": "%s" % str(frame_rate)
-        })
-        XParam = base64.b64encode(Param)
-        audio = wav_file.readframes(n_frames)
-        base_data = base64.b64encode(audio)
-        data = {
-            'voice_data': base_data,
-            'api_id': self.api_id,
-            'api_key': self.api_key,
-            'sample_rate': frame_rate,
-            'XParam': XParam
-        }
-        r = requests.post(self.url, data=data)
-        try:
-            r.raise_for_status()
-            text = ''
-            if r.json()['code'] == '00000':
-                text = r.json()['data']['result'].encode('utf-8')
-        except requests.exceptions.HTTPError:
-            self._logger.critical('Request failed with response: %r',
-                                  r.text,
-                                  exc_info=True)
-            return []
-        except requests.exceptions.RequestException:
-            self._logger.critical('Request failed.', exc_info=True)
-            return []
-        except ValueError as e:
-            self._logger.critical('Cannot parse response: %s',
-                                  e.args[0])
-            return []
-        except KeyError:
-            self._logger.critical('Cannot parse response.',
-                                  exc_info=True)
-            return []
-        else:
-            self._logger.warning('Cannot parse response.(code: %s)' %
-                                 r.json()['code'])
-            transcribed = []
-            if text:
-                transcribed.append(text.upper())
-            self._logger.info(u'讯飞语音识别到了: %s' % text)
-            return transcribed
-
-    @classmethod
-    def is_available(cls):
-        return diagnose.check_network_connection()
-
-
 class ALiBaBaSTT(AbstractSTTEngine):
     """
     阿里云的语音识别API.
@@ -431,7 +332,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get ali_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -548,8 +449,7 @@ class SnowboySTT(AbstractSTTEngine):
         self.sensitivity = sensitivity
         self.hotword = hotword
         self.model = model
-        self.resource_file = os.path.join(xiaoyunpath.LIB_PATH,
-                                          'snowboy/common.res')
+        self.resource_file = os.path.join(config_path.LIB_PATH, 'snowboy/common.res')
         try:
             from snowboy import snowboydetect
         except Exception as e:
@@ -569,7 +469,7 @@ class SnowboySTT(AbstractSTTEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get snowboy config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -579,7 +479,7 @@ class SnowboySTT(AbstractSTTEngine):
                             profile['snowboy']['model']
                     else:
                         config['model'] = os.path.join(
-                            xiaoyunpath.LIB_PATH, 'snowboy/xiaoyun.pmdl')
+                            config_path.LIB_PATH, 'snowboy/xiaoyun.pmdl')
                     if 'sensitivity' in profile['snowboy']:
                         config['sensitivity'] = \
                             profile['snowboy']['sensitivity']
@@ -588,7 +488,7 @@ class SnowboySTT(AbstractSTTEngine):
                     if 'robot_name' in profile:
                         config['hotword'] = profile['robot_name']
                     else:
-                        config['hotword'] = 'xiaoyun'
+                        raise Exception('你需要先帮我取名哦！ 参考文件profile.yml robot_name_cn')
         return config
 
     def transcribe(self, fp):
@@ -690,7 +590,7 @@ class GoogleSTT(AbstractSTTEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)

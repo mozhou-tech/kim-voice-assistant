@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 import logging
 import pkgutil
-from client import xiaoyunpath
+from client import config as config_path
 
 
 class Brain(object):
@@ -35,9 +35,9 @@ class Brain(object):
 
         logger = logging.getLogger(__name__)
         locations = [
-            xiaoyunpath.PLUGIN_PATH,
-            xiaoyunpath.CONTRIB_PATH,
-            xiaoyunpath.CUSTOM_PATH
+            config_path.PLUGIN_PATH,
+            config_path.CONTRIB_PATH,
+            config_path.CUSTOM_PATH
         ]
         logger.debug("Looking for plugins in: %s",
                      ', '.join(["'%s'" % location for location in locations]))

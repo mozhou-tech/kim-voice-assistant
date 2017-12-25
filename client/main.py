@@ -5,6 +5,6 @@
 import os
 import sys
 import runpy
-script_path = os.path.join(os.path.dirname(__file__), os.pardir, "xiaoyun.py")
+script_path = os.path.join(os.path.dirname(__file__), os.pardir, "main.py")
 sys.path.insert(0, os.path.dirname(script_path))
 runpy.run_path(script_path, run_name="__main__")

@@ -1,0 +1,1 @@
+from utils.wxbot.WechatBot import WechatBot

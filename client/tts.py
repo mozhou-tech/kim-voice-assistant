@@ -27,8 +27,7 @@ from uuid import getnode as get_mac
 import argparse
 import yaml
 
-from client import diagnose
-from client import xiaoyunpath
+from client import diagnose, config
 
 try:
     import gtts
@@ -109,7 +108,7 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
 
     def say(self, phrase, cache=False):
         self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
-        cache_file_path = xiaoyunpath.data(
+        cache_file_path = config_path.data(
             'audio',
             self.SLUG + phrase + '.mp3'
         )
@@ -185,7 +184,7 @@ class EspeakTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -307,7 +306,7 @@ class FliteTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -404,7 +403,7 @@ class PicoTTS(AbstractTTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -479,7 +478,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get baidu_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -500,7 +499,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return diagnose.check_network_connection()
 
     def get_token(self):
-        cache = open(os.path.join(xiaoyunpath.TEMP_PATH, 'baidustt.ini'),
+        cache = open(os.path.join(config_path.TEMP_PATH, 'baidustt.ini'),
                      'a+')
         try:
             pms = cache.readlines()
@@ -580,7 +579,7 @@ class IFlyTekTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get iflytek_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -638,7 +637,7 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
         # FIXME: Replace this as soon as we have a config module
         config = {}
         # Try to get ali_yuyin config from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
@@ -737,7 +736,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
         config = {}
         # HMM dir
         # Try to get hmm_dir from config
-        profile_path = xiaoyunpath.config('profile.yml')
+        profile_path = config_path.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
