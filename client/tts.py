@@ -15,6 +15,7 @@ import subprocess
 import pipes
 import logging
 import urllib
+import urllib.parse
 import requests
 import datetime
 import base64
@@ -27,7 +28,7 @@ from uuid import getnode as get_mac
 import argparse
 import yaml
 
-from client import diagnose, config
+from client import diagnose, config as config_path
 
 try:
     import gtts
@@ -143,206 +144,6 @@ class SimpleMp3Player(AbstractMp3TTSEngine):
         self._logger.info(phrase)
 
 
-class DummyTTS(AbstractTTSEngine):
-    """
-    Dummy TTS engine that logs phrases with INFO level instead of synthesizing
-    speech.
-    """
-
-    SLUG = "dummy-tts"
-
-    @classmethod
-    def is_available(cls):
-        return True
-
-    def say(self, phrase):
-        self._logger.info(phrase)
-
-    def play(self, filename):
-        self._logger.debug("Playback of file '%s' requested")
-        pass
-
-
-class EspeakTTS(AbstractTTSEngine):
-    """
-    Uses the eSpeak speech synthesizer included in the xiaoyun disk image
-    Requires espeak to be available
-    """
-
-    SLUG = "espeak-tts"
-
-    def __init__(self, voice='default+m3', pitch_adjustment=40,
-                 words_per_minute=160):
-        super(self.__class__, self).__init__()
-        self.voice = voice
-        self.pitch_adjustment = pitch_adjustment
-        self.words_per_minute = words_per_minute
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # HMM dir
-        # Try to get hmm_dir from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'espeak-tts' in profile:
-                    if 'voice' in profile['espeak-tts']:
-                        config['voice'] = profile['espeak-tts']['voice']
-                    if 'pitch_adjustment' in profile['espeak-tts']:
-                        config['pitch_adjustment'] = \
-                            profile['espeak-tts']['pitch_adjustment']
-                    if 'words_per_minute' in profile['espeak-tts']:
-                        config['words_per_minute'] = \
-                            profile['espeak-tts']['words_per_minute']
-        return config
-
-    @classmethod
-    def is_available(cls):
-        return (super(cls, cls).is_available() and
-                diagnose.check_executable('espeak'))
-
-    def say(self, phrase):
-        self._logger.debug("Saying '%s' with '%s'", phrase, self.SLUG)
-        with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
-            fname = f.name
-        cmd = ['espeak', '-v', self.voice,
-                         '-p', self.pitch_adjustment,
-                         '-s', self.words_per_minute,
-                         '-w', fname,
-                         phrase]
-        cmd = [str(x) for x in cmd]
-        self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
-                                                     for arg in cmd]))
-        with tempfile.TemporaryFile() as f:
-            subprocess.call(cmd, stdout=f, stderr=f)
-            f.seek(0)
-            output = f.read()
-            if output:
-                self._logger.debug("Output was: '%s'", output)
-        self.play(fname)
-        os.remove(fname)
-
-
-class FestivalTTS(AbstractTTSEngine):
-    """
-    Uses the festival speech synthesizer
-    Requires festival (text2wave) to be available
-    """
-
-    SLUG = 'festival-tts'
-
-    @classmethod
-    def is_available(cls):
-        if (super(cls, cls).is_available() and
-           diagnose.check_executable('text2wave') and
-           diagnose.check_executable('festival')):
-
-            logger = logging.getLogger(__name__)
-            cmd = ['festival', '--pipe']
-            with tempfile.SpooledTemporaryFile() as out_f:
-                with tempfile.SpooledTemporaryFile() as in_f:
-                    logger.debug('Executing %s', ' '.join([pipes.quote(arg)
-                                                           for arg in cmd]))
-                    subprocess.call(cmd, stdin=in_f, stdout=out_f,
-                                    stderr=out_f)
-                    out_f.seek(0)
-                    output = out_f.read().strip()
-                    if output:
-                        logger.debug("Output was: '%s'", output)
-                    return ('No default voice found' not in output)
-        return False
-
-    def say(self, phrase):
-        self._logger.debug("Saying '%s' with '%s'", phrase, self.SLUG)
-        cmd = ['text2wave']
-        with tempfile.NamedTemporaryFile(suffix='.wav') as out_f:
-            with tempfile.SpooledTemporaryFile() as in_f:
-                in_f.write(phrase)
-                in_f.seek(0)
-                with tempfile.SpooledTemporaryFile() as err_f:
-                    self._logger.debug('Executing %s',
-                                       ' '.join([pipes.quote(arg)
-                                                 for arg in cmd]))
-                    subprocess.call(cmd, stdin=in_f, stdout=out_f,
-                                    stderr=err_f)
-                    err_f.seek(0)
-                    output = err_f.read()
-                    if output:
-                        self._logger.debug("Output was: '%s'", output)
-            self.play(out_f.name)
-
-
-class FliteTTS(AbstractTTSEngine):
-    """
-    Uses the flite speech synthesizer
-    Requires flite to be available
-    """
-
-    SLUG = 'flite-tts'
-
-    def __init__(self, voice=''):
-        super(self.__class__, self).__init__()
-        self.voice = voice if voice and voice in self.get_voices() else ''
-
-    @classmethod
-    def get_voices(cls):
-        cmd = ['flite', '-lv']
-        voices = []
-        with tempfile.SpooledTemporaryFile() as out_f:
-            subprocess.call(cmd, stdout=out_f)
-            out_f.seek(0)
-            for line in out_f:
-                if line.startswith('Voices available: '):
-                    voices.extend([x.strip() for x in line[18:].split()
-                                   if x.strip()])
-        return voices
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # HMM dir
-        # Try to get hmm_dir from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'flite-tts' in profile:
-                    if 'voice' in profile['flite-tts']:
-                        config['voice'] = profile['flite-tts']['voice']
-        return config
-
-    @classmethod
-    def is_available(cls):
-        return (super(cls, cls).is_available() and
-                diagnose.check_executable('flite') and
-                len(cls.get_voices()) > 0)
-
-    def say(self, phrase):
-        self._logger.debug("Saying '%s' with '%s'", phrase, self.SLUG)
-        cmd = ['flite']
-        if self.voice:
-            cmd.extend(['-voice', self.voice])
-        cmd.extend(['-t', phrase])
-        with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
-            fname = f.name
-        cmd.append(fname)
-        with tempfile.SpooledTemporaryFile() as out_f:
-            self._logger.debug('Executing %s',
-                               ' '.join([pipes.quote(arg)
-                                         for arg in cmd]))
-            subprocess.call(cmd, stdout=out_f, stderr=out_f)
-            out_f.seek(0)
-            output = out_f.read().strip()
-        if output:
-            self._logger.debug("Output was: '%s'", output)
-        self.play(fname)
-        os.remove(fname)
-
-
 class MacOSXTTS(AbstractTTSEngine):
     """
     Uses the OS X built-in 'say' command
@@ -378,244 +179,6 @@ class MacOSXTTS(AbstractTTSEngine):
             output = f.read()
             if output:
                 self._logger.debug("Output was: '%s'", output)
-
-
-class PicoTTS(AbstractTTSEngine):
-    """
-    Uses the svox-pico-tts speech synthesizer
-    Requires pico2wave to be available
-    """
-
-    SLUG = "pico-tts"
-
-    def __init__(self, language="en-US"):
-        super(self.__class__, self).__init__()
-        self.language = language
-
-    @classmethod
-    def is_available(cls):
-        return (super(cls, cls).is_available() and
-                diagnose.check_executable('pico2wave'))
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # HMM dir
-        # Try to get hmm_dir from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'pico-tts' in profile and 'language' in profile['pico-tts']:
-                    config['language'] = profile['pico-tts']['language']
-
-        return config
-
-    @property
-    def languages(self):
-        cmd = ['pico2wave', '-l', 'NULL',
-                            '-w', os.devnull,
-                            'NULL']
-        with tempfile.SpooledTemporaryFile() as f:
-            subprocess.call(cmd, stderr=f)
-            f.seek(0)
-            output = f.read()
-        pattern = re.compile(r'Unknown language: NULL\nValid languages:\n' +
-                             r'((?:[a-z]{2}-[A-Z]{2}\n)+)')
-        matchobj = pattern.match(output)
-        if not matchobj:
-            raise RuntimeError("pico2wave: valid languages not detected")
-        langs = matchobj.group(1).split()
-        return langs
-
-    def say(self, phrase):
-        self._logger.debug("Saying '%s' with '%s'", phrase, self.SLUG)
-        with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
-            fname = f.name
-        cmd = ['pico2wave', '--wave', fname]
-        if self.language not in self.languages:
-                raise ValueError("Language '%s' not supported by '%s'",
-                                 self.language, self.SLUG)
-        cmd.extend(['-l', self.language])
-        cmd.append(phrase)
-        self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
-                                                     for arg in cmd]))
-        with tempfile.TemporaryFile() as f:
-            subprocess.call(cmd, stdout=f, stderr=f)
-            f.seek(0)
-            output = f.read()
-            if output:
-                self._logger.debug("Output was: '%s'", output)
-        self.play(fname)
-        os.remove(fname)
-
-
-class BaiduTTS(AbstractMp3TTSEngine):
-    """
-    使用百度语音合成技术
-    要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
-    之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
-    填入 profile.xml 中.
-    ...
-        baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
-            api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
-            secret_key: '14dbd10057xu7b256e537455698c0e4e'
-        ...
-    """
-
-    SLUG = "baidu-tts"
-
-    def __init__(self, api_key, secret_key, per=0):
-        self._logger = logging.getLogger(__name__)
-        self.api_key = api_key
-        self.secret_key = secret_key
-        self.per = per
-        self.token = ''
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # Try to get baidu_yuyin config from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'baidu_yuyin' in profile:
-                    if 'api_key' in profile['baidu_yuyin']:
-                        config['api_key'] = \
-                            profile['baidu_yuyin']['api_key']
-                    if 'secret_key' in profile['baidu_yuyin']:
-                        config['secret_key'] = \
-                            profile['baidu_yuyin']['secret_key']
-                    if 'per' in profile['baidu_yuyin']:
-                        config['per'] = \
-                            profile['baidu_yuyin']['per']
-        return config
-
-    @classmethod
-    def is_available(cls):
-        return diagnose.check_network_connection()
-
-    def get_token(self):
-        cache = open(os.path.join(config_path.TEMP_PATH, 'baidustt.ini'),
-                     'a+')
-        try:
-            pms = cache.readlines()
-            if len(pms) > 0:
-                time = pms[0]
-                tk = pms[1]
-                # 计算token是否过期 官方说明一个月，这里保守29天
-                time = dparser.parse(time)
-                endtime = datetime.datetime.now()
-                if (endtime - time).days <= 29:
-                    return tk
-        finally:
-            cache.close()
-        URL = 'http://openapi.baidu.com/oauth/2.0/token'
-        params = urllib.urlencode({'grant_type': 'client_credentials',
-                                   'client_id': self.api_key,
-                                   'client_secret': self.secret_key})
-        r = requests.get(URL, params=params)
-        try:
-            r.raise_for_status()
-            token = r.json()['access_token']
-            return token
-        except requests.exceptions.HTTPError:
-            self._logger.critical('Token request failed with response: %r',
-                                  r.text,
-                                  exc_info=True)
-            return ''
-
-    def split_sentences(self, text):
-        punctuations = ['.', '。', ';', '；', '\n']
-        for i in punctuations:
-            text = text.replace(i, '@@@')
-        return text.split('@@@')
-
-    def get_speech(self, phrase):
-        if self.token == '':
-            self.token = self.get_token()
-        query = {'tex': phrase,
-                 'lan': 'zh',
-                 'tok': self.token,
-                 'ctp': 1,
-                 'cuid': str(get_mac())[:32],
-                 'per': self.per
-                 }
-        r = requests.post('http://tsn.baidu.com/text2audio',
-                          data=query,
-                          headers={'content-type': 'application/json'})
-        try:
-            r.raise_for_status()
-            if r.json()['err_msg'] is not None:
-                self._logger.critical('Baidu TTS failed with response: %r',
-                                      r.json()['err_msg'],
-                                      exc_info=True)
-                return None
-        except Exception:
-            pass
-        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
-            f.write(r.content)
-            tmpfile = f.name
-            return tmpfile
-
-
-class IFlyTekTTS(AbstractMp3TTSEngine):
-    """
-    使用讯飞的语音合成技术
-    要使用本模块, 请先在 profile.xml 中启用本模块并选择合适的发音人.
-    """
-
-    SLUG = "iflytek-tts"
-
-    def __init__(self, vid='60170'):
-        self._logger = logging.getLogger(__name__)
-        self.vid = vid
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # Try to get iflytek_yuyin config from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if 'iflytek_yuyin' in profile:
-                    if 'vid' in profile['iflytek_yuyin']:
-                        config['vid'] = \
-                            profile['iflytek_yuyin']['vid']
-        return config
-
-    @classmethod
-    def is_available(cls):
-        return diagnose.check_network_connection()
-
-    def split_sentences(self, text):
-        punctuations = ['.', '。', ';', '；', '\n']
-        for i in punctuations:
-            text = text.replace(i, '@@@')
-        return text.split('@@@')
-
-    def get_speech(self, phrase):
-        getinfo_url = 'http://www.peiyinge.com/make/getSynthSign'
-        voice_baseurl = 'http://proxy.peiyinge.com:17063/synth?ts='
-        data = {
-            'content': phrase.encode('utf8')
-        }
-        result_info = requests.post(getinfo_url, data=data).json()
-        content = urllib.quote(phrase.encode('utf8'))
-        ts = result_info['ts']
-        sign = result_info['sign']
-        voice_url = voice_baseurl + ts + '&sign=' + sign + \
-            '&vid=' + self.vid + '&volume=&speed=0&content=' + content
-        r = requests.get(voice_url)
-        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
-            f.write(r.content)
-            tmpfile = f.name
-            return tmpfile
 
 
 class ALiBaBaTTS(AbstractMp3TTSEngine):
@@ -671,9 +234,11 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
     def to_md5_base64(self, strBody):
         hash = hashlib.md5()
         hash.update(strBody)
-        return hash.digest().encode('base64').strip()
+        return base64.b64encode(hash.digest()).strip()
 
     def to_sha1_base64(self, stringToSign, secret):
+        stringToSign = bytes(stringToSign, 'utf-8')
+        secret = bytes(secret, 'utf-8')
         hmacsha1 = hmac.new(secret, stringToSign, hashlib.sha1)
         return base64.b64encode(hmacsha1.digest())
 
@@ -700,9 +265,9 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
             bodymd5 = self.to_md5_base64(body)
 
         stringToSign = options['method'] + '\n' + headers['accept'] + '\n' + \
-            bodymd5 + '\n' + headers['content-type'] + '\n' + headers['date']
+            str(bodymd5, 'utf-8') + '\n' + headers['content-type'] + '\n' + headers['date']
         signature = self.to_sha1_base64(stringToSign, self.ak_secret)
-        authHeader = 'Dataplus ' + self.ak_id + ':' + signature
+        authHeader = 'Dataplus ' + str(self.ak_id) + ':' + str(signature)
         headers['authorization'] = authHeader
         url = options['url']
         r = requests.post(url, data=body, headers=headers, verify=False)
@@ -710,60 +275,6 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
             f.write(r.content)
             tmpfile = f.name
             return tmpfile
-
-
-class GoogleTTS(AbstractMp3TTSEngine):
-    """
-    Uses the Google TTS online translator
-    Requires pymad and gTTS to be available
-    """
-
-    SLUG = "google-tts"
-
-    def __init__(self, language='en'):
-        super(self.__class__, self).__init__()
-        self.language = language
-
-    @classmethod
-    def is_available(cls):
-        return (super(cls, cls).is_available() and
-                diagnose.check_python_import('gtts') and
-                diagnose.check_network_connection())
-
-    @classmethod
-    def get_config(cls):
-        # FIXME: Replace this as soon as we have a config module
-        config = {}
-        # HMM dir
-        # Try to get hmm_dir from config
-        profile_path = config_path.config('profile.yml')
-        if os.path.exists(profile_path):
-            with open(profile_path, 'r') as f:
-                profile = yaml.safe_load(f)
-                if ('google_yuyin' in profile and
-                   'language' in profile['google_yuyin']):
-                    config['language'] = profile['google_yuyin']['language']
-
-        return config
-
-    @property
-    def languages(self):
-        langs = ['af', 'sq', 'ar', 'hy', 'ca', 'zh-CN', 'zh-TW', 'hr', 'cs',
-                 'da', 'nl', 'en', 'eo', 'fi', 'fr', 'de', 'el', 'ht', 'hi',
-                 'hu', 'is', 'id', 'it', 'ja', 'ko', 'la', 'lv', 'mk', 'no',
-                 'pl', 'pt', 'ro', 'ru', 'sr', 'sk', 'es', 'sw', 'sv', 'ta',
-                 'th', 'tr', 'vi', 'cy', 'zh-yue']
-        return langs
-
-    def get_speech(self, phrase):
-        if self.language not in self.languages:
-            raise ValueError("Language '%s' not supported by '%s'",
-                             self.language, self.SLUG)
-        tts = gtts.gTTS(text=phrase, lang=self.language)
-        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
-            tmpfile = f.name
-        tts.save(tmpfile)
-        return tmpfile
 
 
 def get_default_engine_slug():

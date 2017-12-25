@@ -348,12 +348,14 @@ class ALiBaBaSTT(AbstractSTTEngine):
     def to_md5_base64(self, strBody):
         hash = hashlib.md5()
         hash.update(self.body)
-        m = hash.digest().encode('base64').strip()
+        m = base64.b64encode(hash.digest()).strip()
         hash = hashlib.md5()
         hash.update(m)
-        return hash.digest().encode('base64').strip()
+        return base64.b64encode(hash.digest()).strip()
 
     def to_sha1_base64(self, stringToSign, secret):
+        stringToSign = bytes(stringToSign,'utf-8')
+        secret = bytes(secret,'utf-8')
         hmacsha1 = hmac.new(secret, stringToSign, hashlib.sha1)
         return base64.b64encode(hmacsha1.digest())
 
@@ -392,11 +394,11 @@ class ALiBaBaSTT(AbstractSTTEngine):
             bodymd5 = self.to_md5_base64(self.body)
 
         stringToSign = options['method'] + '\n' + \
-            headers['accept'] + '\n' + bodymd5 + '\n' + \
+            headers['accept'] + '\n' + str(bodymd5,'utf-8') + '\n' + \
             headers['content-type'] + '\n' + headers['date']
         signature = self.to_sha1_base64(stringToSign, self.ak_secret)
 
-        authHeader = 'Dataplus ' + self.ak_id + ':' + signature
+        authHeader = 'Dataplus ' + self.ak_id + ':' + str(signature,'utf-8')
         headers['authorization'] = authHeader
         url = options['url']
         r = requests.post(url, data=self.body, headers=headers, verify=False)
