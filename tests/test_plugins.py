@@ -1,7 +1,8 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
 from nose.tools import *
-from client import test_mic, diagnose
+from client import diagnose
+from tests import test_mic
 from data.config import config_path
 from client.plugins import Time, Echo, Email, SendQR
 

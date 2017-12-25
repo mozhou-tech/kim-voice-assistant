@@ -2,8 +2,8 @@
 # -*- coding: utf-8-*-
 from nose.tools import *
 import mock
-from client import brain, test_mic
-
+from client import brain
+from tests import test_mic
 
 DEFAULT_PROFILE = {
     'prefers_email': False,

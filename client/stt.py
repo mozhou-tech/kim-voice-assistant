@@ -78,7 +78,7 @@ class SnowboySTT(AbstractSTTEngine):
     Snowboy STT 离线识别引擎（只适用于离线唤醒）
         ...
         snowboy:
-            model: '/home/pi/.xiaoyun/snowboy/xiaoyunxiaoyun.pmdl'  # 唤醒词模型
+            model: '/home/pi/.xiaoyun/snowboy/xiaomeixiaomei.pmdl'  # 唤醒词模型
             sensitivity: "0.5"  # 敏感度
         ...
     """
@@ -198,15 +198,12 @@ class ALiBaBaSTT(AbstractSTTEngine):
         try:
             wav_file = wave.open(fp, 'rb')
         except IOError:
-            self._logger.critical('wav file not found: %s',
-                                  fp,
-                                  exc_info=True)
+            self._logger.critical('wav file not found: %s', fp, exc_info=True)
             return []
         n_frames = wav_file.getnframes()
         frame_rate = wav_file.getframerate()
         audio = wav_file.readframes(n_frames)
-        date = datetime.datetime.strftime(datetime.datetime.utcnow(),
-                                          "%a, %d %b %Y %H:%M:%S GMT")
+        date = datetime.datetime.strftime(datetime.datetime.utcnow(), "%a, %d %b %Y %H:%M:%S GMT")
         options = {
             'url': 'https://nlsapi.aliyun.com/recognize?model=chat',
             'method': 'POST',
@@ -254,14 +251,13 @@ class ALiBaBaSTT(AbstractSTTEngine):
                                   e.args[0])
             return []
         except KeyError:
-            self._logger.critical('Cannot parse response.',
-                                  exc_info=True)
+            self._logger.critical('Cannot parse response.', exc_info=True)
             return []
         else:
             transcribed = []
             if text:
-                transcribed.append(text.upper())
-            self._logger.info(u'阿里云语音识别到了: %s' % str(text,'utf-8'))
+                transcribed.append(str(text.upper(), 'utf-8'))
+            self._logger.info(u'阿里云语音识别到了: %s' % str(text, 'utf-8'))
             return transcribed
 
     @classmethod

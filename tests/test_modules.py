@@ -1,7 +1,8 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
 import unittest
-from client import test_mic, diagnose, jasperpath
+from client import diagnose, jasperpath
+from tests import test_mic
 from client.modules import Life, Joke, Time, Gmail, HN, News, Weather
 
 DEFAULT_PROFILE = {

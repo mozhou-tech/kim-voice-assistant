@@ -243,7 +243,6 @@ class Mic:
             frames = []
             # check if PERSONA was said
             transcribed = self.passive_stt_engine.transcribe(f)
-
         if transcribed is not None and any(PERSONA in phrase for phrase in transcribed):
             return (THRESHOLD, PERSONA)
         return (False, transcribed)

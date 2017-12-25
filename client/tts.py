@@ -92,7 +92,7 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
                 diagnose.check_python_import('mad'))
 
     def play_mp3(self, filename, remove=False):
-        cmd = ['play', str(filename)]
+        cmd = [u'play', str(filename)]
         self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
                                                      for arg in cmd]))
         with tempfile.TemporaryFile() as f:
