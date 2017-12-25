@@ -1,8 +1,12 @@
 stt_engine: baidu-stt
 
 baidu_yuyin:
-  api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
-  secret_key: '14dbd10057xu7b256e537455698c0e4e'
+  api_key: 'lATWAVFL0VSk7iadlwGfZi2G'
+  secret_key: '8e69e534567cf9469a9280d499f839fa'
 
 
-wechat: false
+wechat: liuyuancheng1990
+
+first_name: 远程
+
+robot_name_cn: 小云

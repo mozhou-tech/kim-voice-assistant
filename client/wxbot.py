@@ -24,6 +24,7 @@ SUCCESS = '200'
 SCANED = '201'
 TIMEOUT = '408'
 
+
 def map_username_batch(user_name):
     return {"UserName": user_name, "EncryChatRoomId": ""}
 
@@ -152,8 +153,8 @@ class WXBot:
             return False
         r.encoding = 'utf-8'
         if self.DEBUG:
-            with open(os.path.join(self.temp_pwd,'contacts.json'), 'w') as f:
-                f.write(r.text.encode('utf-8'))
+            with open(os.path.join(self.temp_pwd, 'contacts.json'), 'w') as f:
+                f.write(str(r.text.encode('utf-8')))
         dic = json.loads(r.text)
         self.member_list = dic['MemberList']
 
@@ -527,7 +528,7 @@ class WXBot:
         :return: 解析的消息
         """
         mtype = msg['MsgType']
-        content = HTMLParser.HTMLParser().unescape(msg['Content'])
+        content = HTMLParser().unescape(msg['Content'])
         msg_id = msg['MsgId']
 
         msg_content = {}
@@ -752,7 +753,7 @@ class WXBot:
                 user['name'] = 'unknown'
             if not user['name']:
                 user['name'] = 'unknown'
-            user['name'] = HTMLParser.HTMLParser().unescape(user['name'])
+            user['name'] = HTMLParser().unescape(user['name'])
 
             if self.DEBUG and msg_type_id != 0:
                 print(u'[MSG] %s:' % user['name'])
@@ -1370,7 +1371,7 @@ class WXBot:
             'synckey': self.sync_key_str,
             '_': int(time.time()),
         }
-        url = 'https://' + self.sync_host + '/cgi-bin/mmwebwx-bin/synccheck?' + urllib.urlencode(params)
+        url = 'https://' + self.sync_host + '/cgi-bin/mmwebwx-bin/synccheck?' + urllib.parse.urlencode(params)
         try:
             r = self.session.get(url, timeout=60)
             r.encoding = 'utf-8'
