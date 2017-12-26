@@ -1,13 +1,13 @@
 import logging
-import src.config as config_path
 import os
+from config.path import LOG_PATH
 
 
 def init(args):
 
     logging.basicConfig(
         filename=os.path.join(
-            config_path.LOG_PATH, "xiaoyun.log"
+            LOG_PATH, "xiaoyun.log"
         ),
         filemode="w",
         format='%(asctime)s %(filename)s[line:%(lineno)d] \
@@ -21,4 +21,6 @@ def init(args):
     elif args.info:
         logger.setLevel(logging.INFO)
     return logger
+
+
 
