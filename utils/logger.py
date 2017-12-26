@@ -7,15 +7,13 @@ def init(args):
 
     logging.basicConfig(
         filename=os.path.join(
-            LOG_PATH, "xiaoyun.log"
+            LOG_PATH, "xiaoyun-speaker.log"
         ),
         filemode="w",
         format='%(asctime)s %(filename)s[line:%(lineno)d] \
         %(levelname)s %(message)s',
         level=logging.INFO)
     logger = logging.getLogger()
-
-    logger.getChild("src.stt").setLevel(logging.INFO)
     if args.debug:
         logger.setLevel(logging.DEBUG)
     elif args.info:

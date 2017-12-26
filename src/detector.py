@@ -6,10 +6,17 @@ import logging
 
 
 class Detector():
-
+    """
+    唤醒词监听
+    """
     def __init__(self):
+        self._logger = logging.getLogger(__name__)
+        self._logger.info("Initializing HotWord Detector.")
+
+
         self.interrupted = False
         signal.signal(signal.SIGINT, self.signal_handler)
+
 
     def signal_handler(self, signal, frame):
         self.interrupted = True
