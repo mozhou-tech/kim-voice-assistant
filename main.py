@@ -16,9 +16,9 @@ parser.add_argument('--diagnose', action='store_true',
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
 parser.add_argument('--info', action='store_true', help='Show info messages')
 args = parser.parse_args()
-logger.init(args)
 
 
 if __name__ == "__main__":
+    logger.init(args)
     detector = Detector()
     detector.main()

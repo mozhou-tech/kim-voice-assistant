@@ -13,7 +13,6 @@ class Detector():
         self._logger = logging.getLogger(__name__)
         self._logger.info("Initializing HotWord Detector.")
 
-
         self.interrupted = False
         signal.signal(signal.SIGINT, self.signal_handler)
 
