@@ -17,10 +17,6 @@ import hashlib
 import datetime
 import hmac
 import sys
-from dateutil import parser as dparser
-
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 class AbstractSTTEngine(object):
@@ -88,19 +84,19 @@ class SnowboySTT(AbstractSTTEngine):
         self.sensitivity = sensitivity
         self.hotword = hotword
         self.model = model
-        self.resource_file = os.path.join(config_path.LIB_PATH, 'snowboy/common.res')
-        from client.snowboy import snowboydetect
+        self.resource_file = os.path.join(config_path.LIB_PATH, 'snowboy/resources/common.res')
         try:
-            pass
+            from client.snowboy import snowboydetect
         except Exception as e:
             self._logger.critical(e)
             if 'libf77blas.so' in e:
                 self._logger.critical("您可能需要安装一个so包加载库：" +
                                       "sudo apt-get install libatlas-base-dev")
             return
-        self.detector = snowboydetect.SnowboyDetect(resource_filename=self.resource_file, model_str=self.model)
+        self.detector = snowboydetect.SnowboyDetect(resource_filename=self.resource_file.encode(),
+                                                    model_str=self.model.encode())
         self.detector.SetAudioGain(1)
-        self.detector.SetSensitivity(self.sensitivity)
+        self.detector.SetSensitivity(str(self.sensitivity).encode())
 
     @classmethod
     def get_config(cls):
@@ -116,7 +112,7 @@ class SnowboySTT(AbstractSTTEngine):
                         config['model'] = profile['snowboy']['model']
                     else:
                         config['model'] = os.path.join(
-                            config_path.LIB_PATH, 'snowboy/dingdang.pmdl')
+                            config_path.LIB_PATH, 'snowboy/resources/snowboy.umdl')
                     if 'sensitivity' in profile['snowboy']:
                         config['sensitivity'] = profile['snowboy']['sensitivity']
                     else:

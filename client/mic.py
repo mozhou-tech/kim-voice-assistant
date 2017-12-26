@@ -321,7 +321,7 @@ class Mic:
             wav_fp.setnchannels(1)
             wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
             wav_fp.setframerate(RATE)
-            wav_fp.writeframes(''.join(str(frames, 'utf-8')))
+            wav_fp.writeframes(b''.join(frames))
             wav_fp.close()
             f.seek(0)
             frames = []

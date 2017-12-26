@@ -11,6 +11,6 @@ robot_name_cn: 小云
 robot_name: 小云
 
 snowboy:
-  model: /Users/liuyuancheng/PycharmProjects/dingdang-robot/client/snowboy/dingdang.pmdl
+  model: /Volumes/MacintoshHD/WorkHub/PycharmProjects/dingdang-robot/client/snowboy/resources/snowboy.umdl
   sensitivity: 0.5
 

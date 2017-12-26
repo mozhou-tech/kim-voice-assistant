@@ -25,8 +25,7 @@ class Conversation(object):
             return True
         else:
             if self.profile['do_not_bother']['enable']:
-                if 'since' not in self.profile['do_not_bother'] or \
-                   'till' not in self.profile['do_not_bother']:
+                if 'since' not in self.profile['do_not_bother'] or 'till' not in self.profile['do_not_bother']:
                     return True
                 else:
                     since = self.profile['do_not_bother']['since']
@@ -35,8 +34,7 @@ class Conversation(object):
                     if till > since:
                         return current not in range(since, till)
                     else:
-                        return not (current in range(since, 25) or
-                                    current in range(-1, till))
+                        return not (current in range(since, 25) or current in range(-1, till))
             else:
                 return True
 
