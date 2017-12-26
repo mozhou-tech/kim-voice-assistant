@@ -1,5 +1,5 @@
 import logging
-import client.config as config_path
+import src.config as config_path
 import os
 
 
@@ -15,7 +15,7 @@ def init(args):
         level=logging.INFO)
     logger = logging.getLogger()
 
-    logger.getChild("client.stt").setLevel(logging.INFO)
+    logger.getChild("src.stt").setLevel(logging.INFO)
     if args.debug:
         logger.setLevel(logging.DEBUG)
     elif args.info:
