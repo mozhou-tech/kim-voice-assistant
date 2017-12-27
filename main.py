@@ -2,23 +2,44 @@
 # -*- coding: utf-8-*-
 
 
-from  src.detector import Detector
+from src.detector import Detector
 
-from utils import logger
+from utils.logger import init as loggingConfiger
+import logging
+from src.conversation import Conversation
+
 import argparse
-parser = argparse.ArgumentParser(description='xiaoyun Voice Control Center')
-parser.add_argument('--local', action='store_true',
-                    help='Use text input instead of a real microphone')
-parser.add_argument('--no-network-check', action='store_true',
-                    help='Disable the network connection check')
-parser.add_argument('--diagnose', action='store_true',
-                    help='Run diagnose and exit')
+
+
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('--textmode', action='store_true', help='使用文本交互')
+parser.add_argument('--diagnose', action='store_true', help='Run diagnose and exit')
+# 调试模式
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
 parser.add_argument('--info', action='store_true', help='Show info messages')
 args = parser.parse_args()
+if args.textmode:
+    from src.mic_text import Mic
+else:
+    from src.mic_voice import Mic
+
+
+class App:
+    def __init__(self):
+        self.persona = 'abc'
+        # Initialize Mic
+        self.mic = Mic()
+
+    def run(self):
+        conversation = Conversation(mic=self.mic,persona=self.persona)
+        conversation.handle_forever()
 
 
 if __name__ == "__main__":
-    logger.init(args)
-    detector = Detector()
-    detector.main()
+    loggingConfiger(args)      # 配置logging
+    logger = logging.getLogger()
+    logging.info('Found args %s', str(args))
+    app = App()
+    app.run()  # start service
+
+

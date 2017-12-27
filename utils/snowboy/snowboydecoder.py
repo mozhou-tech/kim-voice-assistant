@@ -35,7 +35,7 @@ class RingBuffer(object):
         return tmp
 
 
-def play_audio_file(fname=DETECT_DONG):
+def play_audio_file(fname=DETECT_DING):
     """Simple callback function to play a wave file. By default it plays
     a Ding sound.
 
@@ -53,6 +53,7 @@ def play_audio_file(fname=DETECT_DONG):
     stream_out.write(ding_data)
     time.sleep(0.2)
     stream_out.stop_stream()
+
     stream_out.close()
     audio.terminate()
 
