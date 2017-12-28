@@ -1,8 +1,7 @@
 # -*- coding: utf-8-*-
 import datetime as dt
 import pytz
-WORDS = [u"TIME", u"SHIJIAN", u"JIDIAN"]
-SLUG = "time"
+WORDS = [u"时间", u"几点"]
 
 
 def handle(text, mic, profile):
@@ -28,4 +27,4 @@ def isValid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text for word in ["时间", "几点"])
+    return any(word in text for word in WORDS)

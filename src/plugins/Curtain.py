@@ -2,7 +2,6 @@
 import logging
 
 WORDS = [u"窗帘"]
-SLUG = "curtain"
 PRIORITY = 0
 
 

@@ -3,13 +3,10 @@ import logging
 
 class Mic:
     def __init__(self):
-        self.stop_passive = False
-        self.skip_passive = False
-        self.chatting_mode = False
         return
 
-    def passiveListen(self, PERSONA):
-        return True, "DINGDANG"
+    def passiveListen(self, persona):
+        return True, persona
 
     def activeListen(self, THRESHOLD=None, LISTEN=True, MUSIC=False):
         if not LISTEN:
@@ -31,3 +28,5 @@ class Mic:
         :return:
         """
         print(u"小云: %s" % phrase)
+
+

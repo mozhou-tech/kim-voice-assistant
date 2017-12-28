@@ -1,8 +1,7 @@
 # -*- coding: utf-8-*-
 import logging
 
-WORDS = [u"ECHO", u"传话"]
-SLUG = "echo"
+WORDS = [u"echo", u"传话"]
 PRIORITY = 0
 
 
@@ -17,7 +16,7 @@ def handle(text, mic, profile):
                    number)
     """
     logger = logging.getLogger()
-    logger.info("使用%s插件处理", SLUG)
+    logger.info("使用%s插件处理")
     text = text.lower().replace('echo', '').replace(u'传话', '')
     mic.say(text)
 

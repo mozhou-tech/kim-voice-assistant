@@ -1,10 +1,7 @@
 import logging
 class Mic:
-    def __init__(self, config, speaker, passive_stt_engine, active_stt_engine):
-        self.stop_passive = False
-        self.skip_passive = False
-        self.chatting_mode = False
-        return
+    def __init__(self, speaker, passive_stt_engine, active_stt_engine):
+        self.speaker = speaker
 
     def passiveListen(self, PERSONA):
         return True, "DINGDANG"
@@ -29,6 +26,12 @@ class Mic:
         :return:
         """
         print("DINGDANG: %s" % phrase)
+        self.speaker.say()
+
+    def play(self, src):
+        # play a voice
+        self.speaker.play(src)
+
 
 
 

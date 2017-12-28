@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
 import json
-from http_proxy import http_proxy
+from utils.aliyun_qas_sdk.http_proxy import http_proxy
 
-ak_id = "您自己的AccessKeyId"
-ak_secret = "您自己的AccessKeySecret"
+ak_id = "LTAIsk0qFRkhyL2Q"
+ak_secret = "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi"
 url = "https://nlsapi.aliyun.com/manage/qas"
 
 if __name__ == '__main__':

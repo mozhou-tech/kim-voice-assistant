@@ -2,7 +2,6 @@
 import logging
 
 WORDS = [u"播放音乐", u"音乐"]
-SLUG = "music_player"
 PRIORITY = 0
 
 

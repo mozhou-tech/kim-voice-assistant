@@ -4,7 +4,6 @@ import sys
 
 # Standard module stuff
 WORDS = [u"新闻", u"今日头条"]
-SLUG = "chatting"
 
 
 def handle(text, mic, profile):
@@ -35,4 +34,4 @@ def isValid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text for word in [u"闲聊", u"聊天", u"不聊了"])
+    return any(word in text for word in WORDS)
