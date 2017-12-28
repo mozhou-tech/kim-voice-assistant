@@ -2,8 +2,8 @@
 import random
 # from client.robot import get_robot_by_slug
 
-# WORDS = []
-PRIORITY = 99999
+WORDS = []
+PRIORITY = -99999
 
 
 def need_robot(profile):

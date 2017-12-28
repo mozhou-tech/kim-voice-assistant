@@ -15,7 +15,6 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    logger = logging.getLogger()
     if any(word in text.lower() for word in [u"打开"]):
         text = u"窗帘已打开"
     elif any(word in text.lower() for word in [u"关闭"]):

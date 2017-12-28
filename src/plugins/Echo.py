@@ -16,7 +16,6 @@ def handle(text, mic, profile):
                    number)
     """
     logger = logging.getLogger()
-    logger.info("使用%s插件处理")
     text = text.lower().replace('echo', '').replace(u'传话', '')
     mic.say(text)
 
