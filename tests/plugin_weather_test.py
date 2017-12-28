@@ -14,7 +14,6 @@ class TestPluginWeather(unittest.TestCase):
         获取天气数据
         """
         result = Weather._fetch_weather_data()
-        print(result)
 
 
 if __name__ == '__main__':
