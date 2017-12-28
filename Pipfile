@@ -38,6 +38,7 @@ pydub = "*"
 pypng = "*"
 pyaudio = "*"
 snowboy = "*"
+semantic = "*"
 
 
 [dev-packages]

@@ -1,18 +1,19 @@
 from src.brain import Brain
-import logging,time
+import logging, time
+
 
 class Conversation:
     """
     交谈
     """
-    def __init__(self, mic, persona):
+    def __init__(self, mic, persona, profile):
         self._logger = logging.getLogger()
         self.text_mode = False
         self.mic = mic
+        self.profile = profile
         self.persona = persona
         self._logger.debug(mic)
-        self.brain = Brain(mic)
-
+        self.brain = Brain(mic, profile)
 
     def is_proper_time(self):
         """
@@ -33,17 +34,8 @@ class Conversation:
                 self._logger.info("skip conversation for now.")
                 time.sleep(1)
                 continue
-            if not self.mic.skip_passive:
-                self._logger.debug("Started listening for keyword '%s'",
-                                   self.persona)
+            if not self.mic.skip_passive:  # 主动模式
                 threshold, transcribed = self.mic.passiveListen(self.persona)
-                self._logger.debug("Stopped listening for keyword '%s'",
-                                   self.persona)
-
-                if not transcribed or not threshold:
-                    self._logger.info("Nothing has been said or transcribed.")
-                    continue
-                self._logger.info("Keyword '%s' has been said!", self.persona)
             else:
                 self._logger.debug("Skip passive listening")
                 if not self.mic.chatting_mode:

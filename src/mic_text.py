@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 import logging
 
 class Mic:
@@ -14,7 +15,7 @@ class Mic:
         if not LISTEN:
             return self.prev
 
-        input_content = input("YOU: ")
+        input_content = input(u"我: ")
         self.prev = input_content
         return input_content
 
@@ -29,4 +30,4 @@ class Mic:
         :param phrase:
         :return:
         """
-        print("DINGDANG: %s" % phrase)
+        print(u"小云: %s" % phrase)

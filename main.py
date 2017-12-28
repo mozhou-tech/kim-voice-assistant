@@ -7,7 +7,7 @@ from src.detector import Detector
 from utils.logger import init as loggingConfiger
 import logging
 from src.conversation import Conversation
-
+from config import profile
 import argparse
 
 
@@ -31,14 +31,13 @@ class App:
         self.mic = Mic()
 
     def run(self):
-        conversation = Conversation(mic=self.mic,persona=self.persona)
+        conversation = Conversation(mic=self.mic, persona=self.persona,profile=profile)
         conversation.handle_forever()
 
 
 if __name__ == "__main__":
     loggingConfiger(args)      # 配置logging
     logger = logging.getLogger()
-    logging.info('Found args %s', str(args))
     app = App()
     app.run()  # start service
 
