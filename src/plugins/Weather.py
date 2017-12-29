@@ -1,10 +1,10 @@
 # -*- coding: utf-8-*-
 import logging
 import requests
-from urllib import parse,request
 
 WORDS = [u"天气"]
 PRIORITY = 0
+logger = logging.getLogger()
 
 
 def handle(text, mic, profile):
@@ -39,19 +39,21 @@ def isValid(text):
 
 def _fetch_weather_data():
     host = 'http://freecityid.market.alicloudapi.com'
-    path = '/whapi/json/alicityweather/briefcondition'
+    path = '/whapi/json/alicityweather/briefforecast3days'
     method = 'POST'
     appcode = 'cd08e261838a42328340f49cd28c02b4'
     querys = ''
     bodys = {}
     url = host + path
 
-    bodys['cityId'] = '''2'''
-    bodys['token'] = '''46e13b7aab9bb77ee3358c3b672a2ae4'''
-    post_data = parse.urlencode(bodys)
-    request_obj = request.Request(url, post_data)
-    request_obj.add_header('Authorization', 'APPCODE ' + appcode)
-    # 根据API的要求，定义相对应的Content - Type
-    request_obj.add_header('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
-    response = request.urlopen(request_obj)
-    return response.read()
+    payload = {
+        'cityId': '''2''',
+        'token': '''677282c2f1b3d718152c4e25ed434bc4'''
+    }
+    headers = {
+      'Authorization': 'APPCODE ' + appcode,
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+    r = requests.request(method=method, url=url, data=payload, headers=headers)
+    logger.info('request api %s', r.url)
+    print(r.text)

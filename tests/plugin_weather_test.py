@@ -3,6 +3,7 @@ import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from src.plugins import Weather
+from utils import logger
 
 
 class TestPluginWeather(unittest.TestCase):
@@ -18,5 +19,6 @@ class TestPluginWeather(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    logger.init(info=True)
     unittest.main()
 
