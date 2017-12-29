@@ -1,10 +1,16 @@
+# -*- coding: utf-8-*-
 import logging
 import os
 from config.path import LOG_PATH
 
 
-def init(args):
-    level = ''
+def init(info=False,debug=False):
+    """
+    args.debug   debug模式
+    args.info    info模式
+    :param args:
+    :return:
+    """
     # 创建一个logger
     logger = logging.getLogger()
     logger.propagate = False
@@ -18,12 +24,12 @@ def init(args):
     # 定义handler的输出格式
     formatter = logging.Formatter('%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s')
 
-    if(args.debug):
+    if(debug):
         ch.setLevel(logging.DEBUG)
         fh.setLevel(logging.DEBUG)
         logger.setLevel(logging.DEBUG)
         level = logging.DEBUG
-    elif(args.info):
+    elif(info):
         ch.setLevel(logging.INFO)
         fh.setLevel(logging.INFO)
         logger.setLevel(logging.INFO)

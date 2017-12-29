@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))

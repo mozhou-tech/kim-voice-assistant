@@ -39,6 +39,8 @@ pypng = "*"
 pyaudio = "*"
 snowboy = "*"
 semantic = "*"
+aliyun-python-sdk-iot = "*"
+"aliyun-python-sdk-core-v3" = "*"
 
 
 [dev-packages]

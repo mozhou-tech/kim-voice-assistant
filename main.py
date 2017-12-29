@@ -36,7 +36,7 @@ class App:
 
 
 if __name__ == "__main__":
-    loggingConfiger(args)      # 配置logging
+    loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
     logger = logging.getLogger()
     app = App()
     app.run()  # start service
