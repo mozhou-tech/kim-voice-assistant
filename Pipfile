@@ -41,6 +41,7 @@ snowboy = "*"
 semantic = "*"
 aliyun-python-sdk-iot = "*"
 "aliyun-python-sdk-core-v3" = "*"
+"py4j" = "*"
 
 
 [dev-packages]
