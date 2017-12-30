@@ -44,6 +44,7 @@ aliyun-python-sdk-iot = "*"
 "py4j" = "*"
 gpiozero = "*"
 pigpio = "*"
+paho-mqtt = "*"
 
 
 [dev-packages]
