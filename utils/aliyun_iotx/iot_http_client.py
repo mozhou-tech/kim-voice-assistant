@@ -15,15 +15,25 @@ class IotClient:
         """
         准备客户端要求的参数
         """
-        self.auth_token_cache_file_path = APP_PATH+'/utils/aliyun_iotx/resource/iot_http_auth.json'
-        self.auth_token_cache_content = None
+        self._auth_token_cache_file_path = APP_PATH+'/utils/aliyun_iotx/resource/iot_http_auth.json'
+        self._auth_token_cache_content = None
         self.endpoint = "https://iot-as-http.cn-shanghai.aliyuncs.com"
-        self.path = ""
-        self.topic = ""
         # 设备key和secret信息
         self.device_name = "xiaoyun001"
         self.product_key = "5ixlFmlsHNI"
         self.device_secret = "iuaUl6Z7BYnrdumO9jSIk3syzquEm7GK"
+
+    def publish_msg(self):
+        """
+        上行数据(${endpoint}/topic/${topic})
+        :return:
+        """
+        pub_path = self.endpoint+'/topic/'+self.product_key+'/'+self.device_name+'/get'
+        r = requests.post(pub_path, data='xxx'.encode('utf-8'), headers={
+            "Content-Type": "application/octet-stream",
+            "password": self.get_auth_token()
+        })
+        print(r.text)
 
     def get_auth_token(self, refresh=False):
         """
@@ -32,26 +42,26 @@ class IotClient:
         :return:
         """
         # 从文件缓存中获取token缓存
-        if self.auth_token_cache_content is None:
-            self._logger.info('读取%s缓存文件', self.auth_token_cache_file_path)
-            with open(self.auth_token_cache_file_path, 'r') as f:
-                self.auth_token_cache_content = json.loads(f.read())
+        if self._auth_token_cache_content is None:
+            self._logger.info('读取%s缓存文件', self._auth_token_cache_file_path)
+            with open(self._auth_token_cache_file_path, 'r') as f:
+                self._auth_token_cache_content = json.loads(f.read())
         # 检查缓存中的token是否已经过期，过期则刷新缓存(执行异常也刷新缓存)
         if refresh:
-            return self.auth_token_refresh() # 要求刷新是刷新
+            return self._auth_token_refresh() # 要求刷新是刷新
         else:
             try:
-                if self.auth_token_cache_content['uuid'] != self.product_key+self.device_name :
-                    return self.auth_token_refresh()   # 设备uuid变化时刷新
-                if self.auth_token_cache_content['expired_at'] > dt.strftime(dt.now(), "%Y%m%d%H%M%S"):
-                    return self.auth_token_cache_content['token']
+                if self._auth_token_cache_content['uuid'] != self.product_key+self.device_name :
+                    return self._auth_token_refresh()   # 设备uuid变化时刷新
+                if self._auth_token_cache_content['expired_at'] > dt.strftime(dt.now(), "%Y%m%d%H%M%S"):
+                    return self._auth_token_cache_content['token']
                 else:
-                    return self.auth_token_refresh()  # 缓存过期时刷新
+                    return self._auth_token_refresh()  # 缓存过期时刷新
             except:
-                self._logger.info("文件格式异常%s", self.auth_token_cache_file_path)
-                return self.auth_token_refresh()    # 缓存格式异常时刷新
+                self._logger.info("文件格式异常%s", self._auth_token_cache_file_path)
+                return self._auth_token_refresh()    # 缓存格式异常时刷新
 
-    def auth_token_build_data(self, hmacsha1='hmacsha1'):
+    def _auth_token_build_data(self, hmacsha1='hmacsha1'):
         """
         构建Auth请求的Json
         :param hmacsha1:
@@ -70,12 +80,12 @@ class IotClient:
             "timestamp": signData['timestamp']
         })
 
-    def auth_token_refresh(self):
+    def _auth_token_refresh(self):
         """
         从阿里云网关重新获取iot http auth token，并缓存到文件中
         :return:
         """
-        json_data = self.auth_token_build_data()
+        json_data = self._auth_token_build_data()
         self._logger.info('Post request %s', self.endpoint + '/auth')
         self._logger.info('Post auth data %s', json_data)
         r = requests.post(url=self.endpoint + '/auth', json=json_data, headers={
@@ -84,17 +94,17 @@ class IotClient:
         response_json = json.loads(r.text)
         if response_json['code'] == 0:
             self._logger.info('IoT auth success.')
-            self.auth_token_cache(response_json['info']['token'])  # 将auth token写到缓存文件
+            self._auth_token_cache(response_json['info']['token'])  # 将auth token写到缓存文件
             return response_json['info']['token']
         else:
             self._logger.error('IoT auth error. %s', response_json)
 
-    def auth_token_cache(self, token):
+    def _auth_token_cache(self, token):
         """
         IoT token的有效期有48小时，切访问被限制，所以需要缓存到文件中
         :return:
         """
-        with open(self.auth_token_cache_file_path, 'w') as f:
+        with open(self._auth_token_cache_file_path, 'w') as f:
             content = json.dumps({
                 "uuid": self.product_key + self.device_name,
                 "token": token,
