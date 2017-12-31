@@ -33,7 +33,9 @@ class IotClient:
             "Content-Type": "application/octet-stream",
             "password": self.get_auth_token()
         })
-        print(r.text)
+        response_json = json.loads(r.text)
+        if response_json['code'] != 0:
+            self._logger.error('发布消息失败%s', response_json)
 
     def get_auth_token(self, refresh=False):
         """
