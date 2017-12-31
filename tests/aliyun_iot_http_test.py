@@ -9,30 +9,23 @@ import logging
 import requests
 from utils.aliyun_iotx.sign import Sign
 
+
 class TestAliyunIot(unittest.TestCase):
-    """
 
-    """
-    def test_init(self):
-        self._logger = logging.getLogger()
 
-    def test_sign(self):
-        """签名方法测试"""
-        iot_client = IotClient.get_instance()
-        sign_str = Sign.get_sign(iot_client.device_name, iot_client.device_secret, iot_client.product_key)
-        assert sign_str is not None
+    # def test_sign(self):
+    #     """签名方法测试"""
+    #     iot_client = IotClient.get_instance()
+    #     sign_str = Sign.get_sign(iot_client.device_name, iot_client.device_secret, iot_client.product_key)
+    #     assert sign_str is not None
 
-    def test_build_data(self):
-        iot_client = IotClient.get_instance()
-        iot_client.build_data()
+    # def test_build_data(self):
+    #     iot_client = IotClient.get_instance()
+    #     iot_client.build_data()
 
     def test_auth(self):
         iot_client = IotClient.get_instance()
         iot_client.auth()
-
-
-
-
 
 
 if __name__ == '__main__':

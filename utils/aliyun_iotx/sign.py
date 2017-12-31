@@ -25,9 +25,15 @@ class Sign:
         self._logger = logging.getLogger()
 
     def hmacsha1(self, content):
-        content = bytes(content, 'utf8')
-        hmacsha1 = hmac.new(bytes(self.device_secret, 'utf8'), content, hashlib.sha1)
-        return hmacsha1.hexdigest()
+        """
+        HmacSha1算法 计算sign
+        :param content:
+        :return:
+        """
+        hmacsha1 = hmac.new(self.device_secret.encode('utf-8'), content.encode('utf-8'), hashlib.sha1)
+        result = hmacsha1.hexdigest().upper()
+        self._logger.info('Generate sign %s', result)
+        return result
 
     def __get_timestamps(self):
         """
@@ -43,10 +49,12 @@ class Sign:
         :return:
         """
         node = uuid.getnode()
-        return self.product_key + uuid.UUID(int=node).hex[-12:]
+        result = self.product_key + uuid.UUID(int=node).hex[-12:].upper()
+        self._logger.info('Generate client id %s', result.upper())
+        return result.upper()
 
     @classmethod
-    def get_sign(cls, device_name, device_secret, product_key, signmethod="hmacsha1"):
+    def get_sign(cls, params, device_secret, signmethod="hmacsha1"):
         """
         获取签名
         :param content:
@@ -54,13 +62,15 @@ class Sign:
         :param device_secret:
         :return:
         """
-        cls.obj = Sign(device_name, device_secret, product_key)
+        cls.obj = Sign(params['deviceName'], device_secret, params['productKey'])
         timestamp = cls.obj.__get_timestamps()
         iot_client_id = cls.obj.__get_iot_client_id()
-        content = ''.join(sorted([product_key, device_name, iot_client_id, timestamp]))
-        cls.obj._logger.info(content)
+        content = ''.join(sorted(['productKey'+params['productKey'],
+                                  'deviceName'+params['deviceName'],
+                                  'clientId'+iot_client_id,
+                                  'timestamp'+timestamp]))
+        cls.obj._logger.info('Sign content: %s', content)
         sign_str = cls.obj.hmacsha1(content)
-        cls.obj._logger.info('generate sign %s', sign_str)
         return {
             'sign': sign_str,
             'signmethod': signmethod,
