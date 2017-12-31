@@ -25,7 +25,7 @@ class TestAliyunIot(unittest.TestCase):
 
     def test_auth(self):
         iot_client = IotClient.get_instance()
-        iot_client.auth()
+        print(iot_client.get_auth_token())
 
 
 if __name__ == '__main__':
