@@ -71,7 +71,10 @@ class IotClient:
         })
 
     def auth_token_refresh(self):
-        # 从阿里云网关重新获取
+        """
+        从阿里云网关重新获取iot http auth token，并缓存到文件中
+        :return:
+        """
         json_data = self.auth_token_build_data()
         self._logger.info('Post request %s', self.endpoint + '/auth')
         self._logger.info('Post auth data %s', json_data)
@@ -98,7 +101,6 @@ class IotClient:
                 "expired_at": dt.strftime(dt.now()+timedelta(hours=40), "%Y%m%d%H%M%S")
             })
             f.write(content)
-
 
     @classmethod
     def get_instance(cls):
