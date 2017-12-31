@@ -2,31 +2,32 @@
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.aliyun_iotx_mqtt.iot_mqtt_client import IotClient
+from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from config import profile
 from utils import logger
 import logging
 from utils.aliyun_iotx.sign import Sign
+from threading import Thread
+import time
 
 
 class TestAliyunIot(unittest.TestCase):
     """
 
     """
-    def test_init(self):
+    def setUp(self):
         self._logger = logging.getLogger()
-
-    def test_sign(self):
-        """签名方法测试"""
-        sign_str = Sign.get_sign('aaa', 'bbb', 'aaa')
-        assert (sign_str != None)
+        self._mqtt_client = IotClient.get_instance()
 
     def test_mqtt_client(self):
-        # client.on_connect = on_connect
-        # client.on_message = on_message
-        # mqttc = mqtt.Client(self.mqtt_url)
-        iot_client = IotClient.get_instance()
-        iot_client.connect_mqtt()
+        t = Thread(target=self._mqtt_client.connect_mqtt, daemon=True)     # 启动一个线程，监听
+        t.start()
+
+    def test_publish_message(self):
+        print(self._mqtt_client._mqttc)
+        while True:
+            time.sleep(1)
+
 
 
 
