@@ -29,7 +29,7 @@ class TestAliyunIot(unittest.TestCase):
 
     def test_device_data_pub(self):
         iot_client = IotClient.get_instance()
-        iot_client.publish_msg()
+        iot_client.publish_msg('messagebody')
 
 
 if __name__ == '__main__':
