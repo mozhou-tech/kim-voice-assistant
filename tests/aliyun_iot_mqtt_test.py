@@ -33,7 +33,7 @@ class TestAliyunIot(unittest.TestCase):
         self._logger.info('testing publish message.')
         while True:
             time.sleep(1)
-            self._mqtt_client.do_publish(payload=None)
+            self._mqtt_client.do_publish(payload=b'hello')
 
 
 if __name__ == '__main__':
