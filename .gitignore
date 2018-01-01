@@ -46,14 +46,10 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff/Logfiles
+# 日志文件
 *.log
 
-# Sphinx documentation
-docs/_build/
 
-# PyBuilder
-target/
 
 # Coverage reports for a specific version
 .coverage
@@ -64,9 +60,6 @@ target/
 
 # NetEase music account info
 userInfo
-
-# wget log
-wget-log*
 
 # some thirdparty libs
 .idea/
