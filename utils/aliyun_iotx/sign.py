@@ -6,7 +6,6 @@ import hmac
 import base64
 import datetime
 import logging
-import ssl
 import pytz
 from config import profile
 import time
