@@ -1,7 +1,6 @@
 # 小云 
 基于阿里云服务的开源智能音箱
-
-基于[叮当](https://github.com/xiaoyun-robot/xiaoyun-robot)创建。
+灵感来自jasper-client
 
 
 
@@ -11,18 +10,19 @@
 ```
 brew install xxx  
 ```
+```
+pip3 install python3-pyaudio sox
+git clone https://github.com/swig/swig.git
+./autogen
+```
 
 | 依赖 | 描述 | 二级依赖 | 实现功能 |  
 |-----|----|----|----|
 | pyAudio | | 依赖portAudio | 音频播放 | 
-| Pocketsphinx  | Pocketsphinx STT engine | CMUCLMTK | |
-| pydub | 依赖ffmpeg，如果你使用的是Mac，可以执行brew install ffmpeg安装 | | 
-| Phonetisaurus G2P | speech recognition | | |
 
 
 # 感谢
 1. [Jasper](http://jasperproject.github.io/)
-2. [叮当](https://github.com/xiaoyun-robot/dingdang-robot)
 
 
 

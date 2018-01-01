@@ -19,6 +19,9 @@ class IotClient:
         # MQTT地址
         self.mqtt_path = self.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"
         self.topic_root = "/" + self.product_key + "/" + self.device_name
+        # 影子设备Topic
+        self.topic_shadow_update = '/shadow/update/'+self.product_key+'/'+self.device_name
+        self.topic_shadow_get = '/shadow/get/'+self.product_key+'/'+self.device_name
 
         # 获取签名
         self.sign_dict = Sign.get_sign({
@@ -30,8 +33,6 @@ class IotClient:
         self._logger.info('use mqtt device id:"%s"', self.mqtt_client_id)
         # 实例化mqtt客户端
         self._mqttc = mqtt.Client(transport="tcp", client_id=self.mqtt_client_id)
-
-
 
     def on_connect(self, client, userdata, flags, rc):
         self._logger.info('mqtt client is connected to server.')
