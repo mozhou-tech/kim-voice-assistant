@@ -20,18 +20,20 @@ class TestAliyunIot(unittest.TestCase):
         self._mqtt_client = IotClient.get_instance()
 
     def test_mqtt_client(self):
-        t = Thread(target=self._mqtt_client.connect_mqtt, daemon=True)     # 启动一个线程，监听
+        """
+        mqtt连接
+        :return:
+        """
+        # self._mqtt_client.connect_mqtt()
+        t = Thread(target=self._mqtt_client.do_connect, daemon=True)     # 启动一个线程，监听
         t.start()
 
     def test_publish_message(self):
-        print(self._mqtt_client._mqttc)
+        time.sleep(1)           # 等待mqtt连接服务器成功
+        self._logger.info('testing publish message.')
         while True:
             time.sleep(1)
-
-
-
-
-
+            self._mqtt_client.do_publish(payload=None)
 
 
 if __name__ == '__main__':
