@@ -10,7 +10,6 @@ __pycache__/
 *.py[cod]
 
 # C extensions
-*.so
 
 # Distribution / packaging
 .Python
@@ -34,10 +33,6 @@ var/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
@@ -66,15 +61,6 @@ target/
 # SublimeLinter config file
 .sublimelinterrc
 
-# temp folder
-temp
-
-# temp file
-#*.*#
-#*#
-\#*#
-*~
-.#*.*
 
 # NetEase music account info
 userInfo
@@ -83,7 +69,4 @@ userInfo
 wget-log*
 
 # some thirdparty libs
-client/mic_array
-login/wxqr.png
 .idea/
-dependencies
