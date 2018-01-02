@@ -36,6 +36,22 @@ class TestAliyunIot(unittest.TestCase):
         self._mqtt_client.do_publish(payload=b'hello world')
 
 
+    def test_subscribe(self):
+        """
+        测试订阅
+        :return:
+        """
+        pass
+        # while True:
+        #     time.sleep(1)
+
+    def tearDown(self):
+        self._mqtt_client.do_disconnect()
+
+
+
+
+
 if __name__ == '__main__':
     logger.init(info=True)
     unittest.main()

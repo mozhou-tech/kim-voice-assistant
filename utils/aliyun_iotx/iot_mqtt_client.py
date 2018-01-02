@@ -50,7 +50,7 @@ class IotClient:
         self._logger.info('mqtt client is disconnected from server.')
 
     def on_message(self,client, userdata, msg):
-        self._logger.info("主题:" + msg.topic + " 消息:" + str(msg.payload))
+        self._logger.info("topic " + msg.topic + " message" + str(msg.payload))
 
     def on_log(self, client, userdata, level, buf):
         self._logger.info('mqtt paho log %s', buf)
@@ -89,6 +89,13 @@ class IotClient:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
             self._logger.info('Error string:%s', error_string(result.rc))
         return True
+
+    def do_disconnect(self):
+        """
+        关闭连接
+        :return:
+        """
+        self._mqttc.disconnect()
 
     @classmethod
     def get_instance(cls):
