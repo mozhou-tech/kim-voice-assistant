@@ -9,6 +9,7 @@ import logging
 from utils.aliyun_iotx.sign import Sign
 from threading import Thread
 import time
+import json
 
 
 class TestAliyunIot(unittest.TestCase):
@@ -22,7 +23,6 @@ class TestAliyunIot(unittest.TestCase):
         mqtt连接
         :return:
         """
-        # self._mqtt_client.connect_mqtt()
         t = Thread(target=self._mqtt_client.do_connect, daemon=True)  # 启动一个线程，监听
         t.start()
         time.sleep(1)           # 等待mqtt连接服务器成功
@@ -35,22 +35,14 @@ class TestAliyunIot(unittest.TestCase):
         self._logger.info('testing publish message.')
         self._mqtt_client.do_publish(payload=b'hello world')
 
-
-    def test_subscribe(self):
+    def test_shadow_update(self):
         """
-        测试订阅
+        获取设备影子数据
         :return:
         """
-        pass
-        # while True:
-        #     time.sleep(1)
-
-    def tearDown(self):
-        self._mqtt_client.do_disconnect()
-
-
-
-
+        json_data = b'''{"method": "update","state": {"reported": {"color": "green"}},"version": 1}'''
+        self._logger.info('testing update shadow.')
+        self._mqtt_client.do_shadow_update(json_data)
 
 if __name__ == '__main__':
     logger.init(info=True)
