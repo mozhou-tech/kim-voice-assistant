@@ -23,6 +23,7 @@ pip install pyaudio
 ##安装rpi.gpio
 ```
 sudo apt-get install python3-rpi.gpio
+sudo systemctl enable pigpiod
 ```
 
 | 依赖 | 描述 | 二级依赖 | 实现功能 |  

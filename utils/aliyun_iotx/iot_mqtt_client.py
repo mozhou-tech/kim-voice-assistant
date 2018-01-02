@@ -1,6 +1,8 @@
 # -*- coding: utf-8-*-
 import paho.mqtt.client as mqtt
 import logging
+from paho.mqtt import publish
+from paho.mqtt.client import error_string
 from utils.aliyun_iotx.sign import Sign
 
 
@@ -44,7 +46,7 @@ class IotClient:
     def on_subscribe(self, client, userdata, mid, a):
         self._logger.info('mqtt message subscribed.')
 
-    def on_disconnect(self, client, userdata, flags, rc):
+    def on_disconnect(self, client, userdata, flags):
         self._logger.info('mqtt client is disconnected from server.')
 
     def on_message(self,client, userdata, msg):
@@ -73,7 +75,7 @@ class IotClient:
         self._mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
         self._mqttc.loop_forever()
 
-    def do_publish(self, payload, qos=0, retain=True):
+    def do_publish(self, payload, qos=0, retain=False):
         """
         向服务器发送消息
         :param payload:
@@ -82,10 +84,11 @@ class IotClient:
         :return:
         """
         topic = self.topic_root+'/update'
-        result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
-        # result = self._mqttc.subscribe(topic=topic, payload=payload, qos=qos, retain=retain)
+        result = self._mqttc.publish(topic=topic, payload=payload, qos=0, retain=retain)
         if result.is_published() is not True:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
+            self._logger.info('Error string:%s', error_string(result.rc))
+        return True
 
     @classmethod
     def get_instance(cls):
