@@ -10,10 +10,12 @@
 ```
 brew install xxx  
 ```
+安装snowboy
 ```
-pip3 install python3-pyaudio sox
+pip3 install python-pyaudio python3-pyaudio sox
+sudo apt-get install libatlas-base-dev
 git clone https://github.com/swig/swig.git
-./autogen
+pip install pyaudio
 ```
 
 | 依赖 | 描述 | 二级依赖 | 实现功能 |  
