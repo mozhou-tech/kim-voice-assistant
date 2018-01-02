@@ -10,12 +10,19 @@
 ```
 brew install xxx  
 ```
-安装snowboy
+##安装snowboy
+编译安装ATLAS：
+https://ncu.dl.sourceforge.net/project/math-atlas/Stable/3.10.3/atlas3.10.3.tar.bz2
+
 ```
 pip3 install python-pyaudio python3-pyaudio sox
 sudo apt-get install libatlas-base-dev
 git clone https://github.com/swig/swig.git
 pip install pyaudio
+```
+##安装rpi.gpio
+```
+sudo apt-get install python3-rpi.gpio
 ```
 
 | 依赖 | 描述 | 二级依赖 | 实现功能 |  
