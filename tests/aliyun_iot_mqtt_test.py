@@ -34,6 +34,8 @@ class TestAliyunIot(unittest.TestCase):
         """
         self._logger.info('testing publish message.')
         self._mqtt_client.do_publish(payload=b'hello world')
+        self._mqtt_client.do_subscribe()
+        time.sleep(1)
         self._mqtt_client.do_disconnect()
 
     def test_shadow_update(self):
@@ -41,7 +43,7 @@ class TestAliyunIot(unittest.TestCase):
         获取设备影子数据
         :return:
         """
-        json_data = b'''{"method": "update","state": {"reported": {"color": "green"}},"version": 1}'''
+        json_data = b'''{"method": "update","state": {"reported": {"color": "green"}},"version": 3}'''
         self._logger.info('testing update shadow.')
         self._mqtt_client.do_shadow_update(json_data)
         self._mqtt_client.do_subscribe()
