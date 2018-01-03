@@ -37,8 +37,7 @@ class IotClient:
 
     def on_connect(self, client, userdata, flags, rc):
         self._logger.info('mqtt client is connected to server.')
-        self._mqttc.subscribe(self.topic_root+'/get')  # 订阅消息推送
-        self._mqttc.subscribe(self.topic_shadow_get)   # 订阅影子更新
+
 
     def on_publish(self, client, userdata, mid):
         self._logger.info('mqtt message published.')
@@ -46,8 +45,11 @@ class IotClient:
     def on_subscribe(self, client, userdata, mid, a):
         self._logger.info('mqtt message subscribed.')
 
-    def on_disconnect(self, client, userdata, flags):
-        self._logger.info('mqtt client is disconnected from server.')
+    def on_disconnect(self, client, userdata, rc):
+        if rc != 0:
+            self._logger.info("Unexpected disconnection.")
+        else:
+            self._logger.info('mqtt client is disconnected from server.')
 
     def on_message(self,client, userdata, msg):
         self._logger.info("topic " + msg.topic + " message" + str(msg.payload))
@@ -74,6 +76,10 @@ class IotClient:
         self._logger.info('connect mqtt host: %s', self.mqtt_path)
         self._mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
         self._mqttc.loop_forever()
+
+    def do_subscribe(self):
+        self._mqttc.subscribe(self.topic_root+'/get')  # 订阅消息推送
+        self._mqttc.subscribe(self.topic_shadow_get)   # 订阅影子更新
 
     def do_publish(self, payload, qos=0, retain=False):
         """

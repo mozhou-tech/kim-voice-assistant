@@ -11,7 +11,6 @@ from threading import Thread
 import time
 import json
 
-
 class TestAliyunIot(unittest.TestCase):
     """
 
@@ -23,6 +22,7 @@ class TestAliyunIot(unittest.TestCase):
         mqtt连接
         :return:
         """
+        # self._mqtt_client.do_connect()
         t = Thread(target=self._mqtt_client.do_connect, daemon=True)  # 启动一个线程，监听
         t.start()
         time.sleep(1)           # 等待mqtt连接服务器成功
@@ -34,6 +34,7 @@ class TestAliyunIot(unittest.TestCase):
         """
         self._logger.info('testing publish message.')
         self._mqtt_client.do_publish(payload=b'hello world')
+        self._mqtt_client.do_disconnect()
 
     def test_shadow_update(self):
         """
@@ -43,8 +44,13 @@ class TestAliyunIot(unittest.TestCase):
         json_data = b'''{"method": "update","state": {"reported": {"color": "green"}},"version": 1}'''
         self._logger.info('testing update shadow.')
         self._mqtt_client.do_shadow_update(json_data)
+        self._mqtt_client.do_subscribe()
+        time.sleep(2)
+        self._mqtt_client.do_disconnect()
+
 
 if __name__ == '__main__':
     logger.init(info=True)
     unittest.main()
+
 
