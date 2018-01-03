@@ -60,6 +60,18 @@ class TestAliyunFc(unittest.TestCase):
         result = self.fc_client.invoke_function('xiaoyun-fc', 'aliyun-api-market', payload=json.dumps(payload))
         self._logger.info(result.data)
 
+    def test_call_function_for_asr(self):
+        """
+        语音识别
+        :return:
+        """
+
+    def test_call_function_for_tts(self):
+        """
+        语音合成
+        :return:
+        """
+
 
 if __name__ == '__main__':
     logger.init(info=True)
