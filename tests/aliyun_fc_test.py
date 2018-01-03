@@ -9,11 +9,12 @@ import logging
 import time
 import json
 from config import profile
+import json
 import fc2
 
 class TestAliyunFc(unittest.TestCase):
     """
-
+    函数计算单元测试
     """
     def setUp(self):
         self._logger = logging.getLogger()
@@ -27,8 +28,36 @@ class TestAliyunFc(unittest.TestCase):
         services = self.fc_client.list_services()
         self._logger.info(services.data)
 
-    def test_update_and_call_function(self):
-        result = self.fc_client.invoke_function('xiaoyun-fc', 'aliyun-api-market', payload='啊是打发斯蒂芬'.encode('utf8'))
+    def test_call_function_for_api_market(self):
+        """
+        调用函数计算服务，从API中读取数据
+        :return:
+        """
+        # 获取天气预报的Payload
+        payload = {
+            'host': 'http://freecityid.market.alicloudapi.com',
+            'path': '/whapi/json/alicityweather/briefforecast3days',
+            'method': 'POST',
+            'appcode': 'cd08e261838a42328340f49cd28c02b4',
+            'payload': {
+                'cityId': '1045'
+            },
+            'bodys': {},
+            'querys': ''
+        }
+        # 获取新闻头条的Payload
+        payload = {
+            'host': 'http://topnews.market.alicloudapi.com',
+            'path': '/toutiao/index',
+            'method': 'GET',
+            'appcode': 'cd08e261838a42328340f49cd28c02b4',
+            'payload': {
+                'type': 'top'
+            },
+            'bodys': {},
+            'querys': ''
+        }
+        result = self.fc_client.invoke_function('xiaoyun-fc', 'aliyun-api-market', payload=json.dumps(payload))
         self._logger.info(result.data)
 
 
