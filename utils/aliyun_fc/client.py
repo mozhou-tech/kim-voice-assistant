@@ -11,11 +11,9 @@ import time
 functions_map = {
     'api_market': {
         'description': '云市场API',
-        'files': ('main.py')
     },
     'speech_interaction': {
         'description': '语音交互，包含TTS/ASR/对话',
-        'files': ('asr.py', 'main.py', 'sign.py', 'tts.py')
     }
 }
 
@@ -57,20 +55,20 @@ class FcClient:
         """
         exists_functions = self._fc_client.list_functions(serviceName=profile.aliyun_fc_service_name,
                                                           prefix=function_name)
-        zipfile_path = self.memzip(function_name)
-        time.sleep(1)
+        codeDir = FUNCTION_PATH+'/'+function_name
+        self._logger.info('code dir: %s',codeDir)
         if len(exists_functions.data['functions']) == 0:
             self._logger.info('函数计算服务%s中不存在指定函数%s即将创建', profile.aliyun_fc_service_name, function_name)
             self._fc_client.create_function(serviceName=profile.aliyun_fc_service_name,
                                             description='',
                                             functionName=function_name,
-                                            codeZipFile=zipfile_path,
+                                            codeDir=codeDir,
                                             runtime='python3',
-                                            handler='handler')
+                                            handler='main.my_handler')
         else:
             self._fc_client.update_function(serviceName=profile.aliyun_fc_service_name,
                                             functionName=function_name,
-                                            codeZipFile=zipfile_path,
+                                            codeDir=codeDir,
                                             description=functions_map[function_name])
 
     def create_fc_service(self):
@@ -88,23 +86,6 @@ class FcClient:
             result = self._fc_client.create_service(serviceName=profile.aliyun_fc_service_name,
                                                     description=profile.myname + "专用函数计算服务")
             self._logger.info('函数计算创建成功，%s', result.data)
-
-    def memzip(self, function_name):
-        """
-        在内存中zip压缩代码,并保存到缓存目录中
-        :param: function_name
-        :return:
-        """
-        mz = MemoryZip()
-        cachepath = path.CACHE_PATH + '/zip/' + function_name + '.zip'
-        self._logger.info('zip file cache path %s.',cachepath)
-        for file in functions_map[function_name]['files']:
-            function_pathname = FUNCTION_PATH + '/' + function_name + '/' + file
-            self._logger.info(function_pathname)
-            with open(function_pathname, 'r') as f:
-                mz.append(file, f.read())
-        mz.save(cachepath)
-        return cachepath
 
 
 

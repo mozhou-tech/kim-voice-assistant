@@ -5,7 +5,7 @@ import json
 import asr
 import tts
 
-def handler(event, context):
+def my_handler(event, context):
 
   params = json.loads(event)
   url = params['host'] + params['path']
