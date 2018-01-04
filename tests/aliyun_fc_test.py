@@ -2,15 +2,11 @@
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.aliyun_iotx.iot_mqtt_client import IotClient
-from config import profile
 from utils import logger
 import logging
 import time
-import json
-from config import profile
-import json
-import fc2
+from utils.aliyun_fc.client import FcClient
+
 
 class TestAliyunFc(unittest.TestCase):
     """
@@ -18,17 +14,17 @@ class TestAliyunFc(unittest.TestCase):
     """
     def setUp(self):
         self._logger = logging.getLogger()
-        self.fc_client = fc2.Client(
-            endpoint='https://1435638266713387.cn-shanghai.fc.aliyuncs.com',
-            accessKeyID=profile.ak_id,
-            accessKeySecret=profile.ak_secret)
+        self.fc_client = FcClient.get_instance()
 
-    def test_list_service(self):
-        # self.fc_client.create_service('xiaoyun-fc')
-        services = self.fc_client.list_services()
-        self._logger.info(services.data)
+    def test_init_service(self):
+        self.fc_client.create_fc_service()
 
-    def test_call_function_for_api_market(self):
+    # def test_list_service(self):
+    #     # self.fc_client.create_service('xiaoyun-fc')
+    #     services = self.fc_client.list_services()
+    #     self._logger.info(services.data)
+
+    def test_update_and_call_function_for_api_market(self):
         """
         调用函数计算服务，从API中读取数据
         :return:
@@ -57,20 +53,21 @@ class TestAliyunFc(unittest.TestCase):
             'bodys': {},
             'querys': ''
         }
-        result = self.fc_client.invoke_function('xiaoyun-fc', 'aliyun-api-market', payload=json.dumps(payload))
-        self._logger.info(result.data)
+        # result = self.fc_client.call_function('aliyun-api-market', payload=payload)
+        # self._logger.info(result.data)
 
-    def test_call_function_for_asr(self):
+    def test_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
         """
 
-    def test_call_function_for_tts(self):
+    def test_update_and_call_function_for_tts(self):
         """
         语音合成
         :return:
         """
+        return
 
 
 if __name__ == '__main__':
