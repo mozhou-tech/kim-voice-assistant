@@ -24,6 +24,7 @@ class TestAliyunFc(unittest.TestCase):
         self.fc_client.create_fc_service()
 
     def test_update_functions(self):
+        # self.fc_client.update_functions('api_market')
         self.fc_client.update_functions('speech_interaction')
 
     def test_update_and_call_function_for_api_market(self):

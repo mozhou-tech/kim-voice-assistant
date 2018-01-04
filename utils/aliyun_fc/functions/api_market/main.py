@@ -3,7 +3,7 @@ import logging
 import requests
 import json
 
-def handler(event, context):
+def my_handler(event, context):
 
   params = json.loads(event)
   url = params['host'] + params['path']

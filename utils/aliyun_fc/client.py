@@ -55,21 +55,22 @@ class FcClient:
         """
         exists_functions = self._fc_client.list_functions(serviceName=profile.aliyun_fc_service_name,
                                                           prefix=function_name)
-        codeDir = FUNCTION_PATH+'/'+function_name
-        self._logger.info('code dir: %s',codeDir)
+        code_dir = FUNCTION_PATH+'/'+function_name
+        self._logger.info('use function code dir: %s', code_dir)
         if len(exists_functions.data['functions']) == 0:
             self._logger.info('函数计算服务%s中不存在指定函数%s即将创建', profile.aliyun_fc_service_name, function_name)
             self._fc_client.create_function(serviceName=profile.aliyun_fc_service_name,
-                                            description='',
+                                            description=functions_map[function_name]['description'],
                                             functionName=function_name,
-                                            codeDir=codeDir,
+                                            codeDir=code_dir,
                                             runtime='python3',
                                             handler='main.my_handler')
         else:
             self._fc_client.update_function(serviceName=profile.aliyun_fc_service_name,
                                             functionName=function_name,
-                                            codeDir=codeDir,
-                                            description=functions_map[function_name])
+                                            codeDir=code_dir,
+                                            description=functions_map[function_name]['description'])
+        self._logger.info('function "%s" in "%s" updated.', function_name,profile.aliyun_fc_service_name)
 
     def create_fc_service(self):
         """
