@@ -50,7 +50,8 @@ coverage.xml
 # 日志文件
 *.log
 
-
+# 压缩包
+*.zip
 
 # Coverage reports for a specific version
 .coverage

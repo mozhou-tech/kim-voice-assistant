@@ -17,12 +17,14 @@ class TestAliyunFc(unittest.TestCase):
         self.fc_client = FcClient.get_instance()
 
     def test_init_service(self):
+        """
+        检查函数计算服务是否已存在
+        :return:
+        """
         self.fc_client.create_fc_service()
 
-    # def test_list_service(self):
-    #     # self.fc_client.create_service('xiaoyun-fc')
-    #     services = self.fc_client.list_services()
-    #     self._logger.info(services.data)
+    def test_update_functions(self):
+        self.fc_client.update_functions('speech_interaction')
 
     def test_update_and_call_function_for_api_market(self):
         """
