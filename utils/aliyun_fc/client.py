@@ -3,9 +3,7 @@ import fc2
 from config import profile
 import json
 import logging
-import zipfile
 from config import path
-from utils.aliyun_fc.memory_zip import MemoryZip
 import time
 
 functions_map = {

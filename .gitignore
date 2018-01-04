@@ -52,6 +52,9 @@ coverage.xml
 
 # 压缩包
 *.zip
+# 音频文件
+*.wav
+*.pcm
 
 # Coverage reports for a specific version
 .coverage
