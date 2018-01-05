@@ -54,7 +54,7 @@ coverage.xml
 *.zip
 # 音频文件
 *.pcm
-*.mp3
+*.mp3K
 demo.wav
 data/cache/wave/*.wav
 

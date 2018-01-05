@@ -55,12 +55,14 @@ class FcClient:
                                                           prefix=function_name)
         code_dir = FUNCTION_PATH+'/'+function_name
         self._logger.info('use function code dir: %s', code_dir)
+
         # 更新包之前，先准备根目录下的appsecret.json文件
         with open(code_dir+'/appsecret.json', 'w') as f:
             f.write(json.dumps({
                 'ak_id': profile.ak_id,
                 'ak_secret': profile.ak_secret
             }))
+
         # 判断指定函数是否已存在，存在则更新，没有就创建
         if len(exists_functions.data['functions']) == 0:
             self._logger.info('函数计算服务%s中不存在指定函数%s即将创建', profile.aliyun_fc_service_name, function_name)
