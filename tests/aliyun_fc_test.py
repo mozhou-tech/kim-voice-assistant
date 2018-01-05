@@ -13,6 +13,7 @@ import pyaudio
 import audioop
 import tempfile
 import time
+from config.path import CACHE_WAVE_PATH
 
 class TestAliyunFc(unittest.TestCase):
     """
@@ -86,9 +87,9 @@ class TestAliyunFc(unittest.TestCase):
         # 返回的bytes流保存到wav音频文件
         assert result.headers['Content-Type'] == 'application/octet-stream'
         self._logger.info('音频已生成，接口耗时%s', round(time_end-time_start, 2))
-        with open('demo.wav', 'wb') as f:
+        with open(CACHE_WAVE_PATH + 'demo.wav', 'wb') as f:
             f.write(result.data)
-        os.system('play demo.wav')
+        os.system('play '+CACHE_WAVE_PATH+'demo.wav')
 
 
 

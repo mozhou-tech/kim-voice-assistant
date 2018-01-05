@@ -7,3 +7,5 @@ LOG_PATH = os.path.join(APP_PATH, 'data/log')
 PLUGINS_PATH = os.path.join(APP_PATH, 'src/plugins')
 
 CACHE_PATH = os.path.join(APP_PATH, 'data/cache')
+
+CACHE_WAVE_PATH = CACHE_PATH + '/wave/'
