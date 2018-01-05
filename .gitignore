@@ -70,3 +70,6 @@ userInfo
 # some thirdparty libs
 .idea/
 setting.yaml
+
+# 函数计算的ak信息
+appsecret.json
