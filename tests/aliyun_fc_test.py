@@ -10,7 +10,9 @@ import json
 import wave
 import struct
 import pyaudio
-
+import audioop
+import tempfile
+import time
 
 class TestAliyunFc(unittest.TestCase):
     """
@@ -75,14 +77,19 @@ class TestAliyunFc(unittest.TestCase):
         """
         self.fc_client.update_functions('speech_interaction')
         payload = {
-            'type': 'tts'
+            'type': 'tts',
+            'text': '窗帘正在打开'
         }
+        time_start = time.time()
         result = self.fc_client.call_function('speech_interaction', payload)
+        time_end = time.time()
         # 返回的bytes流保存到wav音频文件
-        output = wave.open('demo.wav', 'wb')
-        output.s(16000)
-        output.writeframes(result.data)
-        print(output.setsampwidth())
+        assert result.headers['Content-Type'] == 'application/octet-stream'
+        self._logger.info('音频已生成，接口耗时%s', round(time_end-time_start, 2))
+        with open('demo.wav', 'wb') as f:
+            f.write(result.data)
+        os.system('play demo.wav')
+
 
 
 

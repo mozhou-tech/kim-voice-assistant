@@ -55,6 +55,7 @@ coverage.xml
 # 音频文件
 *.wav
 *.pcm
+*.mp3
 
 # Coverage reports for a specific version
 .coverage

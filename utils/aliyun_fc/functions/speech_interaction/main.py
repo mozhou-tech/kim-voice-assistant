@@ -6,6 +6,7 @@ import requests
 import urllib
 import datetime
 import ssl
+import json
 
 
 class http_proxy:
@@ -62,6 +63,28 @@ def my_handler(event, context):
     :param context:
     :return:
     """
+    with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
+        appsecret = json.loads(f.read())
+    params = json.loads(event)
+    # 准备参数encode_type
+    if 'encode_type' not in params or params['encode_type'] is None:
+        params['encode_type'] = 'wav'
 
-    client = http_proxy(ak_id='LTAIsk0qFRkhyL2Q', ak_secret='xi7FP7EFafFV3CNUO0G2HAOzvSRAPi')
-    return client.send_request('https://nlsapi.aliyun.com/speak?encode_type=wav', '你好')
+    # 使用男声还是女声
+    if 'voice_name' not in params or params['voice_name'] not in ['xiaogang', 'xiaoyun', 'man', 'woman']:
+        params['voice_name'] = 'xiaogang'
+    elif params['voice_name'] == 'woman':
+        params['voice_name'] = 'xiaoyun'
+    else:
+        params['voice_name'] = 'xiaogang'
+
+
+    client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
+    return client.send_request('https://nlsapi.aliyun.com/speak?' +
+                               'encode_type='+params['encode_type'] +
+                               '&voice_name=' + params['voice_name'] +
+                               '&speech_rate=120'
+                               '&volume=60'
+                               '&sample_rate=16000'
+                               ,
+                               params['text'])
