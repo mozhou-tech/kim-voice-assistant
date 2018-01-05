@@ -66,6 +66,7 @@ def my_handler(event, context):
     with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
         appsecret = json.loads(f.read())
     params = json.loads(event)
+
     # 准备参数encode_type
     if 'encode_type' not in params or params['encode_type'] is None:
         params['encode_type'] = 'wav'
@@ -77,7 +78,6 @@ def my_handler(event, context):
         params['voice_name'] = 'xiaoyun'
     else:
         params['voice_name'] = 'xiaogang'
-
 
     client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
     return client.send_request('https://nlsapi.aliyun.com/speak?' +
