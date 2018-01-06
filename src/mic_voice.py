@@ -7,7 +7,7 @@ import os
 from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS
 from time import sleep
 import hashlib
-from src.tts import TTS_Engine
+from src.tts import TTSEngine
 
 class Mic:
     """
@@ -17,9 +17,9 @@ class Mic:
     def __init__(self):
         self._logger = logging.getLogger()
         self.passive_interrupted = False
-        self.tts_engine = TTS_Engine()
+        self.tts_engine = TTSEngine()
 
-    def passive_listen(self, PERSONA):
+    def passive_listen(self):
         """
         监听唤醒热词
         :param PERSONA:
@@ -74,16 +74,19 @@ class Mic:
         :param phrase:
         :return:
         """
-        is_tts_cached = self.tts_engine.has_speech_cache(phrase)
+        is_tts_cached, cache_file_path = self.tts_engine.get_speech_cache(phrase)
         if is_tts_cached:
-            self._logger.info('Play cached wave file %s.',is_tts_cached)
-            self.play(is_tts_cached)
+            self._logger.info('Play cached wave file %s.', is_tts_cached)
+            self.play(cache_file_path)
         else:
             print("DINGDANG: %s" % phrase)
-        # self.say()
 
     def play(self, src):
-        # play a voice
+        """
+        播放一段音频
+        :param src:
+        :return:
+        """
         os.system('play %s' % src)
 
 

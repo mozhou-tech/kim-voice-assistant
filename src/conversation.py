@@ -36,7 +36,7 @@ class Conversation:
             #     self._logger.info("Received notification: '%s'", str(notif))
 
             self._logger.debug("Started listening for keyword '%s'", self.persona)
-            threshold, transcribed = self.mic.passive_listen(self.persona)
+            threshold, transcribed = self.mic.passive_listen()
             self._logger.debug("Stopped listening for keyword '%s'", self.persona)
 
             if not transcribed or not threshold:
