@@ -30,7 +30,7 @@ class TestAliyunFc(unittest.TestCase):
         """
         self.fc_client.create_fc_service()
 
-    def test_update_and_call_function_for_api_market(self):
+    def atest_update_and_call_function_for_api_market(self):
         """
         调用函数计算服务，从API中读取数据
         :return:
@@ -64,14 +64,31 @@ class TestAliyunFc(unittest.TestCase):
         result = json.loads(result.data)
         self._logger.info(result)
 
-    def atest_update_and_call_function_for_asr(self):
+    def test_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
         """
         self.fc_client.update_functions('speech_interaction')
+        fp = CACHE_WAVE_PATH + 'demo.wav'
+        try:
+            wav_file = wave.open(fp, 'rb')
+        except IOError:
+            self._logger.critical('wav file not found: %s', fp, exc_info=True)
+            return
+        n_frames = wav_file.getnframes()
+        audio = wav_file.readframes(n_frames)
+        payload = audio
+        time_start = time.time()
+        result = self.fc_client.call_function('speech_interaction', payload)
+        time_end = time.time()
+        # 返回的bytes流保存到wav音频文件
+        # assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
+        self._logger.info('文字识别完成，接口耗时%ss', round(time_end - time_start, 2))
+        print(result.data)
+        print(result.headers)
 
-    def test_update_and_call_function_for_tts(self):
+    def atest_update_and_call_function_for_tts(self):
         """
         语音合成
         :return:
@@ -79,19 +96,17 @@ class TestAliyunFc(unittest.TestCase):
         self.fc_client.update_functions('speech_interaction')
         payload = {
             'type': 'tts',
-            'text': '窗帘正在打开'
+            'text': '柯良妹真漂亮'
         }
         time_start = time.time()
         result = self.fc_client.call_function('speech_interaction', payload)
         time_end = time.time()
         # 返回的bytes流保存到wav音频文件
-        assert result.headers['Content-Type'] == 'application/octet-stream'
-        self._logger.info('音频已生成，接口耗时%s', round(time_end-time_start, 2))
+        assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
+        self._logger.info('音频已生成，接口耗时%ss', round(time_end-time_start, 2))
         with open(CACHE_WAVE_PATH + 'demo.wav', 'wb') as f:
             f.write(result.data)
         os.system('play '+CACHE_WAVE_PATH+'demo.wav')
-
-
 
 
 if __name__ == '__main__':

@@ -7,6 +7,7 @@ import urllib
 import datetime
 import ssl
 import json
+import re
 
 
 class http_proxy:
@@ -24,7 +25,10 @@ class http_proxy:
 
     def __md5_base64(self, strbody):
         hash = hashlib.md5()
-        hash.update(strbody.encode('utf-8'))
+        if isinstance(strbody, bytes):
+            hash.update(strbody)
+        else:
+            hash.update(strbody.encode('utf-8'))
         print(hash.digest())
         return base64.b64encode(hash.digest()).decode('utf-8')
 
@@ -32,28 +36,46 @@ class http_proxy:
         hmacsha1 = hmac.new(secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha1)
         return base64.b64encode(hmacsha1.digest()).decode('utf-8')
 
-    def send_request(self, url, body):
+    def send_request_for_tts(self, url, body):
+        """
+        发送转换请求
+        :param url:
+        :param body:
+        :return:
+        """
         gmtnow = self.__current_gmt_time()
-        print(gmtnow)
         body_md5 = self.__md5_base64(body)
-        print(body_md5)
         str_to_sign = "POST\napplication/json\n" + body_md5 + "\napplication/json\n" + gmtnow
-        print(str_to_sign)
         signature = self.__sha1_base64(str_to_sign, self.__ak_secret)
-        print(signature)
         auth_header = "Dataplus " + self.__ak_id + ":" + signature
-        print(auth_header)
-
-        ssl._create_default_https_context = ssl._create_unverified_context
-        req = urllib.request.Request(url)
-        req.add_header("Accept", "application/json")
-        req.add_header("Content-Type", "application/json")
-        req.add_header("Date", gmtnow)
-        req.add_header("Authorization", auth_header)
-
         data = body.encode('utf-8')
-        f = urllib.request.urlopen(req, data)
-        return f.read()
+
+        return requests.post(url=url, data=data, headers={
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Date": gmtnow,
+            "Authorization": auth_header
+        }).content
+
+    def send_request_for_asr(self, url, body):
+        """
+        asr
+        :param url:
+        :param body:
+        :return:
+        """
+        gmtnow = self.__current_gmt_time()
+        body_md5 = self.__md5_base64(body)
+        str_to_sign = "POST\napplication/json\n" + body_md5 + "\naudio/wav\n" + gmtnow
+        signature = self.__sha1_base64(str_to_sign, self.__ak_secret)
+        auth_header = "Dataplus " + self.__ak_id + ":" + signature
+        return requests.post(url=url, data=body, headers={
+            "Accept": "application/json",
+            "Content-type": "audio/wav",
+            "Date": gmtnow,
+            "Authorization": auth_header,
+            "Content-Length": str(len(body))
+        }).content
 
 
 def my_handler(event, context):
@@ -65,26 +87,41 @@ def my_handler(event, context):
     """
     with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
         appsecret = json.loads(f.read())
-    params = json.loads(event)
 
-    # 准备参数encode_type
-    if 'encode_type' not in params or params['encode_type'] is None:
-        params['encode_type'] = 'wav'
-
-    # 使用男声还是女声
-    if 'voice_name' not in params or params['voice_name'] not in ['xiaogang', 'xiaoyun', 'man', 'woman']:
-        params['voice_name'] = 'xiaogang'
-    elif params['voice_name'] == 'woman':
-        params['voice_name'] = 'xiaoyun'
-    else:
-        params['voice_name'] = 'xiaogang'
-
+    # 因为当前的函数计算只支持传入一个参数，JSON中没办法存音频的bytes，所以用现在这种方式处理，设备端只提交bytes音频数据
+    try:
+        params = json.loads(event)
+    except:
+        params = {
+            'wave_bytes': event,
+            'type': 'asr'
+        }
     client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
-    return client.send_request('https://nlsapi.aliyun.com/speak?' +
-                               'encode_type='+params['encode_type'] +
-                               '&voice_name=' + params['voice_name'] +
-                               '&speech_rate=120'
-                               '&volume=60'
-                               '&sample_rate=16000'
-                               ,
-                               params['text'])
+    # 文字转语音
+    if params['type'] == 'tts':
+        # 准备参数encode_type
+        if 'encode_type' not in params or params['encode_type'] is None:
+            params['encode_type'] = 'wav'
+
+        # 使用男声还是女声
+        if 'voice_name' not in params or params['voice_name'] not in ['xiaogang', 'xiaoyun', 'man', 'woman']:
+            params['voice_name'] = 'xiaogang'
+        elif params['voice_name'] == 'woman':
+            params['voice_name'] = 'xiaoyun'
+        else:
+            params['voice_name'] = 'xiaogang'
+        return client.send_request_for_tts('https://nlsapi.aliyun.com/speak?' +
+                                           'encode_type='+params['encode_type'] +
+                                           '&voice_name=' + params['voice_name'] +
+                                           '&speech_rate=120'
+                                           '&volume=60'
+                                           '&sample_rate=16000'
+                                           ,
+                                           params['text'])
+    # 语音识别
+    elif params['type'] == 'asr':
+        return client.send_request_for_asr('https://nlsapi.aliyun.com/recognize?model=chat&version=2.0'
+                                           ,
+                                           params['wave_bytes'])
+    else:
+        raise Exception('Unsupported type.')

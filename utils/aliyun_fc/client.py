@@ -44,7 +44,11 @@ class FcClient:
         :param payload: 参数
         :return:
         """
-        return self._fc_client.invoke_function(profile.aliyun_fc_service_name, function_name, payload=json.dumps(payload))
+        if isinstance(payload, bytes):
+            params = payload
+        else:
+            params = json.dumps(payload)
+        return self._fc_client.invoke_function(profile.aliyun_fc_service_name, function_name, payload=params)
 
     def update_functions(self, function_name):
         """
