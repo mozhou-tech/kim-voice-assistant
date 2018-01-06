@@ -10,6 +10,9 @@ CACHE_PATH = os.path.join(APP_PATH, 'data/cache')
 
 CACHE_WAVE_PATH = CACHE_PATH + '/wave/'
 
+"""
+常用的wave声音
+"""
 WAVE_DING = APP_PATH + '/utils/snowboy/resources/ding.wav'
 WAVE_DONG = APP_PATH + '/utils/snowboy/resources/dong.wav'
 
@@ -22,7 +25,10 @@ def get_hotword_models():
     """
     files = []
     for file in os.listdir(HOTWORD_MODEL_PATH):
-        files.append(HOTWORD_MODEL_PATH + '/' + file)
+        if file.endswith('umdl') or file.endswith('pmdl'):   # 限制模型类型
+            files.append(HOTWORD_MODEL_PATH + '/' + file)
+    if len(files) == 0:
+        raise Exception('你至少应该有一个热词模型，请参照README.md')
     return files
 
 
