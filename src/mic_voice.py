@@ -4,6 +4,7 @@ import sys
 import signal
 import os
 from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS
+from time import sleep
 
 class Mic:
     """
@@ -60,6 +61,7 @@ class Mic:
         持续录音，直到声音停止1秒，或者达到录音超时时间
         :return:
         """
+        sleep(1.5)
         self.play(WAVE_DONG)
 
     def say(self, phrase):
