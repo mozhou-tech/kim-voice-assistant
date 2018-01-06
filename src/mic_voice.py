@@ -1,5 +1,9 @@
 import logging
-
+from utils.snowboy import snowboydecoder
+import sys
+import signal
+import os
+from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS
 
 class Mic:
     """
@@ -8,43 +12,68 @@ class Mic:
 
     def __init__(self):
         self._logger = logging.getLogger()
+        self.passive_interrupted = False
 
-    def passiveListen(self, PERSONA):
-        self._logger.info('主动监听唤醒关键词')
-        return False, "DINGDANG"
-
-    def activeListenToAllOptions(self, THRESHOLD=None, LISTEN=True,
-                                 MUSIC=False):
+    def passive_listen(self, PERSONA):
         """
-        持续录音，直到声音停止，或者达到录音超时时间
-        :param THRESHOLD:
-        :param LISTEN:
-        :param MUSIC:
+        监听唤醒热词
+        :param PERSONA:
         :return:
         """
-        return [self.activeListen(THRESHOLD=THRESHOLD, LISTEN=LISTEN,
-                                  MUSIC=MUSIC)]
 
-    def activeListen(self, THRESHOLD=None, LISTEN=True, MUSIC=False):
-        if not LISTEN:
-            return self.prev
+        def signal_handler(signal, frame):
+            self.passive_interrupted = True
+            detector.terminate()
+            sys.exit()
 
-        input_content = input("YOU: ")
-        self.prev = input_content
-        return input_content
+        def interrupt_callback():
+            """
+            检测到中断怎么办
+            :return:
+            """
+            return self.passive_interrupted
+
+        def detected_callback():
+            """
+            监听到热词怎么办
+            :return:
+            """
+            self.play(WAVE_DING)
+            self._logger.info('Hotword Detected.')
+            detector.terminate()
+
+        # capture SIGINT signal, e.g., Ctrl+C
+        signal.signal(signal.SIGINT, signal_handler)
+
+        detector = snowboydecoder.HotwordDetector(HOTWORD_MODELS, sensitivity=0.5)
+        print('Listening Hotword... Press Ctrl+C to exit')
+
+        # main loop
+        detector.start(detected_callback=detected_callback,
+                       interrupt_check=interrupt_callback,
+                       sleep_time=0.03)
+
+        return True, "DINGDANG"
+
+    def active_listen(self):
+        """
+        持续录音，直到声音停止1秒，或者达到录音超时时间
+        :return:
+        """
+        self.play(WAVE_DONG)
 
     def say(self, phrase):
         """
-        输出内容
+        TTS输出内容
         :param phrase:
         :return:
         """
         print("DINGDANG: %s" % phrase)
-        self.speaker.say()
+        # self.say()
 
     def play(self, src):
         # play a voice
-        self.speaker.play(src)
+        os.system('play %s' % src)
 
 
 
