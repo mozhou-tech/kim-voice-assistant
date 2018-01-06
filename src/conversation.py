@@ -42,7 +42,6 @@ class Conversation:
             if not transcribed or not threshold:
                 self._logger.info("Nothing has been said or transcribed.")
                 continue
-            self._logger.info("Keyword '%s' has been said!", self.persona)
 
             self._logger.debug("Started to listen actively with threshold: %r", threshold)
             input_content = self.mic.active_listen()

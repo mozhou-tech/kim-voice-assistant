@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import logging
 from utils.snowboy import snowboydecoder
 import sys
@@ -5,6 +6,8 @@ import signal
 import os
 from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS
 from time import sleep
+import hashlib
+from src.tts import TTS_Engine
 
 class Mic:
     """
@@ -14,6 +17,7 @@ class Mic:
     def __init__(self):
         self._logger = logging.getLogger()
         self.passive_interrupted = False
+        self.tts_engine = TTS_Engine()
 
     def passive_listen(self, PERSONA):
         """
@@ -70,7 +74,12 @@ class Mic:
         :param phrase:
         :return:
         """
-        print("DINGDANG: %s" % phrase)
+        is_tts_cached = self.tts_engine.has_speech_cache(phrase)
+        if is_tts_cached:
+            self._logger.info('Play cached wave file %s.',is_tts_cached)
+            self.play(is_tts_cached)
+        else:
+            print("DINGDANG: %s" % phrase)
         # self.say()
 
     def play(self, src):
