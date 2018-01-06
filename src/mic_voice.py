@@ -7,13 +7,21 @@ class Mic:
     """
 
     def __init__(self):
-        pass
+        self._logger = logging.getLogger()
 
     def passiveListen(self, PERSONA):
-        return True, "DINGDANG"
+        self._logger.info('主动监听唤醒关键词')
+        return False, "DINGDANG"
 
     def activeListenToAllOptions(self, THRESHOLD=None, LISTEN=True,
                                  MUSIC=False):
+        """
+        持续录音，直到声音停止，或者达到录音超时时间
+        :param THRESHOLD:
+        :param LISTEN:
+        :param MUSIC:
+        :return:
+        """
         return [self.activeListen(THRESHOLD=THRESHOLD, LISTEN=LISTEN,
                                   MUSIC=MUSIC)]
 
