@@ -5,6 +5,7 @@ import json
 import logging
 from config import path
 import time
+import base64
 
 functions_map = {
     'api_market': {
@@ -44,11 +45,12 @@ class FcClient:
         :param payload: 参数
         :return:
         """
-        if isinstance(payload, bytes):
-            params = payload
-        else:
-            params = json.dumps(payload)
-        return self._fc_client.invoke_function(profile.aliyun_fc_service_name, function_name, payload=params)
+        if payload.get('wave_bytes'):
+            # print(payload.get('wave_bytes'))
+            payload['wave_bytes'] = base64.b64encode(payload['wave_bytes']).decode('utf-8')
+        return self._fc_client.invoke_function(profile.aliyun_fc_service_name,
+                                               function_name,
+                                               payload=json.dumps(payload))
 
     def update_functions(self, function_name):
         """

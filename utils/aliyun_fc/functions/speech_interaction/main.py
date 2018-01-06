@@ -8,7 +8,8 @@ import datetime
 import ssl
 import json
 import re
-
+import base64
+import logging
 
 class http_proxy:
     """
@@ -18,6 +19,7 @@ class http_proxy:
     def __init__(self, ak_id, ak_secret):
         self.__ak_id = ak_id
         self.__ak_secret = ak_secret
+        self._logger = logging.getLogger()
 
     def __current_gmt_time(self):
         date = datetime.datetime.strftime(datetime.datetime.utcnow(), "%a, %d %b %Y %H:%M:%S GMT")
@@ -25,11 +27,13 @@ class http_proxy:
 
     def __md5_base64(self, strbody):
         hash = hashlib.md5()
-        if isinstance(strbody, bytes):
-            hash.update(strbody)
-        else:
-            hash.update(strbody.encode('utf-8'))
-        print(hash.digest())
+        hash.update(strbody.encode('utf-8'))
+        self._logger.info('mdtbase64 strbody %s', strbody)
+        self._logger.info('mdtbase64 strbody md5 %s', hash.digest())
+        # if isinstance(strbody, bytes):
+        #     hash.update(strbody)
+        # else:
+        #     hash.update(strbody.encode('utf-8'))
         return base64.b64encode(hash.digest()).decode('utf-8')
 
     def __sha1_base64(self, str_to_sign, secret):
@@ -66,12 +70,15 @@ class http_proxy:
         """
         gmtnow = self.__current_gmt_time()
         body_md5 = self.__md5_base64(body)
-        str_to_sign = "POST\napplication/json\n" + body_md5 + "\naudio/wav\n" + gmtnow
+        self._logger.info('body_md5 %s:', body_md5)
+        str_to_sign = "POST\napplication/json\n" + body_md5 + "\naudio/wav; samplerate=16000\n" + gmtnow
         signature = self.__sha1_base64(str_to_sign, self.__ak_secret)
+        self._logger.info('signature %s:', signature)
         auth_header = "Dataplus " + self.__ak_id + ":" + signature
+
         return requests.post(url=url, data=body, headers={
             "Accept": "application/json",
-            "Content-type": "audio/wav",
+            "Content-Type": "audio/wav; samplerate=16000",
             "Date": gmtnow,
             "Authorization": auth_header,
             "Content-Length": str(len(body))
@@ -88,13 +95,11 @@ def my_handler(event, context):
     with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
         appsecret = json.loads(f.read())
 
-    # 因为当前的函数计算只支持传入一个参数，JSON中没办法存音频的bytes，所以用现在这种方式处理，设备端只提交bytes音频数据
-    try:
-        params = json.loads(event)
-    except:
+    params = json.loads(event)
+    if not params.get('type'):
         params = {
-            'wave_bytes': event,
-            'type': 'asr'
+            'type': 'asr',
+            'wave_bytes': 'abc'
         }
     client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
     # 文字转语音
@@ -117,11 +122,14 @@ def my_handler(event, context):
                                            '&volume=60'
                                            '&sample_rate=16000'
                                            ,
-                                           params['text'])
+                                           params['text'].strip())
     # 语音识别
     elif params['type'] == 'asr':
+        # wave_bytes = base64.b64decode(params['wave_bytes'].encode('utf-8'))
+        wave_bytes = 'asdfasdf'
         return client.send_request_for_asr('https://nlsapi.aliyun.com/recognize?model=chat&version=2.0'
                                            ,
-                                           params['wave_bytes'])
+                                           wave_bytes
+                                           )
     else:
         raise Exception('Unsupported type.')

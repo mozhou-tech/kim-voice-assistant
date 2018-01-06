@@ -1,7 +1,13 @@
 import logging
+
+
 class Mic:
-    def __init__(self, speaker, passive_stt_engine, active_stt_engine):
-        self.speaker = speaker
+    """
+    处理语音输出和输入
+    """
+
+    def __init__(self):
+        pass
 
     def passiveListen(self, PERSONA):
         return True, "DINGDANG"

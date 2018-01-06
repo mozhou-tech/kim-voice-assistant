@@ -1,7 +1,11 @@
 # -*- coding: utf-8-*-
 import logging
 
+
 class Mic:
+    """
+    处理文本输出和输入
+    """
     def __init__(self):
         return
 

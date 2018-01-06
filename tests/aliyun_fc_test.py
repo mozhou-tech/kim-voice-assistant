@@ -78,7 +78,10 @@ class TestAliyunFc(unittest.TestCase):
             return
         n_frames = wav_file.getnframes()
         audio = wav_file.readframes(n_frames)
-        payload = audio
+        payload = {
+            'type': 'asr',
+            'wave_bytes': audio
+        }
         time_start = time.time()
         result = self.fc_client.call_function('speech_interaction', payload)
         time_end = time.time()

@@ -31,7 +31,7 @@ class App:
         self.mic = Mic()
 
     def run(self):
-        conversation = Conversation(mic=self.mic, persona=self.persona,profile=profile)
+        conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile)
         conversation.handle_forever()
 
 
