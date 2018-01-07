@@ -4,13 +4,13 @@ import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils import logger
 import logging
-import time
 from utils.aliyun_fc.fc_client import FcClient
 import json
 import wave
 import time
 from config.path import CACHE_WAVE_PATH
 from src.tts import TTSEngine
+
 
 class TestAliyunFc(unittest.TestCase):
     """
@@ -32,7 +32,7 @@ class TestAliyunFc(unittest.TestCase):
         调用函数计算服务，从API中读取数据
         :return:
         """
-        self.fc_client.update_functions('api_market')
+        self.fc_client.update_functions('aliyun_apimarket')
         # 获取天气预报的Payload
         payload = {
             'host': 'http://freecityid.market.alicloudapi.com',
@@ -57,17 +57,17 @@ class TestAliyunFc(unittest.TestCase):
         #     'bodys': {},
         #     'querys': ''
         # }
-        result = self.fc_client.call_function('api_market', payload=payload)
+        result = self.fc_client.call_function('aliyun_apimarket', payload=payload)
         result = json.loads(result.data)
         self._logger.info(result)
 
-    def atest_update_and_call_function_for_asr(self):
+    def test_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
         """
         self.fc_client.update_functions('aliyun_nls_asr')
-        fp = CACHE_WAVE_PATH + 'demo.wav'
+        fp = CACHE_WAVE_PATH + 'tts_ae07524014a0f4616e60d42ba688f994.wav'
         try:
             wav_file = wave.open(fp, 'rb')
         except IOError:
@@ -75,12 +75,8 @@ class TestAliyunFc(unittest.TestCase):
             return
         n_frames = wav_file.getnframes()
         audio = wav_file.readframes(n_frames)
-        payload = {
-            'type': 'asr',
-            'wave_bytes': audio
-        }
         time_start = time.time()
-        result = self.fc_client.call_function('aliyun_nls_asr', payload)
+        result = self.fc_client.call_function('aliyun_nls_asr', payload=audio)
         time_end = time.time()
         # 返回的bytes流保存到wav音频文件
         # assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
@@ -88,14 +84,13 @@ class TestAliyunFc(unittest.TestCase):
         print(result.data)
         print(result.headers)
 
-    def test_update_and_call_function_for_tts(self):
+    def atest_update_and_call_function_for_tts(self):
         """
         语音合成
         :return:
         """
         self.fc_client.update_functions('aliyun_nls_tts')
         payload = {
-            'type': 'tts',
             'text': '你说啥'
         }
         time_start = time.time()
@@ -105,7 +100,7 @@ class TestAliyunFc(unittest.TestCase):
         assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
         self._logger.info('音频已生成，接口耗时%ss', round(time_end-time_start, 2))
         tts_engine = TTSEngine.get_instance()
-        b, wave_pathname= tts_engine.get_speech_cache(payload['text'])
+        b, wave_pathname = tts_engine.get_speech_cache(payload['text'])
         with open(wave_pathname, 'wb') as f:
             f.write(result.data)
         os.system('play '+wave_pathname)

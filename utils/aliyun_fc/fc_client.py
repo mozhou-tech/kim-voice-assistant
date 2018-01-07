@@ -37,12 +37,13 @@ class FcClient:
         :param payload: 参数
         :return:
         """
-        if payload.get('wave_bytes'):
-            # print(payload.get('wave_bytes'))
-            payload['wave_bytes'] = base64.b64encode(payload['wave_bytes']).decode('utf-8')
+        if isinstance(payload, bytes):
+            data = payload
+        else:
+            data = json.dumps(payload)
         return self._fc_client.invoke_function(profile.aliyun_fc_service_name,
                                                function_name,
-                                               payload=json.dumps(payload))
+                                               payload=data)
 
     def update_functions(self, function_name):
         """

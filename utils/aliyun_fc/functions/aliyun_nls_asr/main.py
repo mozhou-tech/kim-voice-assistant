@@ -27,13 +27,10 @@ class http_proxy:
 
     def __md5_base64(self, strbody):
         hash = hashlib.md5()
-        hash.update(strbody.encode('utf-8'))
+        hash.update(strbody)
+        # hash.update(strbody.encode('utf-8'))
         self._logger.info('mdtbase64 strbody %s', strbody)
         self._logger.info('mdtbase64 strbody md5 %s', hash.digest())
-        # if isinstance(strbody, bytes):
-        #     hash.update(strbody)
-        # else:
-        #     hash.update(strbody.encode('utf-8'))
         return base64.b64encode(hash.digest()).decode('utf-8')
 
     def __sha1_base64(self, str_to_sign, secret):
@@ -73,12 +70,5 @@ def my_handler(event, context):
     """
     with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
         appsecret = json.loads(f.read())
-
     client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
-
-    # wave_bytes = base64.b64decode(params['wave_bytes'].encode('utf-8'))
-    wave_bytes = 'asdfasdf'
-    return client.send_request_for_asr('https://nlsapi.aliyun.com/recognize?model=chat&version=2.0'
-                                       ,
-                                       wave_bytes
-                                       )
+    return client.send_request_for_asr('https://nlsapi.aliyun.com/recognize?model=chat&version=2.0', event)
