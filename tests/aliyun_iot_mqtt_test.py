@@ -9,7 +9,9 @@ import logging
 from utils.aliyun_iotx.sign import Sign
 from threading import Thread
 import time
-import json
+import json, re
+from config.path import APP_PATH
+
 
 class TestAliyunIot(unittest.TestCase):
     """
@@ -43,11 +45,15 @@ class TestAliyunIot(unittest.TestCase):
         获取设备影子数据
         :return:
         """
-        json_data = b'''{"method": "update","state": {"reported": {"color": "green"}},"version": 3}'''
+        with open(APP_PATH+'/utils/aliyun_iotx/resource/device_shadow.json') as f:
+            json_data = re.sub('\s','', f.read())
+
         self._logger.info('testing update shadow.')
         self._mqtt_client.do_shadow_update(json_data)
         self._mqtt_client.do_subscribe()
         time.sleep(2)
+        # while True:
+        #     pass
         self._mqtt_client.do_disconnect()
 
 

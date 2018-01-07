@@ -3,6 +3,8 @@ import paho.mqtt.client as mqtt
 import logging
 from paho.mqtt.client import error_string
 from utils.aliyun_iotx.sign import Sign
+from utils.aliyun_iotx import topic
+from config import device
 
 
 class IotClient:
@@ -12,23 +14,16 @@ class IotClient:
         初始化mqtt客户端
         """
         self._logger = logging.getLogger()
-        # 设备key和secret信息
-        self.device_name = "xiaoyun001"
-        self.product_key = "5ixlFmlsHNI"
-        self.device_secret = "iuaUl6Z7BYnrdumO9jSIk3syzquEm7GK"
         self.mqtt_client_id = ''
         # MQTT地址
-        self.mqtt_path = self.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"
-        self.topic_root = "/" + self.product_key + "/" + self.device_name
-        # 影子设备Topic
-        self.topic_shadow_update = '/shadow/update/'+self.product_key+'/'+self.device_name
-        self.topic_shadow_get = '/shadow/get/'+self.product_key+'/'+self.device_name
+        self.mqtt_path = device.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"
+        self._topic = topic
 
         # 获取签名
         self.sign_dict = Sign.get_sign({
-            "deviceName": self.device_name,
-            "productKey": self.product_key
-        }, self.device_secret)
+            "deviceName": device.device_name,
+            "productKey": device.product_key
+        }, device.device_secret)
         self.mqtt_client_id = self.sign_dict['iot_client_id'] + \
                               "|securemode=3,signmethod=hmacsha1,timestamp=" + self.sign_dict['timestamp'] + "|"
         self._logger.info('use mqtt device id:"%s"', self.mqtt_client_id)
@@ -37,7 +32,6 @@ class IotClient:
 
     def on_connect(self, client, userdata, flags, rc):
         self._logger.info('mqtt client is connected to server.')
-
 
     def on_publish(self, client, userdata, mid):
         self._logger.info('mqtt message published.')
@@ -63,7 +57,7 @@ class IotClient:
         :return:
         """
         # 设置用户名密码
-        self._mqttc.username_pw_set(username=self.device_name+"&"+self.product_key, password=self.sign_dict['sign'])
+        self._mqttc.username_pw_set(username=device.device_name+"&"+device.product_key, password=self.sign_dict['sign'])
         # 开启日志
         self._mqttc.enable_logger(self._logger)
         # 连接时触发
@@ -78,8 +72,8 @@ class IotClient:
         self._mqttc.loop_forever()
 
     def do_subscribe(self):
-        self._mqttc.subscribe(self.topic_root+'/get')  # 订阅消息推送
-        self._mqttc.subscribe(self.topic_shadow_get)   # 订阅影子更新
+        self._mqttc.subscribe(self._topic.get_topic_name('get'))  # 订阅消息推送
+        self._mqttc.subscribe(self._topic.shadow_get)   # 订阅影子更新
 
     def do_publish(self, payload, qos=0, retain=False):
         """
@@ -89,7 +83,7 @@ class IotClient:
         :param retain:
         :return:
         """
-        topic = self.topic_root+'/update'
+        topic = self._topic.get_topic_name('update')
         result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
         if result.is_published() is not True:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
@@ -100,9 +94,9 @@ class IotClient:
         更新影子设备
         :return:
         """
-        result = self._mqttc.publish(topic=self.topic_shadow_update, payload=payload, qos=1, retain=False)
+        result = self._mqttc.publish(topic=self._topic.shadow_update, payload=payload, qos=1, retain=False)
         if result.is_published() is not True:
-            self._logger.info('Content %s send to topic "%s" publish failed.', payload, self.topic_shadow_update)
+            self._logger.info('Content %s send to topic "%s" publish failed.', payload, self._topic.shadow_update)
             self._logger.info('Error Message:%s', error_string(result.rc))
 
     def do_disconnect(self):
