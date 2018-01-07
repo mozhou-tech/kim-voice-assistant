@@ -14,9 +14,7 @@ class IotClient:
         初始化mqtt客户端
         """
         self._logger = logging.getLogger()
-        self.mqtt_client_id = ''
-        # MQTT地址
-        self.mqtt_path = device.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"
+        self.mqtt_path = device.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"  # MQTT地址
         self._topic = topic
 
         # 获取签名
@@ -25,7 +23,9 @@ class IotClient:
             "productKey": device.product_key
         }, device.device_secret)
         self.mqtt_client_id = self.sign_dict['iot_client_id'] + \
-                              "|securemode=3,signmethod=hmacsha1,timestamp=" + self.sign_dict['timestamp'] + "|"
+                                            "|securemode=3,signmethod=hmacsha1,timestamp=" + \
+                                            self.sign_dict['timestamp'] + "|"
+
         self._logger.info('use mqtt device id:"%s"', self.mqtt_client_id)
         # 实例化mqtt客户端
         self._mqttc = mqtt.Client(transport="tcp", client_id=self.mqtt_client_id)
