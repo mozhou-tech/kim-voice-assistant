@@ -5,16 +5,8 @@ import json
 import logging
 from config import path
 import time
-import base64
-
-functions_map = {
-    'api_market': {
-        'description': '云市场API',
-    },
-    'speech_interaction': {
-        'description': '语音交互，包含TTS/ASR/对话',
-    }
-}
+import base64, os
+from utils.aliyun_fc.register import functions_map
 
 FUNCTION_PATH = path.APP_PATH + '/utils/aliyun_fc/functions'
 
@@ -60,6 +52,8 @@ class FcClient:
         exists_functions = self._fc_client.list_functions(serviceName=profile.aliyun_fc_service_name,
                                                           prefix=function_name)
         code_dir = FUNCTION_PATH+'/'+function_name
+        if not os.access(code_dir, os.R_OK):
+            raise Exception('函数计算代码存储目录' + function_name + '不存在')
         self._logger.info('use function code dir: %s', code_dir)
 
         # 更新包之前，先准备根目录下的appsecret.json文件

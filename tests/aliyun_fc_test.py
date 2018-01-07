@@ -5,14 +5,9 @@ os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils import logger
 import logging
 import time
-from utils.aliyun_fc.client import FcClient
+from utils.aliyun_fc.fc_client import FcClient
 import json
 import wave
-import struct
-import pyaudio
-import audioop
-import tempfile
-import hashlib
 import time
 from config.path import CACHE_WAVE_PATH
 from src.tts import TTSEngine
@@ -71,7 +66,7 @@ class TestAliyunFc(unittest.TestCase):
         语音识别
         :return:
         """
-        self.fc_client.update_functions('speech_interaction')
+        self.fc_client.update_functions('aliyun_nls_asr')
         fp = CACHE_WAVE_PATH + 'demo.wav'
         try:
             wav_file = wave.open(fp, 'rb')
@@ -85,7 +80,7 @@ class TestAliyunFc(unittest.TestCase):
             'wave_bytes': audio
         }
         time_start = time.time()
-        result = self.fc_client.call_function('speech_interaction', payload)
+        result = self.fc_client.call_function('aliyun_nls_asr', payload)
         time_end = time.time()
         # 返回的bytes流保存到wav音频文件
         # assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
@@ -98,13 +93,13 @@ class TestAliyunFc(unittest.TestCase):
         语音合成
         :return:
         """
-        self.fc_client.update_functions('speech_interaction')
+        self.fc_client.update_functions('aliyun_nls_tts')
         payload = {
             'type': 'tts',
             'text': '你说啥'
         }
         time_start = time.time()
-        result = self.fc_client.call_function('speech_interaction', payload)
+        result = self.fc_client.call_function('aliyun_nls_tts', payload)
         time_end = time.time()
         # 返回的bytes流保存到wav音频文件
         assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
