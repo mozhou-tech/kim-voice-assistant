@@ -36,6 +36,10 @@ sudo systemctl enable pigpiod
 到 [Snowboy](https://snowboy.kitt.ai/dashboard) 创建你自己的热词模型，下载文件放到
 config/hotword_models目录中。
 
+
+## 云计算端部署
+iot和函数计算均在华东2区开通
+
 # 感谢
 1. [Jasper](http://jasperproject.github.io/)
 
