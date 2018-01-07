@@ -12,8 +12,10 @@ import struct
 import pyaudio
 import audioop
 import tempfile
+import hashlib
 import time
 from config.path import CACHE_WAVE_PATH
+from src.tts import TTSEngine
 
 class TestAliyunFc(unittest.TestCase):
     """
@@ -64,7 +66,7 @@ class TestAliyunFc(unittest.TestCase):
         result = json.loads(result.data)
         self._logger.info(result)
 
-    def test_update_and_call_function_for_asr(self):
+    def atest_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
@@ -91,7 +93,7 @@ class TestAliyunFc(unittest.TestCase):
         print(result.data)
         print(result.headers)
 
-    def atest_update_and_call_function_for_tts(self):
+    def test_update_and_call_function_for_tts(self):
         """
         语音合成
         :return:
@@ -99,7 +101,7 @@ class TestAliyunFc(unittest.TestCase):
         self.fc_client.update_functions('speech_interaction')
         payload = {
             'type': 'tts',
-            'text': '柯良妹真漂亮'
+            'text': '你说啥'
         }
         time_start = time.time()
         result = self.fc_client.call_function('speech_interaction', payload)
@@ -107,9 +109,11 @@ class TestAliyunFc(unittest.TestCase):
         # 返回的bytes流保存到wav音频文件
         assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
         self._logger.info('音频已生成，接口耗时%ss', round(time_end-time_start, 2))
-        with open(CACHE_WAVE_PATH + 'demo.wav', 'wb') as f:
+        tts_engine = TTSEngine.get_instance()
+        b, wave_pathname= tts_engine.get_speech_cache(payload['text'])
+        with open(wave_pathname, 'wb') as f:
             f.write(result.data)
-        os.system('play '+CACHE_WAVE_PATH+'demo.wav')
+        os.system('play '+wave_pathname)
 
 
 if __name__ == '__main__':

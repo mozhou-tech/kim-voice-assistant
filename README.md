@@ -10,6 +10,7 @@
 ```
 brew install xxx  
 ```
+portaudio
 ##安装snowboy
 编译安装ATLAS：
 https://ncu.dl.sourceforge.net/project/math-atlas/Stable/3.10.3/atlas3.10.3.tar.bz2

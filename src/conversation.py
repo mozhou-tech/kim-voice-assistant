@@ -49,7 +49,7 @@ class Conversation:
             if input_content:
                 self.brain.query(input)
             else:
-                self.mic.say("你说啥?")
+                self.mic.say("你说啥")
 
 
 
