@@ -10,5 +10,9 @@ functions_map = {
     'aliyun_nls_tts': {
         'description': '智能语音交互，语音合成',
         'runtime': 'python3'
+    },
+    'test': {
+        'description': '测试',
+        'runtime': 'python3'
     }
 }

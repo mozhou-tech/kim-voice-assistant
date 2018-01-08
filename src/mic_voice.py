@@ -15,7 +15,7 @@ class Mic:
     处理语音输出和输入
     """
 
-    def __init__(self):
+    def __init__(self, iot_client=None):
         self._logger = logging.getLogger()
         self.passive_interrupted = False
         self.tts_engine = TTSEngine()
@@ -23,7 +23,8 @@ class Mic:
         self._logger.info("Initialization of PyAudio completed.")
 
     def __del__(self):
-        self._audio.terminate()
+        if isinstance(self._audio, object):
+            self._audio.terminate()
 
     def _get_score(self, data):
         rms = audioop.rms(data, 2)
@@ -76,6 +77,7 @@ class Mic:
         持续录音，直到声音停止1秒，或者达到录音超时时间 12s
         :return:
         """
+        print('Listen...')
         self._audio.get_default_input_device_info()
         chunk = 1024
         wave_format = pyaudio.paInt16

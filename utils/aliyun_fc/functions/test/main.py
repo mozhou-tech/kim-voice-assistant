@@ -13,4 +13,4 @@ import logging
 
 
 def my_handler(event, context):
-    return event
+    return 'hello world!'

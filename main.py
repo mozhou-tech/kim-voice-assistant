@@ -9,6 +9,8 @@ import logging
 from src.conversation import Conversation
 from config import profile
 import argparse
+from utils.aliyun_iotx.iot_mqtt_client import IotClient
+from threading import Thread
 
 
 parser = argparse.ArgumentParser(description='')
@@ -27,10 +29,17 @@ else:
 class App:
     def __init__(self):
         self.persona = 'abc'
+        self.iot_client = IotClient.get_instance()
+        Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
+
         # Initialize Mic
-        self.mic = Mic()
+        self.mic = Mic(iot_client=self.iot_client)
 
     def run(self):
+        """
+        初始化对话
+        :return:
+        """
         conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile)
         conversation.handle_forever()
 
