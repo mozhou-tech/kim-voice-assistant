@@ -6,11 +6,18 @@ import logging
 
 
 class TTSEngine:
-    def __init__(self):
+    """
+    语音合成
+    """
+    def __init__(self, over_iothub=True):
         self._logger = logging.getLogger()
 
     @classmethod
     def get_instance(cls):
+        """
+        返回一个TTS示例
+        :return:
+        """
         return TTSEngine()
 
     def get_speech_cache(self, phrase):
