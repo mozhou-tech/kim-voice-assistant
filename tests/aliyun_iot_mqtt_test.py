@@ -35,7 +35,7 @@ class TestAliyunIot(unittest.TestCase):
         :return:
         """
         self._logger.info('testing publish message.')
-        self._mqtt_client.do_publish(payload=b'hello world')
+        self._mqtt_client.do_publish(topic_name='fc_asr', payload=b'hello world')
         self._mqtt_client.do_subscribe()
         time.sleep(1)
         self._mqtt_client.do_disconnect()
@@ -46,7 +46,7 @@ class TestAliyunIot(unittest.TestCase):
         :return:
         """
         with open(APP_PATH+'/utils/aliyun_iotx/resource/device_shadow.json') as f:
-            json_data = re.sub('\s','', f.read())
+            json_data = re.sub('\s', '', f.read())
 
         self._logger.info('testing update shadow.')
         self._mqtt_client.do_shadow_update(json_data)

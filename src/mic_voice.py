@@ -17,8 +17,8 @@ class Mic:
 
     def __init__(self, iot_client=None):
         self._logger = logging.getLogger()
-        self.passive_interrupted = False
-        self.tts_engine = TTSEngine()
+        self._passive_interrupted = False
+        self._tts_engine = TTSEngine(iot_client)
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
 
@@ -27,6 +27,11 @@ class Mic:
             self._audio.terminate()
 
     def _get_score(self, data):
+        """
+        当前音频音量评估
+        :param data:
+        :return:
+        """
         rms = audioop.rms(data, 2)
         score = rms / 3
         return score
@@ -39,7 +44,7 @@ class Mic:
         """
 
         def signal_handler(signal, frame):
-            self.passive_interrupted = True
+            self._passive_interrupted = True
             detector.terminate()
             sys.exit()
 
@@ -48,7 +53,7 @@ class Mic:
             检测到中断怎么办
             :return:
             """
-            return self.passive_interrupted
+            return self._passive_interrupted
 
         def detected_callback():
             """
@@ -77,7 +82,7 @@ class Mic:
         持续录音，直到声音停止1秒，或者达到录音超时时间 12s
         :return:
         """
-        print('Listen...')
+        print('Listen Instructions...')
         self._audio.get_default_input_device_info()
         chunk = 1024
         wave_format = pyaudio.paInt16
@@ -108,7 +113,7 @@ class Mic:
                 threshold = max(last_n)
 
             average = sum(last_n) / len(last_n)             # 当前循环中声音评分的平均值
-            self._logger.info('average:%s, threshold:%s', average, threshold)
+            # self._logger.info('average:%s, threshold:%s', average, threshold)
 
             # 采样声音的最大值突破100时，开始检测
             if threshold > 100:
@@ -137,7 +142,7 @@ class Mic:
         :param phrase:
         :return:
         """
-        is_tts_cached, cache_file_path = self.tts_engine.get_speech_cache(phrase)
+        is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase)
         if is_tts_cached:
             self._logger.info('Play cached wave file %s.', is_tts_cached)
             self.play(cache_file_path)

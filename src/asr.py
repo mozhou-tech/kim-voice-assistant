@@ -5,7 +5,7 @@ class ASREngine:
     """
     语音识别模块
     """
-    def __init__(self, over_iothub=True):
+    def __init__(self, iot_client):
         """
         init
         :param over_iothub: 是否通过iot套件

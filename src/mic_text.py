@@ -6,7 +6,7 @@ class Mic:
     """
     处理文本输出和输入
     """
-    def __init__(self, iot_client):
+    def __init__(self, iot_client=None):
         return
 
     def passiveListen(self, persona):

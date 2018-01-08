@@ -75,15 +75,16 @@ class IotClient:
         self._mqttc.subscribe(self._topic.get_topic_name('get'))  # 订阅消息推送
         self._mqttc.subscribe(self._topic.shadow_get)   # 订阅影子更新
 
-    def do_publish(self, payload, qos=0, retain=False):
+    def do_publish(self, topic_name, payload, qos=0, retain=False):
         """
         向服务器发送消息
+        :param topic_name: Topic名称
         :param payload:
         :param qos:
         :param retain:
         :return:
         """
-        topic = self._topic.get_topic_name('update')
+        topic = self._topic.get_topic_name(topic_name)
         result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
         if result.is_published() is not True:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
