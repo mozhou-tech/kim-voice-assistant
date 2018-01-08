@@ -36,9 +36,8 @@ class IotClient:
     def on_publish(self, client, userdata, mid):
         self._logger.info('mqtt message published.')
 
-    def on_subscribe(self, client, userdata, mid, a):
-
-        self._logger.info(client)
+    def on_subscribe(self, client, userdata, mid, rc):
+        self._logger.info('mqtt message subscribe.')
 
     def on_disconnect(self, client, userdata, rc):
         if rc != 0:
