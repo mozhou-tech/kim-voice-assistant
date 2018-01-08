@@ -81,8 +81,7 @@ class TestAliyunFc(unittest.TestCase):
         # 返回的bytes流保存到wav音频文件
         # assert result.headers['Content-Type'] == 'application/octet-stream'  # 验证返回数据正确性
         self._logger.info('文字识别完成，接口耗时%ss', round(time_end - time_start, 2))
-        print(result.data)
-        print(result.headers)
+        print(result.data.decode('utf8'))
 
     def atest_update_and_call_function_for_tts(self):
         """

@@ -71,7 +71,7 @@ class FcClient:
                                             description=functions_map[function_name]['description'],
                                             functionName=function_name,
                                             codeDir=code_dir,
-                                            runtime='python3',
+                                            runtime=functions_map[function_name]['runtime'],
                                             handler='main.my_handler')
         else:
             self._fc_client.update_function(serviceName=profile.aliyun_fc_service_name,

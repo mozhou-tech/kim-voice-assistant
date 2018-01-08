@@ -40,7 +40,7 @@ class http_proxy:
         hmacsha1 = hmac.new(secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha1)
         return base64.b64encode(hmacsha1.digest()).decode('utf-8')
 
-    def send_request_for_tts(self, url, body):
+    def send_request(self, url, body):
         """
         发送转换请求
         :param url:
@@ -86,7 +86,7 @@ def my_handler(event, context):
         params['voice_name'] = 'xiaoyun'
     else:
         params['voice_name'] = 'xiaogang'
-    return client.send_request_for_tts('https://nlsapi.aliyun.com/speak?' +
+    return client.send_request('https://nlsapi.aliyun.com/speak?' +
                                        'encode_type='+params['encode_type'] +
                                        '&voice_name=' + params['voice_name'] +
                                        '&speech_rate=120'

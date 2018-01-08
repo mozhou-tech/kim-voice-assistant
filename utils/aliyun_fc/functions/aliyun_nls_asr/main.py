@@ -1,64 +1,9 @@
 # -*- coding: utf-8 -*-
-import hashlib
+import httplib, urllib, md5
+from hashlib import sha1
 import hmac
-import base64
-import requests
-import urllib
-import datetime
-import ssl
+from time import gmtime, strftime
 import json
-import re
-import base64
-import logging
-
-class http_proxy:
-    """
-    Http工具类，封装了鉴权
-    """
-
-    def __init__(self, ak_id, ak_secret):
-        self.__ak_id = ak_id
-        self.__ak_secret = ak_secret
-        self._logger = logging.getLogger()
-
-    def __current_gmt_time(self):
-        date = datetime.datetime.strftime(datetime.datetime.utcnow(), "%a, %d %b %Y %H:%M:%S GMT")
-        return date
-
-    def __md5_base64(self, strbody):
-        hash = hashlib.md5()
-        hash.update(strbody)
-        # hash.update(strbody.encode('utf-8'))
-        self._logger.info('mdtbase64 strbody %s', strbody)
-        self._logger.info('mdtbase64 strbody md5 %s', hash.digest())
-        return base64.b64encode(hash.digest()).decode('utf-8')
-
-    def __sha1_base64(self, str_to_sign, secret):
-        hmacsha1 = hmac.new(secret.encode('utf-8'), str_to_sign.encode('utf-8'), hashlib.sha1)
-        return base64.b64encode(hmacsha1.digest()).decode('utf-8')
-
-    def send_request_for_asr(self, url, body):
-        """
-        asr
-        :param url:
-        :param body:
-        :return:
-        """
-        gmtnow = self.__current_gmt_time()
-        body_md5 = self.__md5_base64(body)
-        self._logger.info('body_md5 %s:', body_md5)
-        str_to_sign = "POST\napplication/json\n" + body_md5 + "\naudio/wav; samplerate=16000\n" + gmtnow
-        signature = self.__sha1_base64(str_to_sign, self.__ak_secret)
-        self._logger.info('signature %s:', signature)
-        auth_header = "Dataplus " + self.__ak_id + ":" + signature
-
-        return requests.post(url=url, data=body, headers={
-            "Accept": "application/json",
-            "Content-Type": "audio/wav; samplerate=16000",
-            "Date": gmtnow,
-            "Authorization": auth_header,
-            "Content-Length": str(len(body))
-        }).content
 
 
 def my_handler(event, context):
@@ -70,5 +15,54 @@ def my_handler(event, context):
     """
     with open("appsecret.json", 'r') as f:    # 从json中读取ak信息
         appsecret = json.loads(f.read())
-    client = http_proxy(ak_id=appsecret['ak_id'], ak_secret=appsecret['ak_secret'])
-    return client.send_request_for_asr('https://nlsapi.aliyun.com/recognize?model=chat&version=2.0', event)
+
+    ac_id = appsecret['ak_id']
+    ac_secret = appsecret['ak_secret']
+    app_key = 'chat'
+    method = 'POST'
+    accept = 'application/json'
+    # accept='text/plain' # tts request
+
+    contentType = 'audio/pcm; samplerate=16000'
+    # contentType='audio/opu'
+    gmtTime = strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime())
+
+    body = event
+
+    # params = urllib.urlencode({"app_key":app_key, "user_id":aliyun_pk, "vocabulary_id":"en-us"})
+
+    m = md5.new()
+    m.update(body)
+    m = m.digest()
+    bodyhash = m.encode('base64').strip()
+    print('body hash: ' + bodyhash)
+
+    m = md5.new()
+    m.update(bodyhash)
+    m = m.digest()
+    finalhash = m.encode('base64').strip()
+    print('final hash: ' + finalhash)
+
+    stringToSign = method + '\n' + accept + '\n' + finalhash + '\n' + contentType + '\n' + gmtTime
+    signature = hmac.new(str(ac_secret), str(stringToSign), sha1).digest().encode('base64').strip()
+    print('signature: ' + signature)
+    authHeader = 'Dataplus ' + ac_id + ':' + signature
+    print('authHeader: ' + authHeader)
+
+    headers = {"Content-type": contentType, "Accept": accept, "Authorization": authHeader, "Date": gmtTime}
+
+    conn = httplib.HTTPConnection("nlsapi.aliyun.com", 443)
+    conn.request("POST", "/recognize?model=" + app_key, body, headers=headers)
+
+    response = conn.getresponse()
+    print("response status and reason")
+    print(response.status, response.reason)
+    print("status done")
+
+    body = response.read()
+    print("asr body")
+    print(body)
+    print("body done")
+    conn.close()
+    return body
+
