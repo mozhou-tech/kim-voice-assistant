@@ -37,7 +37,8 @@ class IotClient:
         self._logger.info('mqtt message published.')
 
     def on_subscribe(self, client, userdata, mid, a):
-        self._logger.info('mqtt message subscribed.')
+
+        self._logger.info(client)
 
     def on_disconnect(self, client, userdata, rc):
         if rc != 0:
@@ -71,9 +72,9 @@ class IotClient:
         self._mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
         self._mqttc.loop_forever()
 
-    def do_subscribe(self):
-        self._mqttc.subscribe(self._topic.get_topic_name('get'))  # 订阅消息推送
-        self._mqttc.subscribe(self._topic.shadow_get)   # 订阅影子更新
+    def do_subscribe(self, topic_name):
+        self._mqttc.subscribe(self._topic.get_topic_name(topic_name))  # 订阅消息推送
+        # self._mqttc.subscribe(self._topic.shadow_get)   # 订阅影子更新
 
     def do_publish(self, topic_name, payload, qos=0, retain=False):
         """

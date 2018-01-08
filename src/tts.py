@@ -12,14 +12,16 @@ class TTSEngine:
     def __init__(self, iot_client):
         self._logger = logging.getLogger()
         self._iot_client = iot_client
+        self._iot_client.do_subscribe(topic_name='fc_tts')  # 订阅
+
 
     @classmethod
-    def get_instance(cls):
+    def get_instance(cls, iot_client=None):
         """
         返回一个TTS示例
         :return:
         """
-        return TTSEngine()
+        return TTSEngine(iot_client)
 
     def get_speech_cache(self, phrase=None, phrase_md5=None, fetch_wave_on_no_cache=False):
         """
@@ -51,8 +53,9 @@ class TTSEngine:
         :param phrase:
         :return: 返回wave存储路径
         """
-        if self._iot_client is not None:  # 使用aliyun IoTub
-            self._iot_client.do_publish()
+        if self._iot_client is None:  # 使用aliyun IoTub
+            return
+        self._iot_client.do_publish(topic_name='fc_tts', payload=phrase)
 
 
 
