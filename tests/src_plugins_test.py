@@ -5,6 +5,7 @@ os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from src.plugins import Weather
 from utils import logger
 from src import mic_text
+from src import mic_voice
 
 
 class TestSrcPlugins(unittest.TestCase):
@@ -16,7 +17,7 @@ class TestSrcPlugins(unittest.TestCase):
         """
         获取天气数据
         """
-        result = Weather.handle(text='南京', mic=mic_text.Mic())
+        result = Weather.handle(text='南京', mic=mic_voice.Mic())
         print(result)
 
 
