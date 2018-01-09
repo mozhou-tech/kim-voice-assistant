@@ -27,11 +27,12 @@ def handle(text, mic):
     tree = ET.parse(APP_PATH + '/src/plugins/resources/weather-moji-citys.xml')  # 载入数据
     xml_root = tree.getroot()    #获取根节点
     elements = xml_root.findall('./city[@name="' + city + '"]')
-    if elements is None:
-        mic.say('没有找到你设定的城市，请修改profile配置文件')
-        return
-    else:
+    try:
         city_id = elements[0].get('id')
+    except:
+        mic.say('没有找到你设定的城市，请检查profile配置文件')
+        return
+
     data = {
         'host': 'http://freecityid.market.alicloudapi.com',
         'path': '/whapi/json/alicityweather/briefforecast3days',
