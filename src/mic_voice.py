@@ -9,6 +9,8 @@ from src.tts import TTSEngine
 import wave, pyaudio, audioop
 import time
 from utils.aliyun_fc.fc_client import FcClient
+from  config import profile
+from src.asr import ASREngine
 
 
 class Mic:
@@ -20,6 +22,7 @@ class Mic:
         self._logger = logging.getLogger()
         self._passive_interrupted = False
         self._tts_engine = TTSEngine.get_instance()
+        self._asr_engine = ASREngine.get_instance()
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
 
@@ -76,13 +79,14 @@ class Mic:
                        interrupt_check=interrupt_callback,
                        sleep_time=0.03)
 
-        return True, "DINGDANG"
+        return True, profile.myname
 
-    def active_listen(self, threshold = None):
+    def active_listen(self):
         """
         持续录音，直到声音停止1秒，或者达到录音超时时间 12s
         :return:
         """
+        threshold = None
         print('Listen Instructions...')
         self._audio.get_default_input_device_info()
         chunk = 1024
@@ -137,6 +141,14 @@ class Mic:
         wf.writeframes(b''.join(frames))
         wf.close()
 
+    def listen(self, wave_path):
+        """
+        监听数据
+        :param wave_path:
+        :return:
+        """
+        return self._asr_engine.wave_to_text(wave_path)
+
     def say(self, phrase):
         """
         TTS输出内容
@@ -145,10 +157,10 @@ class Mic:
         """
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
-            self._logger.info('Play cached wave file %s.', is_tts_cached)
+            self._logger.info('Play cached wave file %s.', cache_file_path)
             self.play(cache_file_path)
         else:
-            print("DINGDANG: %s" % phrase)
+            print("%s,%s" % profile.myname, phrase)
 
     def play(self, src):
         """

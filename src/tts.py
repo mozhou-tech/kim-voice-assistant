@@ -63,7 +63,7 @@ class TTSEngine:
             with open(wave_pathname, 'wb') as f:
                 f.write(result.data)
         end_time = time.time()
-        self._logger.info('get wave use time %ss', start_time-end_time)
+        self._logger.info('Get wave success, use time %ss', round(end_time-start_time,2))
         return wave_pathname
 
 
