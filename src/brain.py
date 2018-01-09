@@ -48,11 +48,12 @@ class Brain:
         :param thirdparty_call 插件内容
         """
         for plugin in self.plugins:
-            for text in list(jieba.cut(texts)):
+            fenci = list(jieba.cut(texts))  # 对中文分词处理
+            for text in fenci:
                 if plugin.isValid(text):  # 判断插件是否有效
                     self._logger.debug("'%s' is a valid phrase for module '%s'", text, plugin.__name__)
                     try:
-                        plugin.handle(text, self.mic, self.profile)
+                        plugin.handle(fenci, self.mic, self.profile)
                     except Exception:
                         self._logger.error('Failed to execute plugin', exc_info=True)
                         reply = u"抱歉，我的大脑出故障了，晚点再试试吧"

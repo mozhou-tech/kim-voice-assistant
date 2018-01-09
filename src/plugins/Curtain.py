@@ -16,9 +16,9 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    if any(word in text.lower() for word in [u"打开"]):
+    if any(word in text for word in ["打开", "开启"]):
         text = u"窗帘已打开"
-    elif any(word in text.lower() for word in [u"关闭"]):
+    elif any(word in text for word in ["关闭", "关上"]):
         text = u"窗帘已关闭"
     else:
         text = u"窗帘还不支持该指令"
@@ -32,4 +32,4 @@ def isValid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text.lower() for word in WORDS)
+    return any(word in text for word in WORDS)
