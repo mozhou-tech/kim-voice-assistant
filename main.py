@@ -31,9 +31,8 @@ class App:
         self.persona = 'abc'
         self.iot_client = IotClient.get_instance()
         Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
-
         # Initialize Mic
-        self.mic = Mic(iot_client=self.iot_client)
+        self.mic = Mic()
 
     def run(self):
         """

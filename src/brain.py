@@ -41,7 +41,6 @@ class Brain:
         plugins.sort(key=lambda mod: mod.PRIORITY if hasattr(mod, 'PRIORITY') else 0, reverse=True)
         return plugins
 
-
     def query(self, texts):
         """
         用户输入的内容传给第三方插件处理
@@ -50,7 +49,7 @@ class Brain:
         """
         for plugin in self.plugins:
             for text in texts:
-                if plugin.isValid(text): # 判断插件是否有效
+                if plugin.isValid(text):  # 判断插件是否有效
                     self._logger.debug("'%s' is a valid phrase for module " +
                                        "'%s'", text, plugin.__name__)
                     try:

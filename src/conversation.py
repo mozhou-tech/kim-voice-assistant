@@ -47,7 +47,7 @@ class Conversation:
             input_content = self.mic.active_listen()
             self._logger.debug("Stopped to listen actively with threshold: %r", threshold)
             if input_content:
-                self.brain.query(input)
+                self.brain.query(input_content)
             else:
                 self.mic.say("你说啥")
 

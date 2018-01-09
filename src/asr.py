@@ -36,6 +36,7 @@ class ASREngine:
         self._logger.info('语音转文字完成，耗时 %ss.', round(end_time-start_time, 3))
         data = json.loads(result.data.decode('utf8'))
         if data['status'] == "SUCCEED":
+            self._logger.info('语音识别结果: %s', data['result'])
             return data['result']
         else:
             return False

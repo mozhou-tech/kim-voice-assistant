@@ -92,7 +92,7 @@ class Mic:
         chunk = 1024
         wave_format = pyaudio.paInt16
         channels = 2
-        rate = 44100
+        rate = 16000
         record_seconds = 12         # 录音持续时间
 
         stream = self._audio.open(format=wave_format,
@@ -158,7 +158,7 @@ class Mic:
         """
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
-            self._logger.info('Play cached wave file %s.', cache_file_path)
+            self._logger.info('Saying %s', phrase)
             self.play(cache_file_path)
         else:
             print("%s,%s" % profile.myname, phrase)
