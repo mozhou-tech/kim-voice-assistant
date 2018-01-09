@@ -9,7 +9,7 @@ from src.tts import TTSEngine
 import wave, pyaudio, audioop
 import time
 from utils.aliyun_fc.fc_client import FcClient
-from  config import profile
+from config import profile,path
 from src.asr import ASREngine
 
 
@@ -140,6 +140,7 @@ class Mic:
         wf.setframerate(rate)
         wf.writeframes(b''.join(frames))
         wf.close()
+        return self.listen(path.CACHE_WAVE_RECORDED)
 
     def listen(self, wave_path):
         """

@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 from utils.aliyun_fc.fc_client import FcClient
-import time,logging
+import time,logging,json
 
 class ASREngine:
     """
@@ -22,7 +22,7 @@ class ASREngine:
         """
         return ASREngine(FcClient.get_instance())
 
-    def wave_to_text(self,wave_path):
+    def wave_to_text(self, wave_path):
         """
         输入音频路径，返回转换结果
         :param wave_path:
@@ -33,8 +33,11 @@ class ASREngine:
         start_time = time.time()
         result = self._fc_client.call_function('aliyun_nls_asr', payload=wave_data)
         end_time = time.time()
-        self._logger.info('ASR completed , use time %ss.', round(end_time-start_time, 2))
-        print(result.headers)
-        print(result.data.decode('utf8'))
+        self._logger.info('语音转文字完成，耗时 %ss.', round(end_time-start_time, 3))
+        data = json.loads(result.data.decode('utf8'))
+        if data['status'] == "SUCCEED":
+            return data['result']
+        else:
+            return False
 
 

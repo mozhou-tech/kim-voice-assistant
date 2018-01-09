@@ -29,8 +29,8 @@ class TestMicVoiceEngine(unittest.TestCase):
         测试监听和语音识别
         :return:
         """
-        self.mic.listen('/Volumes/MacintoshHD/WorkHub/PycharmProjects/dingdang-robot/data/cache/wave/tts_1e40530cfbaab369b7315621429f8f6b.wav')
-
+        r = self.mic.listen('/Volumes/MacintoshHD/WorkHub/PycharmProjects/dingdang-robot/data/cache/wave/tts_1e40530cfbaab369b7315621429f8f6b.wav')
+        print(r)
 
 if __name__ == '__main__':
     logger.init(info=True)
