@@ -8,7 +8,7 @@ PRIORITY = 0
 logger = logging.getLogger()
 from utils.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city
+from config.profile import city,myname
 from config.path import APP_PATH
 
 
@@ -46,7 +46,7 @@ def handle(text, mic):
     return_text = ''
     result_raw = json.loads(fc_client.call_function('aliyun_apimarket', payload=data).data.decode('utf8'))
     if result_raw['msg'] == 'success':
-        return_text += '为您播报'+result_raw['data']['city']['name']+'天气，'
+        return_text += myname+'为您播报，'+result_raw['data']['city']['name']+'天气预报，'
         today = result_raw['data']['forecast'][0]
         tomorrow = result_raw['data']['forecast'][1]
         return_text += '今天'+today['conditionDay']+'，白天气温，'+today['tempDay'].replace('-', '零下')+\
