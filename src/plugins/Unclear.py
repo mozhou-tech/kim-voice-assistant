@@ -12,7 +12,7 @@ def need_robot(profile):
     return False
 
 
-def handle(text, mic, profile):
+def handle(text, mic):
     """
     Reports that the user has unclear or unusable input.
 
@@ -35,4 +35,4 @@ def handle(text, mic, profile):
     mic.say(message)
 
 def isValid(text):
-    return True
+    return False

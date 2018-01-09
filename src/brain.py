@@ -1,7 +1,7 @@
 import logging
 import pkgutil
 from config.path import PLUGINS_PATH
-
+import jieba
 
 class Brain:
     """
@@ -50,8 +50,7 @@ class Brain:
         for plugin in self.plugins:
             for text in texts:
                 if plugin.isValid(text):  # 判断插件是否有效
-                    self._logger.debug("'%s' is a valid phrase for module " +
-                                       "'%s'", text, plugin.__name__)
+                    self._logger.debug("'%s' is a valid phrase for module '%s'", text, plugin.__name__)
                     try:
                         plugin.handle(text, self.mic, self.profile)
                     except Exception:

@@ -23,14 +23,10 @@ def my_handler(event, context):
     accept = 'application/json'
     # accept='text/plain' # tts request
 
-    contentType = 'audio/pcm; samplerate=16000'
-    # contentType='audio/opu'
+    contentType = 'audio/wav; samplerate=16000'
     gmtTime = strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime())
 
     body = event
-
-    # params = urllib.urlencode({"app_key":app_key, "user_id":aliyun_pk, "vocabulary_id":"en-us"})
-
     m = md5.new()
     m.update(body)
     m = m.digest()

@@ -2,6 +2,7 @@
 from utils.aliyun_fc.fc_client import FcClient
 import time,logging,json
 
+
 class ASREngine:
     """
     语音识别模块

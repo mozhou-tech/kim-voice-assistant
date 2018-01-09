@@ -2,7 +2,7 @@
 import logging
 
 WORDS = [u"窗帘"]
-PRIORITY = 0
+PRIORITY = 1
 
 
 def handle(text, mic, profile):

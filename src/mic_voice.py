@@ -91,7 +91,7 @@ class Mic:
         self._audio.get_default_input_device_info()
         chunk = 1024
         wave_format = pyaudio.paInt16
-        channels = 2
+        channels = 1
         rate = 16000
         record_seconds = 12         # 录音持续时间
 
@@ -126,7 +126,7 @@ class Mic:
                     low_volume_count = low_volume_count + 1
                 if average > 100:               # 如果有声音，就清空周期计数
                     low_volume_count = 0
-                if low_volume_count >= 38:      # 等待周期数
+                if low_volume_count >= 30:      # 等待周期数
                     break
 
         self.play(WAVE_DONG)

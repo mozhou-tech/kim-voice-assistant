@@ -12,7 +12,7 @@ from config.profile import city,myname
 from config.path import APP_PATH
 
 
-def handle(text, mic):
+def handle(text, mic, profile):
     """
         Reports the current time based on the user's timezone.
 

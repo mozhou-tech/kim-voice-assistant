@@ -20,14 +20,14 @@ class TestAliyunFc(unittest.TestCase):
         self._logger = logging.getLogger()
         self.fc_client = FcClient.get_instance()
 
-    def test_init_service(self):
+    def atest_init_service(self):
         """
         检查函数计算服务是否已存在
         :return:
         """
         self.fc_client.create_fc_service()
 
-    def test_update_and_call_function_for_api_market(self):
+    def atest_update_and_call_function_for_api_market(self):
         """
         调用函数计算服务，从API中读取数据
         :return:
@@ -61,13 +61,13 @@ class TestAliyunFc(unittest.TestCase):
         result = json.loads(result.data)
         self._logger.info(result)
 
-    def atest_update_and_call_function_for_asr(self):
+    def test_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
         """
         self.fc_client.update_functions('aliyun_nls_asr')
-        fp = CACHE_WAVE_PATH + 'tts_ae07524014a0f4616e60d42ba688f994.wav'
+        fp = CACHE_WAVE_PATH + 'record_output.wav'
         try:
             wav_file = wave.open(fp, 'rb')
         except IOError:

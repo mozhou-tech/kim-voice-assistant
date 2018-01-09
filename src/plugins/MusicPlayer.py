@@ -2,7 +2,7 @@
 import logging
 
 WORDS = [u"播放音乐", u"音乐"]
-PRIORITY = 0
+PRIORITY = 2
 
 
 def handle(text, mic, profile):
