@@ -27,7 +27,7 @@ class TestAliyunFc(unittest.TestCase):
         """
         self.fc_client.create_fc_service()
 
-    def atest_update_and_call_function_for_api_market(self):
+    def test_update_and_call_function_for_api_market(self):
         """
         调用函数计算服务，从API中读取数据
         :return:
@@ -61,7 +61,7 @@ class TestAliyunFc(unittest.TestCase):
         result = json.loads(result.data)
         self._logger.info(result)
 
-    def test_update_and_call_function_for_asr(self):
+    def atest_update_and_call_function_for_asr(self):
         """
         语音识别
         :return:
