@@ -11,11 +11,12 @@ from config import profile
 import argparse
 from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
+from src.device_init import main as device_init
 
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--textmode', action='store_true', help='使用文本交互')
-parser.add_argument('--diagnose', action='store_true', help='Run diagnose and exit')
+parser.add_argument('--init', action='store_true', help='初始化')
 # 调试模式
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
 parser.add_argument('--info', action='store_true', help='Show info messages')
@@ -45,8 +46,11 @@ class App:
 
 if __name__ == "__main__":
     loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
-    logger = logging.getLogger()
-    app = App()
-    app.run()  # start service
+    if args.init:
+        device_init()
+    else:
+        logger = logging.getLogger()
+        app = App()
+        app.run()  # start service
 
 

@@ -6,9 +6,26 @@ import logging
 from config import path
 import time
 import base64, os
-from utils.aliyun_fc.register import functions_map
 
 FUNCTION_PATH = path.APP_PATH + '/utils/aliyun_fc/functions'
+functions_map = {
+    'aliyun_apimarket': {
+        'description': '云市场API',
+        'runtime': 'python3'
+    },
+    'aliyun_nls_asr': {
+        'description': '智能语音交互，语音识别',
+        'runtime': 'python2.7'
+    },
+    'aliyun_nls_tts': {
+        'description': '智能语音交互，语音合成',
+        'runtime': 'python3'
+    },
+    'fc_test': {
+        'description': '测试',
+        'runtime': 'python3'
+    }
+}
 
 
 class FcClient:
@@ -63,7 +80,6 @@ class FcClient:
                 'ak_id': profile.ak_id,
                 'ak_secret': profile.ak_secret
             }))
-
         # 判断指定函数是否已存在，存在则更新，没有就创建
         if len(exists_functions.data['functions']) == 0:
             self._logger.info('函数计算服务%s中不存在指定函数%s即将创建', profile.aliyun_fc_service_name, function_name)
@@ -71,14 +87,14 @@ class FcClient:
                                             description=functions_map[function_name]['description'],
                                             functionName=function_name,
                                             codeDir=code_dir,
-                                            runtime=functions_map[function_name],
+                                            runtime=functions_map[function_name]['runtime'],
                                             handler='main.my_handler')
         else:
             self._fc_client.update_function(serviceName=profile.aliyun_fc_service_name,
                                             functionName=function_name,
                                             codeDir=code_dir,
                                             description=functions_map[function_name]['description'])
-        self._logger.info('function "%s" in "%s" updated.', function_name,profile.aliyun_fc_service_name)
+        self._logger.info('function "%s" in "%s" updated.', function_name, profile.aliyun_fc_service_name)
 
     def create_fc_service(self):
         """
@@ -95,6 +111,16 @@ class FcClient:
             result = self._fc_client.create_service(serviceName=profile.aliyun_fc_service_name,
                                                     description=profile.myname + "专用函数计算服务")
             self._logger.info('函数计算创建成功，%s', result.data)
+
+    def init_fc_services(self):
+        """
+        初始化函数计算服务
+        :return:
+        """
+        self.create_fc_service()
+        for key in functions_map.keys():
+            self._logger.info('函数计算'+key+'上传中')
+            self.update_functions(key)
 
 
 
