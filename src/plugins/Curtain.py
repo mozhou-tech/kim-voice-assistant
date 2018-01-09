@@ -1,5 +1,6 @@
 # -*- coding: utf-8-*-
 import logging
+import jieba
 
 WORDS = [u"窗帘"]
 PRIORITY = 1

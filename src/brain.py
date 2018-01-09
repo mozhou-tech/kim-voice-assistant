@@ -48,7 +48,7 @@ class Brain:
         :param thirdparty_call 插件内容
         """
         for plugin in self.plugins:
-            for text in texts:
+            for text in list(jieba.cut(texts)):
                 if plugin.isValid(text):  # 判断插件是否有效
                     self._logger.debug("'%s' is a valid phrase for module '%s'", text, plugin.__name__)
                     try:

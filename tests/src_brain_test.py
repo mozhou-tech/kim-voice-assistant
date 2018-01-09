@@ -22,7 +22,8 @@ class TestMicVoiceEngine(unittest.TestCase):
         :return:
         """
         plugins = Brain.get_plugins()
-        print(jieba.cut('获取插件', cut_all=True))
+        seg_list = jieba.cut("帮我把窗帘打开", cut_all=False)
+        print(list(seg_list))
 
 
 if __name__ == '__main__':
