@@ -3,25 +3,26 @@ import os
 import hashlib
 from config.path import CACHE_WAVE_PATH
 import logging
+from utils.aliyun_fc.fc_client import FcClient
+import time
 
 
 class TTSEngine:
     """
     语音合成
     """
-    def __init__(self, iot_client):
+    def __init__(self, fc_client):
         self._logger = logging.getLogger()
-        self._iot_client = iot_client
-        self._iot_client.do_subscribe(topic_name='fc_tts')  # 订阅
+        self._fc_client = fc_client
 
 
     @classmethod
-    def get_instance(cls, iot_client=None):
+    def get_instance(cls):
         """
         返回一个TTS示例
         :return:
         """
-        return TTSEngine(iot_client)
+        return TTSEngine(FcClient.get_instance())
 
     def get_speech_cache(self, phrase=None, phrase_md5=None, fetch_wave_on_no_cache=False):
         """
@@ -53,9 +54,17 @@ class TTSEngine:
         :param phrase:
         :return: 返回wave存储路径
         """
-        if self._iot_client is None:  # 使用aliyun IoTub
-            return
-        self._iot_client.do_publish(topic_name='fc_tts', payload=phrase)
+        start_time = time.time()
+        self._logger.info('Fetch speech wave from aliyun fc.')
+        payload = {'text': phrase}
+        b, wave_pathname = self.get_speech_cache(phrase=phrase)
+        result = self._fc_client.call_function('aliyun_nls_tts', payload=payload)
+        if result.headers['Content-Type'] == 'application/octet-stream':
+            with open(wave_pathname, 'wb') as f:
+                f.write(result.data)
+        end_time = time.time()
+        self._logger.info('get wave use time %ss', start_time-end_time)
+        return wave_pathname
 
 
 

@@ -35,9 +35,12 @@ class TestAliyunIot(unittest.TestCase):
         :return:
         """
         self._logger.info('testing publish message.')
-        self._mqtt_client.do_publish(topic_name='fc_asr', payload=b'hello world')
-        self._mqtt_client.do_subscribe(topic_name='fc_asr')
-        time.sleep(1)
+        publish_json = {
+            'text': '随便转换一下'
+        }
+        self._mqtt_client.do_publish(topic_name='fc_tts', payload=json.dumps(publish_json))
+        self._mqtt_client.do_subscribe(topic_name='fc_tts')
+        time.sleep(10)
         self._mqtt_client.do_disconnect()
 
     def atest_shadow_update(self):

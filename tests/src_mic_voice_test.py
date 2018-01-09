@@ -6,23 +6,24 @@ from src.tts import TTSEngine
 from utils import logger
 from threading import Thread
 from time import sleep
+from src.mic_voice import Mic
 
 
-class TestTTSEngine(unittest.TestCase):
+class TestMicVoiceEngine(unittest.TestCase):
     """
 
     """
 
     def setUp(self):
-        self.tts_engine = TTSEngine.get_instance()
+        self.mic = Mic()
 
-    def test_fetch_speech_wave(self):
+    def test_say(self):
         """
         测试获取语音
         :return:
         """
-        result = self.tts_engine.fetch_speech_wave('你好世界')
-        print(result)
+        self.mic.say('你好柯良妹')
+
 
 
 if __name__ == '__main__':

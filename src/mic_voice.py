@@ -8,6 +8,7 @@ from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS, CACHE_WAVE_RECORDE
 from src.tts import TTSEngine
 import wave, pyaudio, audioop
 import time
+from utils.aliyun_fc.fc_client import FcClient
 
 
 class Mic:
@@ -15,10 +16,10 @@ class Mic:
     处理语音输出和输入
     """
 
-    def __init__(self, iot_client=None):
+    def __init__(self):
         self._logger = logging.getLogger()
         self._passive_interrupted = False
-        self._tts_engine = TTSEngine(iot_client)
+        self._tts_engine = TTSEngine.get_instance()
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
 
@@ -142,7 +143,7 @@ class Mic:
         :param phrase:
         :return:
         """
-        is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase)
+        is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
             self._logger.info('Play cached wave file %s.', is_tts_cached)
             self.play(cache_file_path)

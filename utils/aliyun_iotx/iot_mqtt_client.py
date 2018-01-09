@@ -45,7 +45,7 @@ class IotClient:
         else:
             self._logger.info('mqtt client is disconnected from server.')
 
-    def on_message(self,client, userdata, msg):
+    def on_message(self, client, userdata, msg):
         self._logger.info("topic " + msg.topic + " message" + str(msg.payload))
 
     def on_log(self, client, userdata, level, buf):
