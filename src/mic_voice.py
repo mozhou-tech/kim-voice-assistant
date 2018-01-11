@@ -126,7 +126,7 @@ class Mic:
                     low_volume_count = low_volume_count + 1
                 if average > 100:               # 如果有声音，就清空周期计数
                     low_volume_count = 0
-                if low_volume_count >= 30:      # 等待周期数
+                if low_volume_count >= 20:      # 等待周期数
                     break
 
         self.play(WAVE_DONG)
