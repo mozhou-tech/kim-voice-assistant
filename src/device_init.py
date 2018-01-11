@@ -3,7 +3,7 @@ from utils.aliyun_fc.fc_client import FcClient
 import logging
 import os
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 
 def is_command_exists(command):

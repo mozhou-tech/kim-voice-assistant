@@ -10,7 +10,7 @@ class Detector():
     唤醒词监听
     """
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self._logger.info("Initializing HotWord Detector.")
 
         self.interrupted = False

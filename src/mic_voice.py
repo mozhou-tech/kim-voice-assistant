@@ -19,7 +19,7 @@ class Mic:
     """
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self._passive_interrupted = False
         self._tts_engine = TTSEngine.get_instance()
         self._asr_engine = ASREngine.get_instance()

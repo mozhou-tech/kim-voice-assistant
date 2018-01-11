@@ -3,7 +3,7 @@ import logging
 import requests
 import json
 
-WORDS = [u"天气"]
+WORDS = ["天气", "天气预报"]
 PRIORITY = 0
 logger = logging.getLogger()
 from utils.aliyun_fc.fc_client import FcClient
@@ -52,10 +52,10 @@ def handle(text, mic, profile):
     result_raw = json.loads(fc_client.call_function('aliyun_apimarket', payload=data).data.decode('utf8'))
     if result_raw['msg'] == 'success':
         return_text += myname+'为您播报，'+result_raw['data']['city']['name']+'天气预报，'
-        if is_all_word_segment_in_text(['明天'], text):
+        if is_all_word_segment_in_text(['明天', '明日'], text):
             forecast = result_raw['data']['forecast'][1]
             day = '明天'
-        elif is_all_word_segment_in_text(['后天'], text):
+        elif is_all_word_segment_in_text(['后天', '明日'], text):
             forecast = result_raw['data']['forecast'][2]
             day = '后天'
         else:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 import logging
 import jieba
-
+logger = logging.getLogger()
 WORDS = [u"窗帘"]
 PRIORITY = 1
 from src.plugins import is_all_word_segment_in_text
@@ -22,7 +22,7 @@ def handle(text, mic, profile):
     elif any(word in text for word in ["关闭", "关上"]):
         text = u"窗帘已关闭"
     else:
-        text = u"窗帘还不支持该指令"
+        text = u"窗小帘还不支持该指令"
     mic.say(text)
 
 

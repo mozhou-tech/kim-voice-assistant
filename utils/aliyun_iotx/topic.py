@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 from config import device
 import logging
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger()
 
 # 更新设备影子状态
 shadow_update = '/shadow/update/'+device.product_key+'/'+device.device_name

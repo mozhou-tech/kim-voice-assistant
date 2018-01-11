@@ -19,7 +19,7 @@ class AbstractRobot(object):
         return instance
 
     def __init__(self, **kwargs):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
 
     @abstractmethod
     def chat(self, texts):

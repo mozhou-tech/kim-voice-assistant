@@ -11,7 +11,7 @@ from datetime import timedelta
 class IotClient:
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         """
         准备客户端要求的参数
         """

@@ -54,7 +54,7 @@ if __name__ == "__main__":
     if args.init:
         device_init()
     else:
-        logger = logging.getLogger(__name__)
+        logger = logging.getLogger()
         app = App()
         app.run()  # start service
 

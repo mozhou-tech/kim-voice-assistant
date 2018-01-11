@@ -22,7 +22,7 @@ class Notifier:
             self.timestamp = self.gather(self.timestamp)
 
     def __init__(self, profile):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self.q = queue.Queue()
         self.profile = profile
         self.notifiers = []

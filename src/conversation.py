@@ -8,7 +8,7 @@ class Conversation:
     交谈
     """
     def __init__(self, mic, persona, profile):
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self.text_mode = False
         self.mic = mic
         self.profile = profile

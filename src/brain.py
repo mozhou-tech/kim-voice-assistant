@@ -11,7 +11,7 @@ class Brain:
         self.mic = mic
         self.profile = profile
         self.plugins = self.get_plugins()
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self.handling = False
 
     @classmethod
@@ -22,7 +22,7 @@ class Brain:
         locations = [
             PLUGINS_PATH
         ]
-        logger = logging.getLogger(__name__)
+        logger = logging.getLogger()
         plugins = []
         # plugins that are not allow to be call via Wechat or Email
         logger.debug("Looking for plugins in: %s", ', '.join(["'%s'" % location for location in locations]))
@@ -47,22 +47,23 @@ class Brain:
         :param texts 用户输入内容
         :param thirdparty_call 插件内容
         """
+        fenci = tuple(jieba.cut(texts))  # 对中文分词处理
+        self._logger.info('分词结果 %s', fenci)
         for plugin in self.plugins:
-            fenci = list(jieba.cut(texts))  # 对中文分词处理
-            for text in fenci:
-                if plugin.is_valid(text):  # 判断插件是否有效
-                    self._logger.debug("'%s' is a valid phrase for module '%s'", text, plugin.__name__)
-                    try:
-                        plugin.handle(fenci, self.mic, self.profile)
-                    except Exception:
-                        self._logger.error('Failed to execute plugin', exc_info=True)
-                        reply = u"抱歉，我的大脑出故障了，晚点再试试吧"
-                        self.mic.say(reply)
-                    else:
-                        self._logger.debug("Handling of phrase '%s' by " +
-                                           "plugin '%s' completed", text, plugin.__name__)
-                    finally:
-                        return
+            # for text in fenci:
+            if plugin.is_valid(fenci):  # 判断插件是否有效
+                self._logger.debug("'%s' is a valid phrase for module '%s'", texts, plugin.__name__)
+                try:
+                    plugin.handle(fenci, self.mic, self.profile)
+                except Exception:
+                    self._logger.error('Failed to execute plugin', exc_info=True)
+                    reply = u"抱歉，我的大脑出故障了，晚点再试试吧"
+                    self.mic.say(reply)
+                else:
+                    self._logger.debug("Handling of phrase '%s' by " +
+                                       "plugin '%s' completed", texts, plugin.__name__)
+                finally:
+                    return
         self._logger.debug("No plugin was able to handle any of these phrases: %r", texts)
 
 

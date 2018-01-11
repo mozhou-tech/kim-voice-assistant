@@ -19,7 +19,7 @@ class http_proxy:
     def __init__(self, ak_id, ak_secret):
         self.__ak_id = ak_id
         self.__ak_secret = ak_secret
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
 
     def __current_gmt_time(self):
         date = datetime.datetime.strftime(datetime.datetime.utcnow(), "%a, %d %b %Y %H:%M:%S GMT")

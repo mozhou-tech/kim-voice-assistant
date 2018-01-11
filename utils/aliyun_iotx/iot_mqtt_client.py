@@ -13,7 +13,7 @@ class IotClient:
         """
         初始化mqtt客户端
         """
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
         self.mqtt_path = device.product_key + ".iot-as-mqtt.cn-shanghai.aliyuncs.com"  # MQTT地址
         self._topic = topic
 

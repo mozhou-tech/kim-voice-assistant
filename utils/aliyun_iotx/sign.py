@@ -21,7 +21,7 @@ class Sign:
         self.device_name = device_name
         self.device_secret = device_secret
         self.product_key = product_key
-        self._logger = logging.getLogger(__name__)
+        self._logger = logging.getLogger()
 
     def hmacsha1(self, content):
         """

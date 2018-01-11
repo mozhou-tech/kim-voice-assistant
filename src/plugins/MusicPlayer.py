@@ -15,7 +15,7 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger()
     text = u"正在播放音乐"
     mic.say(text)
 
@@ -27,4 +27,4 @@ def is_valid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text.lower() for word in WORDS)
+    return any(word in text for word in WORDS)
