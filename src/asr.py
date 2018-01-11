@@ -13,7 +13,7 @@ class ASREngine:
         :param over_iothub: 是否通过iot套件
         """
         self._fc_client = fc_client
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
 
     @classmethod
     def get_instance(cls):

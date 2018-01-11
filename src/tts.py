@@ -12,7 +12,7 @@ class TTSEngine:
     语音合成
     """
     def __init__(self, fc_client):
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
         self._fc_client = fc_client
 
 

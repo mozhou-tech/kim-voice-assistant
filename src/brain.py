@@ -11,7 +11,7 @@ class Brain:
         self.mic = mic
         self.profile = profile
         self.plugins = self.get_plugins()
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
         self.handling = False
 
     @classmethod
@@ -22,7 +22,7 @@ class Brain:
         locations = [
             PLUGINS_PATH
         ]
-        logger = logging.getLogger()
+        logger = logging.getLogger(__name__)
         plugins = []
         # plugins that are not allow to be call via Wechat or Email
         logger.debug("Looking for plugins in: %s", ', '.join(["'%s'" % location for location in locations]))

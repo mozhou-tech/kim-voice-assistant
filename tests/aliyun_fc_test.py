@@ -17,7 +17,7 @@ class TestAliyunFc(unittest.TestCase):
     函数计算单元测试
     """
     def setUp(self):
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
         self.fc_client = FcClient.get_instance()
 
     def atest_init_service(self):

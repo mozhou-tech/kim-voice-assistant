@@ -37,7 +37,7 @@ class FcClient:
             endpoint=profile.aliyun_fc_endpoint,
             accessKeyID=profile.ak_id,
             accessKeySecret=profile.ak_secret)
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
 
     @classmethod
     def get_instance(cls):

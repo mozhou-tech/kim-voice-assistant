@@ -18,7 +18,7 @@ class TestAliyunIot(unittest.TestCase):
 
     """
     def setUp(self):
-        self._logger = logging.getLogger()
+        self._logger = logging.getLogger(__name__)
         self._mqtt_client = IotClient.get_instance()
         """
         mqtt连接

@@ -15,7 +15,7 @@ def handle(text, mic, profile):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    logger = logging.getLogger()
+    logger = logging.getLogger(__name__)
     text = text.lower().replace('echo', '').replace(u'传话', '')
     mic.say(text)
 

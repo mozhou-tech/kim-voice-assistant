@@ -5,10 +5,10 @@ import json
 
 WORDS = [u"天气"]
 PRIORITY = 0
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 from utils.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city,myname
+from config.profile import city, myname
 from config.path import APP_PATH
 
 

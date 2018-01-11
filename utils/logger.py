@@ -12,7 +12,7 @@ def init(info=False,debug=False):
     :return:
     """
     # 创建一个logger
-    logger = logging.getLogger()
+    logger = logging.getLogger(__name__)
     logger.propagate = False
 
     # 创建一个handler，用于写入日志文件

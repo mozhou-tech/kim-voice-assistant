@@ -12,6 +12,7 @@ import argparse
 from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
 from src.device_init import main as device_init
+import jieba
 
 
 parser = argparse.ArgumentParser(description='')
@@ -46,10 +47,12 @@ class App:
 
 if __name__ == "__main__":
     loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
+    jieba.initialize()          # 初始化中文分词库
+
     if args.init:
         device_init()
     else:
-        logger = logging.getLogger()
+        logger = logging.getLogger(__name__)
         app = App()
         app.run()  # start service
 
