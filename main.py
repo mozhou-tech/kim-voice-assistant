@@ -48,7 +48,7 @@ class App:
 
 if __name__ == "__main__":
     loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
-    jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.dict')          # 设置中文分词库
+    jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.small.dict')          # 设置中文分词库
     jieba.initialize()
 
     if args.init:
