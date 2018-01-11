@@ -8,18 +8,10 @@ from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
-    """
-        Reports the current time based on the user's timezone.
 
-        Arguments:
-        text -- user-input, typically transcribed speech
-        mic -- used to interact with the user (for both input and output)
-        profile -- contains information related to the user (e.g., phone
-                   number)
-    """
-    if any(word in text for word in ["打开", "开启"]):
+    if is_all_word_segment_in_text(["打开", "开启"], text):
         text = u"窗帘已打开"
-    elif any(word in text for word in ["关闭", "关上"]):
+    elif is_all_word_segment_in_text(["关闭", "关上"], text):
         text = u"窗帘已关闭"
     else:
         text = u"窗小帘还不支持该指令"
