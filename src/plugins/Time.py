@@ -1,7 +1,10 @@
 # -*- coding: utf-8-*-
 import datetime as dt
 import pytz
-WORDS = [u"时间", u"几点"]
+from src.plugins import is_all_word_segment_in_text
+WORDS = ["时间", "几点", '周几', '星期几', '几号', '日期']
+
+week_map = ['日', '一', '二', '三', '四', '五', '六']
 
 
 def handle(text, mic, profile):
@@ -17,7 +20,10 @@ def handle(text, mic, profile):
     """
     tz = pytz.timezone(profile.timezone)
     now = dt.datetime.now(tz=tz)
-    mic.say(u"现在时间，%s " % now.strftime("%m月%d号%p%I时%M分").replace('AM', '上午').replace('PM', '下午'))
+    if is_all_word_segment_in_text(['时间', '几点'], text):
+        mic.say(u"现在时间，%s " % now.strftime("%p%I时%M分").replace('AM', '上午').replace('PM', '下午'))
+    else:
+        mic.say(u"今天是，" + now.strftime("%Y年%m月%d日") + '，星期'+week_map[int(now.strftime('%w'))])
 
 
 def is_valid(text):
@@ -27,4 +33,4 @@ def is_valid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text for word in WORDS)
+    return is_all_word_segment_in_text(WORDS, text)
