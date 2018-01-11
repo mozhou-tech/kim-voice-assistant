@@ -5,10 +5,10 @@ import json
 
 WORDS = [u"天气"]
 PRIORITY = 0
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 from utils.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city, myname
+from config.profile import city,myname
 from config.path import APP_PATH
 
 
@@ -30,8 +30,8 @@ def handle(text, mic, profile):
     try:
         city_id = elements[0].get('id')
     except:
-        mic.say('没有找到你设定的城市，请检查profile配置文件')
-        return
+        mic.say('没有找到你设定的城市，请修改profile配置文件')
+
 
     data = {
         'host': 'http://freecityid.market.alicloudapi.com',

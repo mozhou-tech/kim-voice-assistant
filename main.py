@@ -8,6 +8,7 @@ from utils.logger import init as loggingConfiger
 import logging
 from src.conversation import Conversation
 from config import profile
+from config.path import APP_RESOURCES_DATA_PATH
 import argparse
 from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
@@ -47,7 +48,7 @@ class App:
 
 if __name__ == "__main__":
     loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
-    jieba.initialize()          # 初始化中文分词库
+    jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.dict')          # 设置中文分词库
 
     if args.init:
         device_init()
