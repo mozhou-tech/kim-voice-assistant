@@ -8,8 +8,9 @@ PRIORITY = 0
 logger = logging.getLogger()
 from utils.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city,myname
+from config.profile import city, myname
 from config.path import APP_PATH
+from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
@@ -31,6 +32,9 @@ def handle(text, mic, profile):
         city_id = elements[0].get('id')
     except:
         mic.say('没有找到你设定的城市，请修改profile配置文件')
+    finally:
+        if city_id is None:
+            mic.say('没有找到你设定的城市，请修改profile配置文件')
 
 
     data = {
@@ -48,23 +52,29 @@ def handle(text, mic, profile):
     result_raw = json.loads(fc_client.call_function('aliyun_apimarket', payload=data).data.decode('utf8'))
     if result_raw['msg'] == 'success':
         return_text += myname+'为您播报，'+result_raw['data']['city']['name']+'天气预报，'
-        today = result_raw['data']['forecast'][0]
-        tomorrow = result_raw['data']['forecast'][1]
-        return_text += '今天'+today['conditionDay']+'，白天气温，'+today['tempDay'].replace('-', '零下')+\
-                       '摄氏度，夜间气温，'+today['tempNight'].replace('-', '零下')+\
-                       '摄氏度，'+today['windDirNight']+today['windLevelDay'].replace('-', '到')+'级'
-        return_text += '，，明天'+tomorrow['conditionDay']+'，白天气温'+tomorrow['tempDay'].replace('-', '零下')+\
-                       '摄氏度，夜间气温，'+tomorrow['tempNight'].replace('-', '零下')+'摄氏度，'+\
-                       tomorrow['windDirNight']+tomorrow['windLevelDay'].replace('-', '到')+'级'
-    mic.say(return_text)
+        if is_all_word_segment_in_text(['明天'], text):
+            forecast = result_raw['data']['forecast'][1]
+            day = '明天'
+        elif is_all_word_segment_in_text(['后天'], text):
+            forecast = result_raw['data']['forecast'][2]
+            day = '后天'
+        else:
+            forecast = result_raw['data']['forecast'][0]
+            day = '今天'
+        forecast_output = day + forecast['conditionDay']+'，白天气温，'+forecast['tempDay'].replace('-', '零下')+\
+                       '摄氏度，夜间气温，'+forecast['tempNight'].replace('-', '零下')+\
+                       '摄氏度，'+forecast['windDirNight']+forecast['windLevelDay'].replace('-', '到')+'级'
+        mic.say(forecast_output)
+    else:
+        mic.say('天气获取失败')
 
 
-def isValid(text):
+def is_valid(text):
     """
         Returns True if input is related to the time.
 
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text.lower() for word in WORDS)
+    return is_all_word_segment_in_text(WORDS, text)
 

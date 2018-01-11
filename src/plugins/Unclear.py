@@ -34,5 +34,5 @@ def handle(text, mic, profile):
     message = random.choice(messages)
     mic.say(message)
 
-def isValid(text):
+def is_valid(text):
     return True

@@ -4,6 +4,7 @@ import jieba
 
 WORDS = [u"窗帘"]
 PRIORITY = 1
+from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
@@ -25,11 +26,5 @@ def handle(text, mic, profile):
     mic.say(text)
 
 
-def isValid(text):
-    """
-        Returns True if input is related to the time.
-
-        Arguments:
-        text -- user-input, typically transcribed speech
-    """
-    return any(word in text for word in WORDS)
+def is_valid(text):
+    return is_all_word_segment_in_text(WORDS, text)

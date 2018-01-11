@@ -20,7 +20,7 @@ def handle(text, mic, profile):
     mic.say(text)
 
 
-def isValid(text):
+def is_valid(text):
     """
         Returns True if input is related to the time.
 

@@ -21,15 +21,14 @@ class TestSrcPlugins(unittest.TestCase):
         """
         获取天气数据
         """
-        result = Weather.handle(text='建邺区', mic=mic_text.Mic(), profile='小云')
-        print(result)
+        text = '后天天气预报'
+        if Weather.isValid(text):
+            Weather.handle(text=text, mic=mic_text.Mic(), profile='小云')
 
     def test_wakeup_bell(self):
-        text = '叫我起床'
-        text = list(jieba.cut(text))
+        text = '起床叫我吧'
         if WakeUpBell.isValid(text):
-            result = WakeUpBell.handle(text=text, mic=mic_text.Mic(), profile='小云')
-            print(result)
+            WakeUpBell.handle(text=text, mic=mic_text.Mic(), profile='小云')
 
 
 if __name__ == '__main__':

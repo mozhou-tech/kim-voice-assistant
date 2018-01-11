@@ -50,7 +50,7 @@ class Brain:
         for plugin in self.plugins:
             fenci = list(jieba.cut(texts))  # 对中文分词处理
             for text in fenci:
-                if plugin.isValid(text):  # 判断插件是否有效
+                if plugin.is_valid(text):  # 判断插件是否有效
                     self._logger.debug("'%s' is a valid phrase for module '%s'", text, plugin.__name__)
                     try:
                         plugin.handle(fenci, self.mic, self.profile)

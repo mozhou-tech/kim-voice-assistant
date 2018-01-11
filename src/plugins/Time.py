@@ -20,7 +20,7 @@ def handle(text, mic, profile):
     mic.say(u"现在时间，%s " % now.strftime("%m月%d号%p%I时%M分").replace('AM', '上午').replace('PM', '下午'))
 
 
-def isValid(text):
+def is_valid(text):
     """
         Returns True if input is related to the time.
 
