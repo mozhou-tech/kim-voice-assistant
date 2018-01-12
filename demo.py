@@ -1,58 +1,35 @@
-import httplib, urllib, md5
-from hashlib import sha1
-import hmac
-from time import gmtime, strftime
-from config import profile
+from utils.snowboy import snowboydecoder
+import sys
+import signal
+
+interrupted = False
 
 
-ac_id     = profile.ak_id
-ac_secret = profile.ak_secret
-app_key = 'chat'
-method='POST'
-accept='application/json'
-# accept='text/plain' # tts request
-
-contentType='audio/pcm; samplerate=16000'
-# contentType='audio/opu'
-gmtTime = strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime())
-
-audio_path='/Volumes/MacintoshHD/WorkHub/PycharmProjects/dingdang-robot/data/cache/wave/tts_ae07524014a0f4616e60d42ba688f994.wav'
-with open(audio_path, mode='rb') as f:
-    body = f.read()
-
-#params = urllib.urlencode({"app_key":app_key, "user_id":aliyun_pk, "vocabulary_id":"en-us"})
-
-m = md5.new()
-m.update(body)
-m = m.digest()
-bodyhash = m.encode('base64').strip()
-print('body hash: ' + bodyhash)
-
-m = md5.new()
-m.update(bodyhash)
-m = m.digest()
-finalhash = m.encode('base64').strip()
-print('final hash: ' + finalhash)
-
-stringToSign = method + '\n' + accept + '\n' + finalhash + '\n' + contentType + '\n' + gmtTime
-signature = hmac.new(ac_secret, stringToSign, sha1).digest().encode('base64').strip()
-print('signature: ' + signature)
-authHeader = 'Dataplus ' + ac_id + ':' + signature
-print('authHeader: ' + authHeader)
-
-headers = {"Content-type": contentType, "Accept": accept, "Authorization":authHeader, "Date":gmtTime}
+def signal_handler(signal, frame):
+    global interrupted
+    interrupted = True
 
 
-conn = httplib.HTTPConnection("nlsapi.aliyun.com", 443)
-conn.request("POST", "/recognize?model=" + app_key, body, headers=headers)
+def interrupt_callback():
+    global interrupted
+    return interrupted
 
-response = conn.getresponse()
-print("response status and reason")
-print(response.status, response.reason)
-print("status done")
+if len(sys.argv) == 1:
+    print("Error: need to specify model name")
+    print("Usage: python demo.py your.model")
+    sys.exit(-1)
 
-body = response.read()
-print("asr body")
-print(body)
-print("body done")
-conn.close()
+model = sys.argv[1]
+
+# capture SIGINT signal, e.g., Ctrl+C
+signal.signal(signal.SIGINT, signal_handler)
+
+detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
+print('Listening... Press Ctrl+C to exit')
+
+# main loop
+detector.start(detected_callback=snowboydecoder.play_audio_file,
+               interrupt_check=interrupt_callback,
+               sleep_time=0.03)
+
+detector.terminate()

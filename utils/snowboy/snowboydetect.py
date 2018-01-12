@@ -5,10 +5,20 @@
 # the SWIG interface file instead.
 
 from sys import version_info as _swig_python_version_info
+import platform
+platform_str = platform.platform()
+
 if _swig_python_version_info >= (2, 7, 0):
     def swig_import_helper():
         import importlib
         pkg = __name__.rpartition('.')[0]
+        """
+        修改原始模块，使snowboy能兼容不同系统
+        """
+        if 'Darwin' in platform_str:
+            pkg = pkg + '.so_macosx_x86'
+        elif 'armv71' in platform_str:
+            pkg = pkg + '.so_rpi_arm_raspbian.'
         mname = '.'.join((pkg, '_snowboydetect')).lstrip('.')
         try:
             return importlib.import_module(mname)
