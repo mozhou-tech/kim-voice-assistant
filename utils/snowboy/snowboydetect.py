@@ -21,10 +21,8 @@ if _swig_python_version_info >= (2, 7, 0):
         else:
             pkg_dir = ''
         mname = '.'.join((pkg + pkg_dir, '_snowboydetect')).lstrip('.')
-        print(mname)
-        return importlib.import_module(mname)
         try:
-            pass
+            return importlib.import_module(mname)
         except ImportError:
             return importlib.import_module(pkg_dir.lstrip('.') + '._snowboydetect')
     _snowboydetect = swig_import_helper()
