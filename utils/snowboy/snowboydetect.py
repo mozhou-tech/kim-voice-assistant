@@ -7,7 +7,6 @@
 from sys import version_info as _swig_python_version_info
 import platform
 platform_str = platform.platform()
-
 if _swig_python_version_info >= (2, 7, 0):
     def swig_import_helper():
         import importlib
@@ -23,8 +22,9 @@ if _swig_python_version_info >= (2, 7, 0):
             pkg_dir = ''
         mname = '.'.join((pkg + pkg_dir, '_snowboydetect')).lstrip('.')
         print(mname)
+        return importlib.import_module(mname)
         try:
-            return importlib.import_module(mname)
+            pass
         except ImportError:
             return importlib.import_module(pkg_dir.lstrip('.') + '._snowboydetect')
     _snowboydetect = swig_import_helper()

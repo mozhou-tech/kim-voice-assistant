@@ -20,7 +20,10 @@ pip3 install python-pyaudio python3-pyaudio sox
 sudo apt-get install libatlas-base-dev
 git clone https://github.com/swig/swig.git
 pip install pyaudio
+sudo apt-get install alsa-tools alsa-utils
+sudo apt-get install libblas3 libblas-dev libatlas-dev libatlas-base-dev
 ```
+如果出现错误，请参考：https://github.com/Kitt-AI/snowboy/issues/94
 ##安装rpi.gpio
 ```
 sudo apt-get install python3-rpi.gpio
