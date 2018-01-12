@@ -17,7 +17,7 @@ if _swig_python_version_info >= (2, 7, 0):
         """
         if 'Darwin' in platform_str:
             pkg = pkg + '.so_macosx_x86'
-        elif 'armv71' in platform_str:
+        elif 'armv7l' in platform_str:
             pkg = pkg + '.so_rpi_arm_raspbian'
         mname = '.'.join((pkg, '_snowboydetect')).lstrip('.')
         try:
