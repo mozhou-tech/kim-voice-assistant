@@ -1,6 +1,6 @@
 from src.brain import Brain
 import logging, time
-from src.notifier import Notifier
+# from src.notifier import Notifier
 
 
 class Conversation:

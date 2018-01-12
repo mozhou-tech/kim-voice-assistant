@@ -1,3 +1,4 @@
+aliyun-fc2==2.0.2
 appnope==0.1.0
 APScheduler==3.4.0
 argh==0.26.2
@@ -13,6 +14,7 @@ cssutils==1.0.2
 decorator==4.1.2
 EditorConfig==0.12.1
 flake8==3.5.0
+gpio==0.2.0
 gpiozero==1.4.0
 h2==2.6.2
 hpack==3.0.0
@@ -22,6 +24,7 @@ idna==2.6
 ipython==6.2.1
 ipython-genutils==0.2.0
 jedi==0.11.0
+jieba==0.39
 jsbeautifier==1.6.14
 kaitaistruct==0.6
 mccabe==0.6.1
