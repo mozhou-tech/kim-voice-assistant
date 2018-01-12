@@ -20,6 +20,7 @@ if _swig_python_version_info >= (2, 7, 0):
         elif 'armv7l' in platform_str:
             pkg = pkg + '.so_rpi_arm_raspbian'
         mname = '.'.join((pkg, '_snowboydetect')).lstrip('.')
+        print(mname)
         try:
             return importlib.import_module(mname)
         except ImportError:
