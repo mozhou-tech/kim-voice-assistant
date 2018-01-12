@@ -8,6 +8,13 @@ from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
+    """
+    窗帘控制    打开窗帘、关闭窗帘
+    :param text:
+    :param mic:
+    :param profile:
+    :return:
+    """
 
     if is_all_word_segment_in_text(["打开", "开启"], text):
         text = u"窗帘已打开"
