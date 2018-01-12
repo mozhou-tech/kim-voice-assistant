@@ -16,15 +16,17 @@ if _swig_python_version_info >= (2, 7, 0):
         修改原始模块，使snowboy能兼容不同系统
         """
         if 'Darwin' in platform_str:
-            pkg = pkg + '.so_macosx_x86'
+            pkg_dir = '.so_macosx_x86'
         elif 'armv7l' in platform_str:
-            pkg = pkg + '.so_rpi_arm_raspbian'
-        mname = '.'.join((pkg, '_snowboydetect')).lstrip('.')
+            pkg_dir = '.so_rpi_arm_raspbian'
+        else:
+            pkg_dir = ''
+        mname = '.'.join((pkg + pkg_dir, '_snowboydetect')).lstrip('.')
         print(mname)
         try:
             return importlib.import_module(mname)
         except ImportError:
-            return importlib.import_module('_snowboydetect')
+            return importlib.import_module(pkg_dir.lstrip('.') + '._snowboydetect')
     _snowboydetect = swig_import_helper()
     del swig_import_helper
 elif _swig_python_version_info >= (2, 6, 0):
