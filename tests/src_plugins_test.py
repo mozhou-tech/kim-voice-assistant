@@ -2,7 +2,7 @@
 import unittest
 import os,jieba
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from src.plugins import Weather,WakeUpBell
+from src.plugins import Weather,WakeUpBell,Joke
 from utils import logger
 from src import mic_text
 from config.path import APP_RESOURCES_DATA_PATH
@@ -22,13 +22,18 @@ class TestSrcPlugins(unittest.TestCase):
         获取天气数据
         """
         text = '后天天气预报'
-        if Weather.isValid(text):
+        if Weather.is_valid(text):
             Weather.handle(text=text, mic=mic_text.Mic(), profile='小云')
 
-    def test_wakeup_bell(self):
+    def atest_wakeup_bell(self):
         text = '起床叫我吧'
-        if WakeUpBell.isValid(text):
+        if WakeUpBell.is_valid(text):
             WakeUpBell.handle(text=text, mic=mic_text.Mic(), profile='小云')
+
+    def test_wakeup_bell(self):
+        text = '讲个笑话'
+        if Joke.is_valid(text):
+            Joke.handle(text=text, mic=mic_text.Mic(), profile='小云')
 
 
 if __name__ == '__main__':
