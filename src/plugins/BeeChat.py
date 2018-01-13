@@ -7,12 +7,16 @@ PRIORITY = -99999
 
 
 def handle(text, mic, profile):
-
-    messages = [u"抱歉，您能再说一遍吗？",
-                u"听不清楚呢，可以再为我说一次吗？",
-                u"再说一遍好吗？"]
-    message = random.choice(messages)
-    mic.say(message)
+    """
+    内部实现完整的对话逻辑，对原来的逻辑无侵入
+    :param text:
+    :param mic:
+    :param profile:
+    :return:
+    """
+    # 进入循环
+    # 退出循环
+    mic.say('')
 
 
 def is_valid(text):
