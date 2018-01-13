@@ -50,7 +50,7 @@ class Brain:
         :param thirdparty_call 插件内容
         """
         fenci = tuple(jieba.cut(texts))  # 对中文分词处理
-        self._logger.info('分词结果 %s', fenci)
+        self._logger.info('word segmentation result： %s', fenci)
         for plugin in self.plugins:
             # for text in fenci:
             if plugin.is_valid(fenci):  # 判断插件是否有效

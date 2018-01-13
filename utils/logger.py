@@ -16,7 +16,7 @@ def init(info=False,debug=False):
     logger.propagate = False
 
     # 创建一个handler，用于写入日志文件
-    fh = logging.FileHandler(os.path.join(LOG_PATH, "xiaoyun.log"))
+    fh = logging.FileHandler(os.path.join(LOG_PATH, "xiaoyun.log"), encoding='utf-8')
 
     # 再创建一个handler，用于输出到控制台
     ch = logging.StreamHandler()

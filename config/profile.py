@@ -18,5 +18,5 @@ ak_secret = "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi"
 https://fc.console.aliyun.com/overview/cn-shanghai
 """
 # aliyun_fc_endpoint = 'https://1435638266713387.cn-shanghai-internal.fc.aliyuncs.com'
-aliyun_fc_endpoint = 'https://1435638266713387.cn-shanghai.fc.aliyuncs.com'
+aliyun_fc_endpoint = 'http://1435638266713387.cn-shanghai.fc.aliyuncs.com'
 aliyun_fc_service_name = 'xiaoyun_fc_service'
