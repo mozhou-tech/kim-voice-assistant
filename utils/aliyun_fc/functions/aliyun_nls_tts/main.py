@@ -89,7 +89,7 @@ def my_handler(event, context):
     return client.send_request('https://nlsapi.aliyun.com/speak?' +
                                        'encode_type='+params['encode_type'] +
                                        '&voice_name=' + params['voice_name'] +
-                                       '&speech_rate=120'
+                                       '&speech_rate=100'
                                        '&volume=60'
                                        '&sample_rate=16000'
                                        ,
