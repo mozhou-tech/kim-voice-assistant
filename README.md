@@ -22,6 +22,9 @@ git clone https://github.com/swig/swig.git
 pip install pyaudio
 sudo apt-get install alsa-tools alsa-utils
 sudo apt-get install libblas3 libblas-dev libatlas-dev libatlas-base-dev
+sudo apt-get install python-cffi
+sudo apt-get install libffi-dev
+sudo apt-get install build-essential libssl-dev libffi-dev python3-dev
 ```
 如果出现错误，请参考：https://github.com/Kitt-AI/snowboy/issues/94
 ##安装rpi.gpio
