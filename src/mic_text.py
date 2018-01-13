@@ -22,7 +22,7 @@ class Mic:
         主动监听
         :return:
         """
-        input_content = input(u"我: ")
+        input_content = input("我: ")
         return input_content
 
     def say(self, phrase):
@@ -31,6 +31,6 @@ class Mic:
         :param phrase:
         :return:
         """
-        print(u"小云: %s" % phrase)
+        print("小云: " + phrase)
 
 
