@@ -14,7 +14,7 @@ from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
 from src.device_init import main as device_init
 import jieba
-import io,sys
+import io, sys
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
