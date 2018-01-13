@@ -90,7 +90,7 @@ def my_handler(event, context):
                                        'encode_type='+params['encode_type'] +
                                        '&voice_name=' + params['voice_name'] +
                                        '&speech_rate=100'
-                                       '&volume=60'
+                                       '&volume=56'
                                        '&sample_rate=16000'
                                        ,
                                        params['text'].strip())

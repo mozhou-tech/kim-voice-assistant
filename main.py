@@ -48,13 +48,14 @@ class App:
 
 if __name__ == "__main__":
     loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
-    jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.small.dict')          # 设置中文分词库
-    jieba.initialize()
+    logger = logging.getLogger()
 
     if args.init:
+        print('initializing...')
         device_init()
     else:
-        logger = logging.getLogger()
+        jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.small.dict')  # 设置中文分词库
+        jieba.initialize()
         app = App()
         app.run()  # start service
 

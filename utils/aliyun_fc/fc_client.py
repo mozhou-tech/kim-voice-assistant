@@ -121,6 +121,7 @@ class FcClient:
         for key in functions_map.keys():
             self._logger.info('函数计算'+key+'上传中')
             self.update_functions(key)
+        print('函数计算初始化完成。')
 
 
 

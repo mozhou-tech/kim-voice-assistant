@@ -1,6 +1,7 @@
 # -*- coding: utf-8-*-
 from utils.aliyun_fc.fc_client import FcClient
 import logging
+import subprocess
 import os
 
 logger = logging.getLogger()
@@ -12,9 +13,11 @@ def is_command_exists(command):
     :param command:
     :return:
     """
-    s = str(os.system(command))
+
+    s = str(subprocess.check_output([command, '--help']))
     if s.endswith('command not found'):
         return False
+    return True
 
 
 def main():
@@ -28,6 +31,6 @@ def main():
 
     # 函数计算
     logger.info('===============初始化函数计算==============')
-    # FcClient.get_instance().init_fc_services()  # 初始化函数计算
+    FcClient.get_instance().init_fc_services()  # 初始化函数计算
 
 

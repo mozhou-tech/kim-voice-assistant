@@ -14,6 +14,7 @@ from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
+    mic.say('好的，请稍等')
     fc_client = FcClient.get_instance()
 
     data = {
@@ -35,17 +36,11 @@ def handle(text, mic, profile):
     result_raw = json.loads(fc_client.call_function('aliyun_apimarket', payload=data).data.decode('utf8'))
     if result_raw['showapi_res_code'] == 0:
         joke_content = result_raw['showapi_res_body']['contentlist'][joke_id_in_page]
-        mic.say(joke_content['text'])
+        mic.say(joke_content['text'].replace('br', ' ').replace('<', '').replace('>', ''))
     else:
         mic.say('我好像出了什么问题，需要治疗一下')
 
 
 def is_valid(text):
-    """
-        Returns True if input is related to the time.
-
-        Arguments:
-        text -- user-input, typically transcribed speech
-    """
     return is_all_word_segment_in_text(WORDS, text)
 
