@@ -1,3 +1,5 @@
+# -*- coding: utf-8-*-
+
 import logging
 import pkgutil
 from config.path import PLUGINS_PATH

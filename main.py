@@ -1,6 +1,4 @@
-#!/usr/bin/env
 # -*- coding: utf-8-*-
-
 
 from src.detector import Detector
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8-*-
+
 from src.brain import Brain
 import logging, time
 # from src.notifier import Notifier
