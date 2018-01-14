@@ -45,6 +45,17 @@ sudo systemctl enable pigpiod
 到 [Snowboy](https://snowboy.kitt.ai/dashboard) 创建你自己的热词模型，下载文件放到
 config/hotword_models目录中。
 alsamixer  选择声卡
+### GPIO针脚对照表
+| 模块 | 针脚 | 功能 |
+|----|----|----|
+| LED | GPIO9 | LED-RED | 
+| LED | GPIO10 | LED-GREEN | 
+| LED | GPIO11 | LED-BLUE |
+| 步进电机 | GPIO17 | IN1 |
+| 步进电机 | GPIO18 | IN2 |
+| 步进电机 | GPIO27 | IN3 |
+| 步进电机 | GPIO22 | IN4 |
+| 光敏传感器 | GPIO4 | DO |
 
 
 ## 云计算端部署
