@@ -8,7 +8,7 @@ PRIORITY = 0
 logger = logging.getLogger()
 from utils.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city, myname
+from config.profile import city, myname, ali_appcode
 from config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
@@ -36,12 +36,11 @@ def handle(text, mic, profile):
         if city_id is None:
             mic.say('没有找到你设定的城市，请修改profile配置文件')
 
-
     data = {
         'host': 'http://freecityid.market.alicloudapi.com',
         'path': '/whapi/json/alicityweather/briefforecast3days',
         'method': 'POST',
-        'appcode': 'cd08e261838a42328340f49cd28c02b4',
+        'appcode': ali_appcode,
         'payload': {
             'cityId': city_id
         },
