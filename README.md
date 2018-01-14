@@ -56,6 +56,7 @@ alsamixer  选择声卡
 | 步进电机 | GPIO27 | IN3 |
 | 步进电机 | GPIO22 | IN4 |
 | 光敏传感器 | GPIO4 | DO |
+| 红外传感器 | GPIO3 | DO |
 
 
 ## 云计算端部署
