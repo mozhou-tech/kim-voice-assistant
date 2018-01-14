@@ -25,6 +25,9 @@ sudo apt-get install libblas3 libblas-dev libatlas-dev libatlas-base-dev
 sudo apt-get install python-cffi
 sudo apt-get install libffi-dev
 sudo apt-get install build-essential libssl-dev libffi-dev python3-dev
+sudo apt-get install sox
+sudo pip3 install RPi.GPIO
+sudo pip3 install RPIO
 ```
 如果出现错误，请参考：https://github.com/Kitt-AI/snowboy/issues/94
 ##安装rpi.gpio
@@ -41,6 +44,7 @@ sudo systemctl enable pigpiod
 ## 配置
 到 [Snowboy](https://snowboy.kitt.ai/dashboard) 创建你自己的热词模型，下载文件放到
 config/hotword_models目录中。
+alsamixer  选择声卡
 
 
 ## 云计算端部署

@@ -25,6 +25,8 @@ class Mic:
         self._asr_engine = ASREngine.get_instance()
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
+        # exit(self._audio.get_device_info_by_index(2))
+        # exit(self._audio.get_default_input_device_info())
 
     def __del__(self):
         if isinstance(self._audio, object):
@@ -88,7 +90,6 @@ class Mic:
         """
         threshold = None
         print('Listen Instructions...')
-        self._audio.get_default_input_device_info()
         chunk = 1024
         wave_format = pyaudio.paInt16
         channels = 1
@@ -97,10 +98,10 @@ class Mic:
 
         stream = self._audio.open(format=wave_format,
                                   channels=channels,
+                                  input_device_index=2,
                                   rate=rate,
                                   input=True,
                                   frames_per_buffer=chunk)
-
         self._logger.info("active listen recording")
 
         frames = []
