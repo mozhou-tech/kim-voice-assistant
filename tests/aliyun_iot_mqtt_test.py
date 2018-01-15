@@ -29,6 +29,7 @@ class TestAliyunIot(unittest.TestCase):
         t = Thread(target=self._mqtt_client.do_connect, daemon=True)  # 启动一个线程，监听
         t.start()
         time.sleep(1)           # 等待mqtt连接服务器成功
+        self._mqtt_client.do_subscribe(is_shadow=True)
 
     def atest_publish_message(self):
         """
@@ -51,11 +52,15 @@ class TestAliyunIot(unittest.TestCase):
         """
         self._mqtt_client.do_report_devstat(version_increase=True)
         print('x')
+        time.sleep(10)
         # while True:
         #     pass
 
+    def atest_get_devstat(self):
+        self._mqtt_client.do_get_devstat()
+        time.sleep(100)
+
     def tearDown(self):
-        pause()
         self._mqtt_client.do_disconnect()
 
 
