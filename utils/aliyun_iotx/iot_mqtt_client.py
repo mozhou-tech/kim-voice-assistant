@@ -104,9 +104,9 @@ class IotClient:
         获取最新的设备影子的版本号
         :return:
         """
-        with open(APP_RESOURCES_DATA_PATH + 'devstat_report_for_iot.json', mode='r') as f:
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/report_for_iot.json', mode='r') as f:
             report_devstat = json.loads(f.read())
-        with open(APP_RESOURCES_DATA_PATH + 'devstat_desire_for_iot.json', mode='r') as f:
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='r') as f:
             desire_devstat = json.loads(f.read())
         if desire_devstat['version'] > report_devstat['version']:
             return desire_devstat['version']
@@ -118,23 +118,33 @@ class IotClient:
         :return:
         """
         self._logger.info('上报设备状态')
-        with open(APP_RESOURCES_DATA_PATH + 'devstat_report_for_iot.json', mode='r') as f:
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/report_for_iot.json', mode='r') as f:
             devstat_str = f.read()
         if version_increase:        # 修改devstat文件
             devstat_json = json.loads(devstat_str)
             devstat_json['version'] = self._get_last_shadow_version() + 1
             devstat_str = json.dumps(devstat_json)
-            with open(APP_RESOURCES_DATA_PATH + 'devstat_report_for_iot.json', mode='w') as f:
+            with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/report_for_iot.json', mode='w') as f:
                 f.write(devstat_str)
         # self.do_subscribe(is_shadow=True)  # 订阅
         self.do_publish(payload=devstat_str, is_shadow=True)
 
-    def do_desire_devstat(self):
+    def do_desire_devstat(self, version_increase=False):
         """
         发送期望的设备状态
         :return:
         """
-        pass
+        self._logger.info('发送期望的设备状态')
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='r') as f:
+            devstat_str = f.read()
+        if version_increase:  # 修改devstat文件
+            devstat_json = json.loads(devstat_str)
+            devstat_json['version'] = self._get_last_shadow_version() + 1
+            devstat_str = json.dumps(devstat_json)
+            with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='w') as f:
+                f.write(devstat_str)
+            # self.do_subscribe(is_shadow=True)  # 订阅
+        self.do_publish(payload=devstat_str, is_shadow=True)
 
     def do_get_devstat(self):
         """
@@ -143,7 +153,6 @@ class IotClient:
         """
         up_data = '{"method": "get"}'
         self.do_publish(payload=up_data, is_shadow=True)
-
 
     def do_disconnect(self):
         """
