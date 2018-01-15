@@ -5,6 +5,8 @@ from paho.mqtt.client import error_string
 from utils.aliyun_iotx.sign import Sign
 from utils.aliyun_iotx import topic
 from config import device
+from config.path import APP_RESOURCES_DATA_PATH
+import json
 
 
 class IotClient:
@@ -71,34 +73,49 @@ class IotClient:
         self._mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
         self._mqttc.loop_forever()
 
-    def do_subscribe(self, topic_name):
-        self._mqttc.subscribe(self._topic.get_topic_name(topic_name))  # 订阅消息推送
-        # self._mqttc.subscribe(self._topic.shadow_get)   # 订阅影子更新
+    def do_subscribe(self, topic_name='', is_shadow=False):
+        """
+        订阅Topic
+        :param topic_name:
+        :param is_shadow:
+        :return:
+        """
+        self._mqttc.subscribe(self._topic.get_topic_name(topic_name, type='subscribe', is_shadow=is_shadow))  # 订阅消息推送
 
-    def do_publish(self, topic_name, payload, qos=0, retain=False):
+    def do_publish(self, topic_name='', payload='', qos=0, retain=False, is_shadow=False):
         """
         向服务器发送消息
         :param topic_name: Topic名称
         :param payload:
         :param qos:
         :param retain:
+        :param is_shadow  是否是影子设备
         :return:
         """
-        topic = self._topic.get_topic_name(topic_name)
+        topic = self._topic.get_topic_name(topic_name, type='publish', is_shadow=is_shadow)
+
         result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
         if result.is_published() is not True:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
             self._logger.info('Error string:%s', error_string(result.rc))
 
-    def do_shadow_update(self, payload):
+    def do_report_devstat(self, version_increase=False):
         """
-        更新影子设备
+        上报设备状态
         :return:
         """
-        result = self._mqttc.publish(topic=self._topic.shadow_update, payload=payload, qos=1, retain=False)
-        if result.is_published() is not True:
-            self._logger.info('Content %s send to topic "%s" publish failed.', payload, self._topic.shadow_update)
-            self._logger.info('Error Message:%s', error_string(result.rc))
+        self._logger.info('上报设备状态')
+        with open(APP_RESOURCES_DATA_PATH + 'devstat_for_iot.json', mode='r') as f:
+            devstat_str = f.read()
+        if version_increase:        # 修改devstat文件
+            devstat_json = json.loads(devstat_str)
+            devstat_json['version'] = devstat_json['version'] + 1
+            devstat_str = json.dumps(devstat_json)
+            with open(APP_RESOURCES_DATA_PATH + 'devstat_for_iot.json', mode='w') as f:
+                f.write(devstat_str)
+
+        self.do_subscribe(is_shadow=True)  # 订阅
+        self.do_publish(payload=devstat_str, is_shadow=True)
 
     def do_disconnect(self):
         """
