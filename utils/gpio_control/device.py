@@ -36,5 +36,3 @@ class Device:
         :return:
         """
 
-    def get_instance(self):
-        pass

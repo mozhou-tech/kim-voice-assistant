@@ -14,6 +14,14 @@ from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile, iot_client=None):
+    """
+    处理
+    :param text:
+    :param mic:
+    :param profile:
+    :param iot_client:
+    :return:
+    """
     mic.say('好的，请稍等')
     fc_client = FcClient.get_instance()
 
