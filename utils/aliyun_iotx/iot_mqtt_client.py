@@ -48,7 +48,7 @@ class IotClient:
             self._logger.info('mqtt client is disconnected from server.')
 
     def on_message(self, client, userdata, msg):
-        self._logger.info("接受MQTT消息： " + msg.topic + " message" + str(msg.payload))
+        self._logger.info("收到MQTT消息： " + msg.topic + " message" + str(msg.payload))
 
     def on_log(self, client, userdata, level, buf):
         # self._logger.info('mqtt paho log %s', buf)
