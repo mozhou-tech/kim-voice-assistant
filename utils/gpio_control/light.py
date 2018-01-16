@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 from gpiozero import RGBLED
 from time import sleep
 

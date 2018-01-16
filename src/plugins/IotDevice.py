@@ -9,15 +9,23 @@ PRIORITY = 0
 logger = logging.getLogger()
 from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from config.path import APP_PATH
+from utils import gpio_control
 from src.plugins import is_all_word_segment_in_text
 
 
 def handle(text, mic, profile):
+    """
+    物联网设备控制、MQTT
+    :param text:
+    :param mic:
+    :param profile:
+    :return:
+    """
     if is_all_word_segment_in_text(['窗帘'], text):   # 窗帘控制
         if is_all_word_segment_in_text(['打开', '拉开'], text):
-            mic.say('窗帘已打开')
+            mic.say('正在为您打开窗帘')
         elif is_all_word_segment_in_text(['关闭', '拉上'], text):
-            mic.say('窗帘已关闭')
+            mic.say('正在为你关闭窗帘')
 
     if is_all_word_segment_in_text(['灯'], text):       # 灯控制
         if is_all_word_segment_in_text(['打开'], text):

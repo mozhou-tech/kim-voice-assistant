@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 import RPi.GPIO as GPIO
 import time
 
@@ -5,6 +6,15 @@ IN1 = 11  # pin11
 IN2 = 12
 IN3 = 13
 IN4 = 15
+
+
+class Curtain:
+    """
+    窗帘
+    """
+    def __init__(self):
+        pass
+
 
 
 def setStep(w1, w2, w3, w4):

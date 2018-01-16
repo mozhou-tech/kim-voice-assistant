@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 from gpiozero import LightSensor
 
 sensor = LightSensor(4)
