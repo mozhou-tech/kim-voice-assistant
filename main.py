@@ -42,7 +42,7 @@ class App:
         初始化对话
         :return:
         """
-        conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile)
+        conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile, iot_client=self.iot_client)
         conversation.handle_forever()
 
 

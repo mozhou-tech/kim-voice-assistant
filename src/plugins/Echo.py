@@ -5,7 +5,7 @@ WORDS = [u"echo", u"传话"]
 PRIORITY = 0
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, iot_client=None):
     """
         Reports the current time based on the user's timezone.
 

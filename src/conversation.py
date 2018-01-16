@@ -9,14 +9,14 @@ class Conversation:
     """
     交谈
     """
-    def __init__(self, mic, persona, profile):
+    def __init__(self, mic, persona, profile, iot_client):
         self._logger = logging.getLogger()
         self.text_mode = False
         self.mic = mic
         self.profile = profile
         self.persona = persona
         self._logger.debug(mic)
-        self.brain = Brain(mic, profile)
+        self.brain = Brain(mic, profile, iot_client)
         # self.notifier = Notifier(profile)
 
     def is_proper_time(self):

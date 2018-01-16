@@ -6,7 +6,7 @@ WORDS = []
 PRIORITY = -99999
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, iot_client=None):
 
     messages = [u"抱歉，您能再说一遍吗？",
                 u"听不清楚呢，可以再为我说一次吗？",

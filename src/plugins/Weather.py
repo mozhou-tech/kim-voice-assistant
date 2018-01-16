@@ -13,16 +13,8 @@ from config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
 
-def handle(text, mic, profile):
-    """
-        Reports the current time based on the user's timezone.
+def handle(text, mic, profile, iot_client=None):
 
-        Arguments:
-        text -- user-input, typically transcribed speech
-        mic -- used to interact with the user (for both input and output)
-        profile -- contains information related to the user (e.g., phone
-                   number)
-    """
     fc_client = FcClient.get_instance()
 
     tree = ET.parse(APP_PATH + '/src/plugins/resources/weather-moji-citys.xml')  # 载入数据

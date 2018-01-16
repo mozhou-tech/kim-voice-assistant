@@ -7,7 +7,7 @@ WORDS = ["时间", "几点", '周几', '星期几', '几号', '日期']
 week_map = ['日', '一', '二', '三', '四', '五', '六']
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, iot_client=None):
     """
         Reports the current time based on the user's timezone.
 

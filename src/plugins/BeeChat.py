@@ -6,7 +6,7 @@ WORDS = []
 PRIORITY = -99999
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, iot_client=None):
     """
     内部实现完整的对话逻辑，对原来的逻辑无侵入
     :param text:

@@ -13,7 +13,7 @@ from config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, iot_client=None):
     mic.say('好的，请稍等')
     fc_client = FcClient.get_instance()
 

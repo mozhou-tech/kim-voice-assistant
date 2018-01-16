@@ -9,11 +9,12 @@ class Brain:
     """
     指挥第三方插件响应，还是正常对话，还是控制
     """
-    def __init__(self, mic, profile):
+    def __init__(self, mic, profile, iot_client):
         self.mic = mic
         self.profile = profile
         self.plugins = self.get_plugins()
         self._logger = logging.getLogger()
+        self._iot_client = iot_client
         self.handling = False
 
     @classmethod
@@ -56,7 +57,7 @@ class Brain:
             if plugin.is_valid(fenci):  # 判断插件是否有效
                 self._logger.debug("'%s' is a valid phrase for module '%s'", texts, plugin.__name__)
                 try:
-                    plugin.handle(fenci, self.mic, self.profile)
+                    plugin.handle(fenci, self.mic, self.profile, self._iot_client)
                 except Exception:
                     self._logger.error('Failed to execute plugin', exc_info=True)
                     reply = u"抱歉，我的大脑出故障了，晚点再试试吧"

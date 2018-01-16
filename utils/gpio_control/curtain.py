@@ -1,19 +1,35 @@
 # -*- coding: utf-8-*-
 import RPi.GPIO as GPIO
 import time
+from utils.gpio_control.device import Device
+from utils.aliyun_iotx.iot_mqtt_client import IotClient
 
 IN1 = 11  # pin11
 IN2 = 12
 IN3 = 13
 IN4 = 15
 
+DEVICE_NAME = 'curtain'
 
-class Curtain:
+
+class Curtain(Device):
     """
     窗帘
     """
-    def __init__(self):
-        pass
+    def __init__(self,iot_client):
+        Device.__init__()
+        assert iot_client is not None
+        self._iot_client = iot_client
+
+    def send_desire_stat_to_iotx(self, device, stat):
+        """
+        同步窗帘的状态到
+        :return:
+        """
+        self._iot_client
+
+    def get_instance(self):
+        return Curtain()
 
 
 

@@ -3,30 +3,38 @@ import abc
 
 
 class Device:
+    def __init__(self):
+        self.device = None
+        self.stat = None
+
     @abc.abstractmethod
-    def realize(self, payload):
+    def sync_desire_devstat(self, payload):
         """
-        实现设备状态，
+        同步设备状态，把desire变成现实
         :param payload
         :return:
         """
+
     @abc.abstractmethod
-    def fetch_origin_from_device(self):
+    def fetch_devstat(self):
         """
         获得设备状态
         :return:
         """
 
     @abc.abstractmethod
-    def send_desire_to_iot(self):
+    def send_desire_stat_to_iotx(self, device, stat):
         """
-        发送
+        发送预期状态给IoT设备
         :return:
         """
 
     @abc.abstractmethod
-    def reset_device(self):
+    def reset_device_stat(self):
         """
         重置设备
         :return:
         """
+
+    def get_instance(self):
+        pass
