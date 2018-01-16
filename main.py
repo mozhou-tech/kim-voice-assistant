@@ -12,7 +12,7 @@ from utils.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
 from src.device_init import main as device_init
 import jieba
-import io, sys
+import io, sys, time
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
@@ -36,6 +36,8 @@ class App:
         Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
         # Initialize Mic
         self.mic = Mic()
+        time.sleep(1)
+        self.iot_client.do_report_devstat(version_increase=True)
 
     def run(self):
         """

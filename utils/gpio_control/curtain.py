@@ -31,7 +31,7 @@ class Curtain(Device):
 
     def send_desire_stat_to_iotx(self, device, cmd):
         """
-        同步窗帘的状态到IoTHub
+        同步窗帘的状态到IoTub
         :return:
         """
         # cmd转为窗帘打开的比例
@@ -45,8 +45,14 @@ class Curtain(Device):
             self.open_percentage = self.get_open_percentage() + 10
         elif cmd == 'close-little-more':
             self.open_percentage = self.get_open_percentage() - 10
+
+        # 更新设备期望状态文件
         with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='r+') as f:
-            json.loads(f.read())
+            desire_devstat_json = json.loads(f.read())
+            desire_devstat_json['state']['desired'][DEVICE_NAME] = self.open_percentage
+            f.seek(0)
+            f.write(json.dumps(desire_devstat_json) + '                        ')
+
         self._iot_client.do_desire_devstat(version_increase=True)
 
     @classmethod

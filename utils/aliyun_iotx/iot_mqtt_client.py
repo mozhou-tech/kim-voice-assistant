@@ -142,6 +142,7 @@ class IotClient:
         if version_increase:  # 修改devstat文件
             devstat_json = json.loads(devstat_str)
             devstat_json['version'] = self._get_last_shadow_version() + 1
+            # 发送设备预期状态到iothub
             devstat_str = json.dumps(devstat_json)
             with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='w') as f:
                 f.write(devstat_str)
