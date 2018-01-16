@@ -23,7 +23,7 @@ class Device:
         """
 
     @abc.abstractmethod
-    def send_desire_stat_to_iotx(self, device, stat):
+    def send_desire_stat_to_iotx(self, device, cmd):
         """
         发送预期状态给IoT设备
         :return:

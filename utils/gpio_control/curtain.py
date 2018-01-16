@@ -3,7 +3,8 @@
 import time
 from utils.gpio_control.device import Device
 from utils.aliyun_iotx.iot_mqtt_client import IotClient
-import logging
+import logging,json
+from config.path import APP_RESOURCES_DATA_PATH
 
 IN1 = 11  # pin11
 IN2 = 12
@@ -21,20 +22,45 @@ class Curtain(Device):
     def __init__(self, iot_client):
         Device.__init__(self)
         assert iot_client is not None
+        assert isinstance(SUPPORTED_CMD, list)
+        assert isinstance(DEVICE_NAME, str)
+
         self._iot_client = iot_client
         self._logger = logging.getLogger()
+        self.open_percentage = self.get_open_percentage()
 
     def send_desire_stat_to_iotx(self, device, cmd):
         """
-        同步窗帘的状态到
+        同步窗帘的状态到IoTHub
         :return:
         """
-        curtain_open = 'curtain'
-        return True
+        # cmd转为窗帘打开的比例
+        if cmd == 'open':
+            self.open_percentage = 100
+        elif cmd == 'close':
+            self.open_percentage = 0
+        elif cmd == 'open-to-half' or cmd == 'close-to-half':
+            self.open_percentage = 50
+        elif cmd == 'open-little-more':
+            self.open_percentage = self.get_open_percentage() + 10
+        elif cmd == 'close-little-more':
+            self.open_percentage = self.get_open_percentage() - 10
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='r+') as f:
+            json.loads(f.read())
+        self._iot_client.do_desire_devstat(version_increase=True)
 
     @classmethod
     def get_instance(cls, iot_client):
         return Curtain(iot_client)
+
+    def get_open_percentage(self):
+        """
+        获取当前窗帘打开的比例
+        :return:
+        """
+        with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/report_for_iot.json', mode='r') as f:
+            iot_desire_json = json.loads(f.read())
+        return int(iot_desire_json['state']['reported'][DEVICE_NAME])
 
 
 #

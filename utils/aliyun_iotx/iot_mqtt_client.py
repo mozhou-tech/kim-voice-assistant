@@ -36,7 +36,7 @@ class IotClient:
         self._logger.info('mqtt client is connected to server.')
 
     def on_publish(self, client, userdata, mid):
-        self._logger.info('mqtt message published.')
+        self._logger.info('mqtt message published')
 
     def on_subscribe(self, client, userdata, mid, rc):
         self._logger.info('mqtt message subscribe.')
@@ -48,10 +48,11 @@ class IotClient:
             self._logger.info('mqtt client is disconnected from server.')
 
     def on_message(self, client, userdata, msg):
-        self._logger.info("topic " + msg.topic + " message" + str(msg.payload))
+        self._logger.info("接受MQTT消息： " + msg.topic + " message" + str(msg.payload))
 
     def on_log(self, client, userdata, level, buf):
-        self._logger.info('mqtt paho log %s', buf)
+        # self._logger.info('mqtt paho log %s', buf)
+        pass
 
     def do_connect(self):
         """
@@ -92,6 +93,7 @@ class IotClient:
         :param is_shadow  是否是影子设备
         :return:
         """
+        self._logger.info('发布MQTT消息：'+payload)
         topic = self._topic.get_topic_name(topic_name, type='publish', is_shadow=is_shadow)
 
         result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)

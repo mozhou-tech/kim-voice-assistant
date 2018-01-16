@@ -33,7 +33,7 @@ class App:
     def __init__(self):
         self.persona = 'abc'
         self.iot_client = IotClient.get_instance()
-        # Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
+        Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
         # Initialize Mic
         self.mic = Mic()
 
