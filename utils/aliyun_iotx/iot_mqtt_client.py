@@ -7,6 +7,8 @@ from utils.aliyun_iotx import topic
 from config import device
 from config.path import APP_RESOURCES_DATA_PATH
 import json
+from utils.aliyun_iotx.iot_server import IotServer
+
 
 
 class IotClient:
@@ -31,6 +33,8 @@ class IotClient:
         self._logger.info('use mqtt device id:"%s"', self.mqtt_client_id)
         # 实例化mqtt客户端
         self._mqttc = mqtt.Client(transport="tcp", client_id=self.mqtt_client_id)
+        self._iot_server = IotServer.get_instance()
+
 
     def on_connect(self, client, userdata, flags, rc):
         self._logger.info('mqtt client is connected to server.')
@@ -146,8 +150,7 @@ class IotClient:
             devstat_str = json.dumps(devstat_json)
             with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='w') as f:
                 f.write(devstat_str)
-            # self.do_subscribe(is_shadow=True)  # 订阅
-        self.do_publish(payload=devstat_str, is_shadow=True)
+        self._iot_server.send_device_desired(topic=topic.get_topic_name(is_shadow=True), payload=devstat_str)
 
     def do_get_devstat(self):
         """
