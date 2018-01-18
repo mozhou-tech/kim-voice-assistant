@@ -20,6 +20,8 @@ class IotServer:
         发送设备期望状态
         :return:
         """
+        print(topic)
+        print(device.product_key)
         self.clt = client.AcsClient(self.accessKeyId, self.accessKeySecret, 'cn-shanghai')
         self.request = PubRequest.PubRequest()
         self.request.set_accept_format('json')  # 设置返回数据格式，默认为XML
