@@ -150,8 +150,7 @@ class IotClient:
             devstat_str = json.dumps(devstat_json)
             with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/desire_for_iot.json', mode='w') as f:
                 f.write(devstat_str)
-        self._iot_server.send_device_desired(topic=topic.get_topic_name(topic_name='',is_shadow=True),
-                                             payload=devstat_str)
+        self._iot_server.send_device_desired(payload=devstat_str)
 
     def do_get_devstat(self):
         """
