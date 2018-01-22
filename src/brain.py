@@ -4,6 +4,7 @@ import logging
 import pkgutil
 from config.path import PLUGINS_PATH
 import jieba
+from utils.aliyun_chatbot.chatbot import Chatbot
 
 class Brain:
     """
@@ -16,6 +17,7 @@ class Brain:
         self._logger = logging.getLogger()
         self._iot_client = iot_client
         self.handling = False
+        self.chatbot = Chatbot.get_instance()
 
     @classmethod
     def get_plugins(cls):
@@ -57,7 +59,7 @@ class Brain:
             if plugin.is_valid(fenci):  # 判断插件是否有效
                 self._logger.debug("'%s' is a valid phrase for module '%s'", texts, plugin.__name__)
                 try:
-                    plugin.handle(fenci, self.mic, self.profile, self._iot_client)
+                    plugin.handle(fenci, self.mic, self.profile, self._iot_client, self.chatbot)
                 except Exception:
                     self._logger.error('Failed to execute plugin', exc_info=True)
                     reply = u"抱歉，我的大脑出故障了，晚点再试试吧"

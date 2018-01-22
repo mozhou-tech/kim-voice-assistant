@@ -11,7 +11,7 @@ from utils.gpio_control import curtain, light
 from src.plugins import is_all_word_segment_in_text
 
 
-def handle(text, mic, profile, iot_client=None):
+def handle(text, mic, profile, iot_client=None, chatbot=None):
     """
     物联网设备控制、MQTT
     :param text:

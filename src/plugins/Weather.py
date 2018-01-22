@@ -13,7 +13,8 @@ from config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
 
-def handle(text, mic, profile, iot_client=None):
+def handle(text, mic, profile, iot_client=None,chatbot=None):
+    mic.say('正在查询天气...')
 
     fc_client = FcClient.get_instance()
 

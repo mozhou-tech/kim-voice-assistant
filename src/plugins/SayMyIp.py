@@ -22,7 +22,7 @@ def __get_host_ip():
     return ip
 
 
-def handle(text, mic, profile, iot_client=None):
+def handle(text, mic, profile, iot_client=None,chatbot=None):
     mic.say("我的IP地址是 "+__get_host_ip())
 
 

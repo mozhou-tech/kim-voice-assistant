@@ -9,7 +9,7 @@ PRIORITY = 6
 logger = logging.getLogger()
 
 
-def handle(text, mic, profile, iot_client=None):
+def handle(text, mic, profile, iot_client=None,chatbot=None):
     message = "起床铃响了"
     mic.say(message)
 

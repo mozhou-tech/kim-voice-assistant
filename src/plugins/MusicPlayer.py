@@ -5,7 +5,7 @@ WORDS = [u"播放音乐", u"音乐"]
 PRIORITY = 2
 
 
-def handle(text, mic, profile, iot_client=None):
+def handle(text, mic, profile, iot_client=None,chatbot=None):
     """
         Reports the current time based on the user's timezone.
 
