@@ -9,3 +9,7 @@ aliyun:
   ak_secret: "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi"
   api_market:
     appcode: "cd08e261838a42328340f49cd28c02b4"
+
+
+api_service:
+  url: ""
