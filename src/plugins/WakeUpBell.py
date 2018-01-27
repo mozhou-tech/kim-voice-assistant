@@ -10,7 +10,7 @@ logger = logging.getLogger()
 
 
 def handle(text, mic, profile, iot_client=None,chatbot=None):
-    message = "起床铃响了"
+    message = "嗨，伙计，该起床了！"
     mic.say(message)
 
 
