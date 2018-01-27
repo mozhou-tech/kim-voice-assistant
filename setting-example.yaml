@@ -12,4 +12,4 @@ aliyun:
 
 
 api_service:
-  url: ""
+  endpoint: ""     # API消息反向推送地址
