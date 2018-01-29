@@ -41,6 +41,6 @@ class Mic(MicBase):
         """
         say_str = "小云: " + phrase
         print(say_str)
-        logger.send_conversation_log(iot_client=self.iot_client, mic='mic_text', content=say_str)
+        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=say_str)
 
 

@@ -34,3 +34,7 @@ def main():
     FcClient.get_instance().init_fc_services()  # 初始化函数计算
 
 
+def install_aliyun_service():
+    pass
+
+
