@@ -36,7 +36,7 @@ class App:
         self.iot_client = IotClient.get_instance()
         Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
         # Initialize Mic
-        self.mic = Mic()
+        self.mic = Mic(self.iot_client)
         self._logger = logging.getLogger()
         time.sleep(1)
         self.iot_client.do_report_devstat(version_increase=True)

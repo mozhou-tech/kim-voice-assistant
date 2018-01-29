@@ -2,13 +2,16 @@
 import logging
 import os
 from config.path import LOG_PATH
+import time
+import json
 
 
-def init(info=False,debug=False):
+def init(info=False, debug=False):
     """
     args.debug   debug模式
     args.info    info模式
-    :param args:
+    :param info:
+    :param debug
     :return:
     """
     # 创建一个logger
@@ -49,6 +52,22 @@ def init(info=False,debug=False):
 
     # 记录一条日志
     logger.info('logging module configure finished, setting level as %s.', logging.getLevelName(level))
+
+
+def send_conversation_log(iot_client, mic, content):
+    """
+    发送设备交互日志到云端
+    :param iot_client
+    :param mic:
+    :param content:
+    :return:
+    """
+    payload = {
+        'mic': mic,
+        'content': content,
+        'timestamps': time.time()
+    }
+    iot_client.do_publish(topic_name='conversation_log', payload=json.dumps(payload))
 
 
 

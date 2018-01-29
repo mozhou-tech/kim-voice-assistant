@@ -1,13 +1,17 @@
 # -*- coding: utf-8-*-
 import logging
 from config import profile
+from src.mic_base import MicBase
+
+mic_name = 'server'
 
 
-class Mic:
+class Mic(MicBase):
     """
     处理文本输出和输入
     """
     def __init__(self, iot_client):
+        MicBase.__init__(self)
         self._logger = logging.getLogger()
         self.iot_client = iot_client
         self.iot_client.do_subscribe(topic_name='mic_text_from_server')

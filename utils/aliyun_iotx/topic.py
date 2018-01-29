@@ -12,7 +12,7 @@ def get_topic_name(topic_name='root', type='publish', is_shadow=False):
     :param is_shadow
     :return:
     """
-    registered_topic = ['','mic_text_from_server']
+    registered_topic = ['', 'mic_text_from_server', 'conversation_log']
     if type not in ['subscribe', 'publish']:
         raise Exception('Unsupported topic type.')
     if topic_name not in registered_topic:

@@ -11,14 +11,19 @@ import time
 from utils.aliyun_fc.fc_client import FcClient
 from config import profile,path
 from src.asr import ASREngine
+from src.mic_base import MicBase
+
+mic_name = 'voice'
 
 
-class Mic:
+class Mic(MicBase):
     """
     处理语音输出和输入
     """
 
-    def __init__(self):
+    def __init__(self, iot_client):
+        MicBase.__init__(self)
+        self.iot_client = iot_client
         self._logger = logging.getLogger()
         self._passive_interrupted = False
         self._tts_engine = TTSEngine.get_instance()
