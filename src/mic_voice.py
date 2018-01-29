@@ -27,6 +27,7 @@ class Mic:
         self._logger.info("Initialization of PyAudio completed.")
         # exit(self._audio.get_device_info_by_index(2))
         # exit(self._audio.get_default_input_device_info())
+        self.is_server_listen_thread = False
 
     def __del__(self):
         if isinstance(self._audio, object):

@@ -13,6 +13,7 @@ from threading import Thread
 from src.device_init import main as device_init
 import jieba
 import io, sys, time
+from src.mic_server import Mic as MicServer
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
@@ -36,8 +37,15 @@ class App:
         Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
         # Initialize Mic
         self.mic = Mic()
+        self._logger = logging.getLogger()
         time.sleep(1)
         self.iot_client.do_report_devstat(version_increase=True)
+
+    def launch_server_listen_thread(self):
+        self._logger.info('start server conversation listener...')
+        conversation = Conversation(mic=MicServer(self.iot_client), persona=self.persona, profile=profile,
+                                    iot_client=self.iot_client)
+        Thread(target=conversation.handle_forever, daemon=True).start()
 
     def run(self):
         """
@@ -59,6 +67,8 @@ if __name__ == "__main__":
         jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.small.dict')  # 设置中文分词库
         jieba.initialize()
         app = App()
+        if profile.remote_control_service_enable:       # server messege listen
+            app.launch_server_listen_thread()
         app.run()  # start service
 
 

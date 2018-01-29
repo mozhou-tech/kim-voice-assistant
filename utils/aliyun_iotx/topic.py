@@ -12,7 +12,7 @@ def get_topic_name(topic_name='root', type='publish', is_shadow=False):
     :param is_shadow
     :return:
     """
-    registered_topic = ['']
+    registered_topic = ['','mic_text_from_server']
     if type not in ['subscribe', 'publish']:
         raise Exception('Unsupported topic type.')
     if topic_name not in registered_topic:
@@ -29,6 +29,6 @@ def get_topic_name(topic_name='root', type='publish', is_shadow=False):
             return '/' + device.product_key + '/' + device.device_name
         else:
             if type == 'publish':
-                return '/'+device.product_key + '/' + device.device_name + '/' + topic_name + '_update'
+                return '/'+device.product_key + '/' + device.device_name + '/update_' + topic_name
             elif type == 'subscribe':
-                return '/'+device.product_key + '/' + device.device_name + '/' + topic_name + '_get'
+                return '/'+device.product_key + '/' + device.device_name + '/get_' + topic_name

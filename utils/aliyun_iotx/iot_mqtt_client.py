@@ -13,7 +13,7 @@ from utils.aliyun_iotx.iot_server import IotServer
 
 class IotClient:
 
-    def __init__(self):
+    def __init__(self, message_callback = None):
         """
         初始化mqtt客户端
         """
@@ -32,7 +32,7 @@ class IotClient:
 
         self._logger.info('use mqtt device id:"%s"', self.mqtt_client_id)
         # 实例化mqtt客户端
-        self._mqttc = mqtt.Client(transport="tcp", client_id=self.mqtt_client_id)
+        self.mqttc = mqtt.Client(transport="tcp", client_id=self.mqtt_client_id)
         self._iot_server = IotServer.get_instance()
 
 
@@ -64,19 +64,19 @@ class IotClient:
         :return:
         """
         # 设置用户名密码
-        self._mqttc.username_pw_set(username=device.device_name+"&"+device.product_key, password=self.sign_dict['sign'])
+        self.mqttc.username_pw_set(username=device.device_name+"&"+device.product_key, password=self.sign_dict['sign'])
         # 开启日志
-        self._mqttc.enable_logger(self._logger)
+        self.mqttc.enable_logger(self._logger)
         # 连接时触发
-        self._mqttc.on_connect = self.on_connect
-        self._mqttc.on_disconnect = self.on_disconnect
-        self._mqttc.on_publish = self.on_publish
-        self._mqttc.on_subscribe = self.on_subscribe
-        self._mqttc.on_message = self.on_message
-        self._mqttc.on_log = self.on_log
+        self.mqttc.on_connect = self.on_connect
+        self.mqttc.on_disconnect = self.on_disconnect
+        self.mqttc.on_publish = self.on_publish
+        self.mqttc.on_subscribe = self.on_subscribe
+        self.mqttc.on_message = self.on_message
+        self.mqttc.on_log = self.on_log
         self._logger.info('connect mqtt host: %s', self.mqtt_path)
-        self._mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
-        self._mqttc.loop_forever()
+        self.mqttc.connect(host=self.mqtt_path, port=1883, keepalive=60, bind_address='')
+        self.mqttc.loop_forever()
 
     def do_subscribe(self, topic_name='', is_shadow=False):
         """
@@ -85,7 +85,7 @@ class IotClient:
         :param is_shadow:
         :return:
         """
-        self._mqttc.subscribe(self._topic.get_topic_name(topic_name, type='subscribe', is_shadow=is_shadow))  # 订阅消息推送
+        self.mqttc.subscribe(self._topic.get_topic_name(topic_name, type='subscribe', is_shadow=is_shadow))  # 订阅消息推送
 
     def do_publish(self, topic_name='', payload='', qos=0, retain=False, is_shadow=False):
         """
@@ -100,7 +100,7 @@ class IotClient:
         self._logger.info('发布MQTT消息：'+payload)
         topic = self._topic.get_topic_name(topic_name, type='publish', is_shadow=is_shadow)
 
-        result = self._mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
+        result = self.mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
         if result.is_published() is not True:
             self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
             self._logger.info('Error string:%s', error_string(result.rc))
@@ -165,7 +165,7 @@ class IotClient:
         关闭连接
         :return:
         """
-        self._mqttc.disconnect()
+        self.mqttc.disconnect()
 
     @classmethod
     def get_instance(cls):

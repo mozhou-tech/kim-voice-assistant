@@ -10,6 +10,8 @@ aliyun:
   api_market:
     appcode: "cd08e261838a42328340f49cd28c02b4"
 
+# 远端控制服务
+remote_control_service:
+  enable: true
+  endpoint: ""  # API消息反向推送地址
 
-api_service:
-  endpoint: ""     # API消息反向推送地址
