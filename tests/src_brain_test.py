@@ -8,7 +8,7 @@ from src.brain import Brain
 import jieba
 
 
-class TestMicVoiceEngine(unittest.TestCase):
+class TestBrain(unittest.TestCase):
     """
 
     """

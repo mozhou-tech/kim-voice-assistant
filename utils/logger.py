@@ -4,6 +4,7 @@ import os
 from config.path import LOG_PATH
 import time
 import json
+from config.device import device_name
 
 
 def init(info=False, debug=False):
@@ -63,9 +64,10 @@ def send_conversation_log(iot_client, mic, content):
     :return:
     """
     payload = {
+        'device': device_name,
         'mic': mic,
         'content': content,
-        'timestamps': time.time()
+        'timestamp': int(time.time()*1000)
     }
     iot_client.do_publish(topic_name='conversation_log', payload=json.dumps(payload))
 
