@@ -30,7 +30,7 @@ class Mic(MicBase):
         :return:
         """
         input_content = input("我: ")
-        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=input_content)
+        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content='我：'+input_content)
         return input_content
 
     def say(self, phrase):
