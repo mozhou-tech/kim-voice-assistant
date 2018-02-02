@@ -2,6 +2,7 @@
 import logging
 from config import profile
 from src.mic_base import MicBase
+from utils import logger
 
 mic_name = 'server'
 
@@ -39,6 +40,9 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        self._logger.info("小云(发送到服务端): " + phrase)
+        input_content = "小云(发送到服务端): " + phrase
+        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content='我：' + input_content,
+                                     speaker='device')
+        self._logger.info(input_content)
 
 

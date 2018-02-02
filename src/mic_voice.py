@@ -149,7 +149,7 @@ class Mic(MicBase):
         wf.writeframes(b''.join(frames))
         wf.close()
         asr_result = self.listen(path.CACHE_WAVE_RECORDED)
-        logger.send_conversation_log(self.iot_client, mic_name, '(ASR)'+asr_result)
+        logger.send_conversation_log(self.iot_client, mic_name, '(ASR)'+asr_result, speaker='user')
         return asr_result
 
     def listen(self, wave_path):
@@ -166,7 +166,7 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase)
+        logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase, speaker='device')
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
             self._logger.info('Saying %s', phrase)

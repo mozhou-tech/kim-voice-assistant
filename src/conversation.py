@@ -2,6 +2,7 @@
 
 from src.brain import Brain
 import logging, time
+from utils import logger
 # from src.notifier import Notifier
 
 
@@ -43,6 +44,9 @@ class Conversation:
         if self._is_server_listen_thread:     # 监听MQTT消息
             def on_message(client, userdata, msg):
                 self._logger.info("从服务器监听到MQTT消息： " + msg.topic + " message" + str(msg.payload))
+                logger.send_conversation_log(iot_client=self.mic.iot_client, mic='server',
+                                             content='我：'+str(msg.payload),
+                                             speaker='user')
                 if 'mic_text_from_server' in msg.topic:
                     self.send_to_brain(msg.payload.decode('utf8'))  # 订阅到的消息发送到大脑处理
             self._logger.info('进入server listen handle循环')

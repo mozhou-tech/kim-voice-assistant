@@ -18,7 +18,6 @@ class TestPluginWeather(unittest.TestCase):
         print(self._instance)
 
 
-
 if __name__ == '__main__':
     logger.init(info=True)
     unittest.main()

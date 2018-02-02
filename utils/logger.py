@@ -55,21 +55,27 @@ def init(info=False, debug=False):
     logger.info('logging module configure finished, setting level as %s.', logging.getLevelName(level))
 
 
-def send_conversation_log(iot_client, mic, content):
+logger = logging.getLogger()
+
+
+def send_conversation_log(iot_client, mic, content, speaker):
     """
     发送设备交互日志到云端
     :param iot_client
     :param mic:
     :param content:
+    :param speaker
     :return:
     """
-    payload = {
+    assert speaker in ['device', 'user']
+    payload = json.dumps({
+        'speaker': speaker,
         'device': device_name,
         'mic': mic,
         'content': content,
         'timestamp': int(time.time()*1000)
-    }
-    iot_client.do_publish(topic_name='conversation_log', payload=json.dumps(payload))
+    })
+    iot_client.do_publish(topic_name='conversation_log', payload=payload)
 
 
 
