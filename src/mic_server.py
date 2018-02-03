@@ -3,6 +3,7 @@ import logging
 from config import profile
 from src.mic_base import MicBase
 from utils import logger
+import requests,json
 
 mic_name = 'server'
 
@@ -40,9 +41,11 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        input_content = "小云(发送到服务端): " + phrase
-        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content='我：' + input_content,
+        input_content = "小云: " + phrase
+        logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=input_content,
                                      speaker='device')
         self._logger.info(input_content)
+        url = profile.remote_control_service_endpoint
+        requests.post(url=url, json={"data": {"message": input_content}})
 
 
