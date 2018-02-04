@@ -46,7 +46,8 @@ def handle(text, mic, profile, iot_client=None, chatbot=None):
         joke_content = result_raw['showapi_res_body']['contentlist'][joke_id_in_page]
         mic.say(joke_content['text'].replace('br', ' ').replace('<', '').replace('>', ''))
     else:
-        mic.say('我好像出了什么问题，需要治疗一下')
+        logger.info(result_raw)
+        mic.say('我好像出了什么问题，需要治疗一下。调试信息：'+json.dumps(result_raw))
 
 
 def is_valid(text):
