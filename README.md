@@ -1,6 +1,8 @@
 # 介绍 
 
-Kim Voice Assistant是基于阿里云服务的开源智能音箱，灵感来自外国友人的开源项目jasper-client。Kim在安装、本土化、控制方式等方面做了不少改进。
+Kim Voice Assistant是基于阿里云服务的开源智能音箱，灵感来自外国友人的开源项目(jasper-client)[http://jasperproject.github.io/]，Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易上手，可玩性也有不少提升。
+
+项目中的不足，欢迎批评指点。
 
 ## 特性
 
@@ -22,8 +24,6 @@ Kim Voice Assistant是基于阿里云服务的开源智能音箱，灵感来自�
 
 通过Dockerfile构建镜像
 
-# 感谢 
-1. [Jasper](http://jasperproject.github.io/)
 
 
 
