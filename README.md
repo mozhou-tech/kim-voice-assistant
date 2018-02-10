@@ -1,6 +1,6 @@
 # 介绍 
 
-Kim Voice Assistant是一款开源智能音箱，灵感来自外国友人的开源项目 [jasper-client](http://jasperproject.github.io/)。Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易上手，可玩性也有不少提升。
+Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感来自外国友人的开源项目 [jasper-client](http://jasperproject.github.io/)。Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易上手，可玩性也有不少提升。
 
 ## 特性
 
