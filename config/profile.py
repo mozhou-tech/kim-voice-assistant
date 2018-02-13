@@ -19,12 +19,12 @@ ali_appcode = yaml_settings['aliyun']['api_market']['appcode']
 阿里云函数计算服务
 https://fc.console.aliyun.com/overview/cn-shanghai
 """
-aliyun_fc_endpoint = 'http://1435638266713387.cn-shanghai.fc.aliyuncs.com'
-aliyun_fc_service_name = 'xiaoyun_fc_service'
+aliyun_fc_endpoint = yaml_settings['aliyun']['fc']['endpoint']
+aliyun_fc_service_name = yaml_settings['aliyun']['fc']['service_name']
 
 """
 远端控制服务
 """
 remote_control_service_enable = yaml_settings['remote_control_service']['enable']
-remote_control_service_endpoint = yaml_settings['remote_control_service']['endpoint']
+remote_control_service_endpoint = yaml_settings['remote_control_service']['endpoint'] + '/api/device/chat/listen'
 
