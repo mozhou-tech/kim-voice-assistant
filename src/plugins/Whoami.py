@@ -4,7 +4,7 @@ import requests
 import json
 import random,math
 
-WORDS = ["你是谁", "你是做啥的"]  #  kim的自我介绍
+WORDS = ["你是谁", "你是做啥的", "自我介绍"]  #  kim的自我介绍
 PRIORITY = 0
 logger = logging.getLogger()
 from src.plugins import is_all_word_segment_in_text
