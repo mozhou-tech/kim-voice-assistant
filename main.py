@@ -1,7 +1,5 @@
 # -*- coding: utf-8-*-
 
-from src.detector import Detector
-
 from utils.logger import init as loggingConfiger
 import logging
 from src.conversation import Conversation

@@ -41,7 +41,7 @@ class Conversation:
         持续处理
         :return:
         """
-        if self._is_server_listen_thread:     # 监听MQTT消息
+        if self._is_server_listen_thread:     # 监听服务器端从MQTT发送来的消息
             def on_message(client, userdata, msg):
                 self._logger.info("从服务器监听到MQTT消息： " + msg.topic + " message" + str(msg.payload))
                 logger.send_conversation_log(iot_client=self.mic.iot_client, mic='server',
