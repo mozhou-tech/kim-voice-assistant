@@ -2,11 +2,9 @@
 
 Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感来自外国友人的开源项目 [jasper-client](http://jasperproject.github.io/)。Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易安装，可玩性也有不少提升。
 
-[![Build Status](https://travis-ci.org/Chyroc/kim-voice-assistant-iot-client.svg?branch=master)](https://github.com/Chyroc/WechatSogou)
-[![PyPI version](https://badge.fury.io/py/kim-voice-assistant-iot-client.svg)](https://github.com/Chyroc/WechatSogou)
-[![PyPI](https://img.shields.io/pypi/wheel/kim-voice-assistant-iot-client.svg)](https://github.com/Chyroc/WechatSogou)
-[![py27,py35,py36](https://img.shields.io/pypi/pyversions/kim-voice-assistant-iot-client.svg)](https://github.com/Chyroc/WechatSogou)
-[![PyPI](https://img.shields.io/pypi/l/kim-voice-assistant-iot-client.svg)](https://github.com/Chyroc/WechatSogou)
+[![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/issues)
+[![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/blob/master/LICENSE)
+[![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
 
 ## 特性
 
