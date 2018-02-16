@@ -3,8 +3,9 @@
 Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感来自外国友人的开源项目 [jasper-client](http://jasperproject.github.io/)。Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易安装，可玩性也有不少提升。
 
 [![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/issues)
-[![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/blob/master/LICENSE)
 [![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
+[![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/blob/master/LICENSE)
+
 
 ## 特性
 
