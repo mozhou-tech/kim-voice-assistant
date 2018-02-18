@@ -45,7 +45,12 @@ class Mic(MicBase):
         logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=input_content,
                                      speaker='device')
         self._logger.info(input_content)
-        url = profile.remote_control_service_endpoint
-        requests.post(url=url, json={"data": {"message": input_content}})
+
+        try:
+            self._logger.info('send mic server message.')
+            requests.post(url=profile.remote_control_service_endpoint, json={"data": {"message": input_content}})
+        except:
+            self._logger.info('request remote control service endpoint %s error.',
+                              profile.remote_control_service_endpoint)
 
 
