@@ -6,7 +6,6 @@ HomeAssistant 家电控制
 import requests
 import json
 import logging
-from importlib import reload
 
 
 WORDS = ["JIATINGZHUSHOU", "ZHUSHOU"]
@@ -92,5 +91,5 @@ def hass(text, mic, profile):
         mic.say(u"对不起,指令不存在", cache=True)
 
 
-def isValid(text):
+def is_valid(text):
     return False
