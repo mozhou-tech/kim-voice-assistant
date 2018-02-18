@@ -48,7 +48,7 @@ class Mic(MicBase):
 
         try:
             self._logger.info('send mic server message.')
-            r = requests.post(url=profile.remote_control_service_endpoint, json={"data": {"message": input_content}})
+            requests.post(url=profile.remote_control_service_endpoint, json={"data": {"message": input_content}})
         except:
             self._logger.info('request remote control service endpoint %s error: %s',
                               profile.remote_control_service_endpoint, r.text)
