@@ -7,6 +7,7 @@ profile:
 remote_control_service:
   enable: true
   endpoint: "http://127.0.0.1:5000"     # API消息反向推送地址
+  passwd: "123"     # Web端密码
 
 aliyun:
 

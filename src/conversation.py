@@ -3,7 +3,6 @@
 from src.brain import Brain
 import logging, time
 from utils import logger
-# from src.notifier import Notifier
 
 
 class Conversation:
@@ -17,7 +16,6 @@ class Conversation:
         :param persona:
         :param profile:
         :param iot_client:
-        :param server_thread: 是否是设备服务线程
         """
         self._logger = logging.getLogger()
         self.text_mode = False
@@ -27,7 +25,6 @@ class Conversation:
         self._logger.debug(mic)
         self.brain = Brain(mic, profile, iot_client)
         self._is_server_listen_thread = self.mic.is_server_listen_thread
-        # self.notifier = Notifier(profile)
 
     def is_proper_time(self):
         """

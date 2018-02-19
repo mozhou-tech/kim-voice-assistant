@@ -27,4 +27,5 @@ aliyun_fc_service_name = yaml_settings['aliyun']['fc']['service_name']
 """
 remote_control_service_enable = yaml_settings['remote_control_service']['enable']
 remote_control_service_endpoint = yaml_settings['remote_control_service']['endpoint'] + '/api/device/chat/listen'
+remote_control_password = yaml_settings['remote_control_service']['passwd']
 

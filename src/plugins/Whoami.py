@@ -19,7 +19,7 @@ def handle(text, mic, profile, iot_client=None, chatbot=None):
     :param iot_client:
     :return:
     """
-    mic.say('我是Kim，您的私人智能语音助理，基于阿里云创建。')
+    mic.say('我是基于阿里云创建的私人智能语音助理，KIM。')
 
 
 def is_valid(text):
