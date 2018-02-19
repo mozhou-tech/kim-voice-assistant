@@ -12,6 +12,7 @@ from src.device_init import main as device_init
 import jieba
 import io, sys, time
 from src.mic_server import Mic as MicServer
+from src.iot_report import save_shadow_kvs_for_settings
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
@@ -36,6 +37,7 @@ class App:
         # Initialize Mic
         self.mic = Mic(self.iot_client)
         self._logger = logging.getLogger()
+        save_shadow_kvs_for_settings()
         time.sleep(1)
         self.iot_client.do_report_devstat(version_increase=True)
 
