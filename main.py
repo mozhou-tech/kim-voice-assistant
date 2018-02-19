@@ -43,7 +43,7 @@ class App:
 
     def launch_server_listen_thread(self):
         self._logger.info('start server conversation listener...')
-        conversation = Conversation(mic=MicServer(self.iot_client), persona=self.persona, profile=profile,
+        conversation = Conversation(mic=MicServer(self.iot_client, peer_mic=self.mic), persona=self.persona, profile=profile,
                                     iot_client=self.iot_client)
         Thread(target=conversation.handle_forever, daemon=True).start()
 
@@ -67,8 +67,9 @@ if __name__ == "__main__":
         jieba.set_dictionary(APP_RESOURCES_DATA_PATH + 'jieba.small.dict')  # 设置中文分词库
         jieba.initialize()
         app = App()
-        if profile.remote_control_service_enable:       # server messege listen
+        if profile.remote_control_service_enable:  # server messege listen
             app.launch_server_listen_thread()
         app.run()  # start service
+
 
 

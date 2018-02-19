@@ -13,7 +13,11 @@ class Mic(MicBase):
     """
     处理文本输出和输入
     """
-    def __init__(self, iot_client):
+    def __init__(self, iot_client, peer_mic=None):
+        """
+        :param iot_client:
+        :param peer_mic: 与mic_server同时运行的监听,text或voice由 --textmode指定
+        """
         MicBase.__init__(self)
         self._logger = logging.getLogger()
         self.iot_client = iot_client
@@ -21,6 +25,7 @@ class Mic(MicBase):
         self._logger.info('MicServer监听进程初始化完成')
         self.is_server_listen_thread = True
         self._tts_engine = TTSEngine.get_instance()
+        self._peer_mic = peer_mic
 
     def passive_listen(self):
         """
@@ -43,42 +48,14 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        input_content = "小云: " + phrase
+        input_content = profile.myname+": " + phrase
         logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=input_content,
                                      speaker='device')
         self._logger.info(input_content)
+        self._logger.info('send mic server message.')
+        if self._peer_mic is not None:
+            self._peer_mic.say(phrase)
 
-        try:
-            self._logger.info('send mic server message.')
-            requests.post(url=profile.remote_control_service_endpoint, json={"data": {"message": input_content}})
-        except:
-            self._logger.info('request remote control service endpoint %s error: %s',
-                              profile.remote_control_service_endpoint)
-        finally:
-            pass
-            # self.voice_say(phrase)
-
-    def voice_say(self, phrase):
-        """
-        TTS输出内容
-        :param phrase:
-        :return:
-        """
-        logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase, speaker='device')
-        is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
-        if is_tts_cached:
-            self._logger.info('Saying %s', phrase)
-            self.play(cache_file_path)
-        else:
-            print("%s,%s" % profile.myname, phrase)
-
-    def play(self, src):
-        """
-        播放一段音频
-        :param src:
-        :return:
-        """
-        os.system('play %s' % src)
 
 
 
