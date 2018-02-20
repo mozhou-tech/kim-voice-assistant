@@ -1,5 +1,5 @@
 profile:
-  myname: "KIM"
+  myname: "Kim"
   city: "南京市"
   timezone: "Asia/Shanghai"
 
@@ -7,7 +7,7 @@ profile:
 remote_control_service:
   enable: true
   passwd: "123"     # Web端密码
-  api_token: "123"
+  api_token: "9DSU9987jK"  # a-zA-z0-9  不要使用符号
 
 aliyun:
 
