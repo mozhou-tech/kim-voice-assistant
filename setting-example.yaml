@@ -10,7 +10,6 @@ remote_control_service:
   api_token: "9DSU9987jK"  # a-zA-z0-9  不要使用符号
 
 aliyun:
-
   ak_id: "LTAIsk0qFRkhyL2Q"   # 阿里云账号AK，（建议使用子账号，并赋予函数计算、IOT权限、表格存储权限）
   ak_secret: "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi"
 
