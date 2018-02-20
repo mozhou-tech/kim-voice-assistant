@@ -3,7 +3,7 @@ import logging
 from config import profile
 from src.mic_base import MicBase
 from utils import logger
-import requests, json, os
+import requests, json, os,threading
 from src.tts import TTSEngine
 
 mic_name = 'server'
@@ -48,13 +48,14 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        input_content = profile.myname+": " + phrase
+        input_content = phrase
         logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=input_content,
                                      speaker='device')
         self._logger.info(input_content)
         self._logger.info('send mic server message.')
         if self._peer_mic is not None:
-            self._peer_mic.say(phrase)
+            threading.Thread(target=self._peer_mic.say, args=(phrase,)).start()
+
 
 
 

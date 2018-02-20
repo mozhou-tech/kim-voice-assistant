@@ -2,7 +2,7 @@
 import json
 from config.path import APP_RESOURCES_DATA_PATH
 from config.profile import myname,timezone,city,\
-    remote_control_service_enable,remote_control_service_endpoint,remote_control_password
+    remote_control_service_enable,remote_control_password
 """
 组织用于报告给Iothub的数据
 """

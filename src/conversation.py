@@ -42,7 +42,7 @@ class Conversation:
             def on_message(client, userdata, msg):
                 self._logger.info("从服务器监听到MQTT消息： " + msg.topic + " message" + str(msg.payload))
                 logger.send_conversation_log(iot_client=self.mic.iot_client, mic='server',
-                                             content='我：' + msg.payload.decode('utf8'),
+                                             content=msg.payload.decode('utf8'),
                                              speaker='user')
                 if 'mic_text_from_server' in msg.topic:
                     self.send_to_brain(msg.payload.decode('utf8'))  # 订阅到的消息发送到大脑处理

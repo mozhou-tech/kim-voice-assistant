@@ -13,7 +13,6 @@ import jieba
 import io, sys, time
 from src.mic_server import Mic as MicServer
 from src.iot_report import save_shadow_kvs_for_settings
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 parser = argparse.ArgumentParser(description='')
@@ -45,7 +44,8 @@ class App:
         self._logger.info('start server conversation listener...')
         conversation = Conversation(mic=MicServer(self.iot_client, peer_mic=self.mic), persona=self.persona, profile=profile,
                                     iot_client=self.iot_client)
-        Thread(target=conversation.handle_forever, daemon=True).start()
+        mic_server_thread = Thread(target=conversation.handle_forever, daemon=True)
+        mic_server_thread.start()
 
     def run(self):
         """

@@ -40,7 +40,7 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        say_str = "小云: " + phrase
+        say_str = profile.myname + ": " + phrase
         print(say_str)
         logger.send_conversation_log(iot_client=self.iot_client, mic=mic_name, content=say_str, speaker='device')
 
