@@ -31,7 +31,8 @@ def save_shadow_kvs_for_settings():
         'cfg_remote_control_service_enable': remote_control_service_enable,
         'cfg_remote_control_password': remote_control_password,
         'cfg_remote_control_api_token': remote_control_api_token,
-        'cfg_local_ip': ip
+        'cfg_local_ip': ip,
+        'cfg_hotword_files': '',
     }
     # kvs必须是Dict
     assert isinstance(kvs, dict)
