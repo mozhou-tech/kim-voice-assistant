@@ -1,0 +1,36 @@
+profile:
+  myname: "小云"
+  city: "南京市"
+  timezone: "Asia/Shanghai"
+
+# 远端控制服务
+remote_control_service:
+  enable: true
+  endpoint: "http://127.0.0.1:5000"     # API消息反向推送地址
+
+aliyun:
+
+  ak_id: "LTAIsk0qFRkhyL2Q"   # 阿里云账号AK，（建议使用子账号，并赋予函数计算、IOT权限、表格存储权限）
+  ak_secret: "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi"
+
+  api_market:  # 云市场
+    appcode: "cd08e261838a42328340f49cd28c02b4"
+
+  iothub:  # 物联网IoThub
+    product_name: "kim_voice_assistant"
+    product_key: "ThDzMyXaLLD"
+    device_name: "tenstone001"
+    device_secret: "nq0v2OQLiFolBKTCVStPwUMEqNPlbzSa"
+
+  tablestore:   # 表格存储
+    endpoint: "https://kim-project.cn-hangzhou.ots.aliyuncs.com"
+    instance_name: "kim-project"
+    conversation_table_name: "conversations"
+
+  fc:   # 函数计算
+    endpoint: "https://1435638266713387.cn-hangzhou.fc.aliyuncs.com"
+    service_name: "kim_project"
+
+
+
+
