@@ -28,6 +28,12 @@ Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感�
 通过Dockerfile构建镜像
 
 
+# 参考
+
+1. [Home Assistant中文文档](https://home-assistant-china.github.io)
+1. [阿里云物联网套件文档](https://help.aliyun.com/product/30520.html?spm=5176.11065259.1996646101.3.5bb13cb4OI00HP)
+1. [阿里云函数计算文档](https://help.aliyun.com/product/50980.html?spm=5176.11065259.1996646101.3.4aa04c2aAfJh0W)
+
 
 
 
