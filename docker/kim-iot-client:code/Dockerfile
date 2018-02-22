@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM tenstone/kim-iot-client:base-env-1.0
 
 LABEL author=tenstone
 ENV PROJECT_DIR="kim-voice-assistant-iot-client" PROJECT_GIT_PATH="https://github.com/tenstone/kim-voice-assistant-iot-client.git"
