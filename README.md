@@ -24,7 +24,8 @@ Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感�
 
 # 安装
 
-## 通过Docker镜像安装（仅支持Linux平台）
+## 通过Docker镜像安装（仅支持Linux Kernel的平台）
+Respbian/Ubuntu/CentOS等有声卡支持（/dev/snd）的设备。
 Dockerfile
 
 ## 直接安装（支持Windows、macOS等平台）
