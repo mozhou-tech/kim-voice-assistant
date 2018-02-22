@@ -15,13 +15,12 @@ Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感�
 2. 可选安装Web和OpenAPI控制方案，提供丰富的设备的控制方式
 2. 支持树莓派（或其他物联网硬件）、macOS、PC，跨平台安装运行
 
-## 组成
+## 组件
 
 | 名称 | 描述 | 链接 |
 |----|----|----|
-| Kim Voice Assistant Dock | Kim服务运行Docker构建项目（设备端和服务端）  | [Dock](https://github.com/tenstone/kim-voice-assistant-dock) |
-| Kim Voice Assistant Iot Client | Kim设备端项目 | [Client](https://github.com/tenstone/kim-voice-assistant-iot-client) |
-| Kim Voice Assistant Server | Kim服务器端项目 | [Server](https://github.com/tenstone/kim-voice-assistant-server) |
+| Kim Voice Assistant Iot Client | Kim设备端 | [Client Link](https://github.com/tenstone/kim-voice-assistant-iot-client) |
+| Kim Voice Assistant Server | Kim远程会话组件 | [Server Link](https://github.com/tenstone/kim-voice-assistant-server) |
 
 # 安装
 
