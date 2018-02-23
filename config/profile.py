@@ -29,3 +29,11 @@ remote_control_service_enable = yaml_settings['remote_control_service']['enable'
 remote_control_password = yaml_settings['remote_control_service']['passwd']
 remote_control_api_token = yaml_settings['remote_control_service']['api_token']
 
+
+"""
+表格存储
+"""
+aliyun_tablestore_endpoint = yaml_settings['aliyun']['tablestore']['endpoint']
+aliyun_tablestore_instance = yaml_settings['aliyun']['tablestore']['instance']
+aliyun_tablestore_table = yaml_settings['aliyun']['tablestore']['table']
+

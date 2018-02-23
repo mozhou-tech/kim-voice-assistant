@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 import unittest
 import os
-os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+d
 from utils import logger
 import logging
 from utils.aliyun_fc.fc_client import FcClient

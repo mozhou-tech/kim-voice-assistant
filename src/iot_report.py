@@ -2,7 +2,8 @@
 import json,socket
 from config.path import APP_RESOURCES_DATA_PATH
 from config.profile import myname,timezone,city,\
-    remote_control_service_enable,remote_control_password,remote_control_api_token
+    remote_control_service_enable,remote_control_password,remote_control_api_token,\
+    aliyun_tablestore_endpoint, aliyun_tablestore_instance, aliyun_tablestore_table
 """
 组织用于报告给Iothub的数据
 """
@@ -33,7 +34,11 @@ def save_shadow_kvs_for_settings():
         'cfg_remote_control_api_token': remote_control_api_token,
         'cfg_local_ip': ip,
         'cfg_hotword_files': '',
-        'cfg_device_client_version': '1.0'
+        'cfg_device_client_version': '1.0',
+        'cfg_tablestore_endpoint': aliyun_tablestore_endpoint,
+        'cfg_tablestore_instance': aliyun_tablestore_instance,
+        'cfg_tablestore_table': aliyun_tablestore_table,
+
     }
     # kvs必须是Dict
     assert isinstance(kvs, dict)

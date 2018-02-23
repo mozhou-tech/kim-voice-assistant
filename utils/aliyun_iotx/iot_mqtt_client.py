@@ -159,7 +159,7 @@ class IotClient:
         """
         self.mqttc.subscribe(self._topic.get_topic_name(topic_name, type='subscribe', is_shadow=is_shadow))  # 订阅消息推送
 
-    def do_publish(self, topic_name='', payload='', qos=0, retain=False, is_shadow=False):
+    def do_publish(self, topic_name='', payload='', qos=1, retain=False, is_shadow=False):
         """
         向服务器发送消息
         :param topic_name: Topic名称
@@ -174,7 +174,7 @@ class IotClient:
 
         result = self.mqttc.publish(topic=topic, payload=payload, qos=qos, retain=retain)
         if result.is_published() is not True:
-            self._logger.info('Content %s send to topic "%s" publish failed.', payload, topic)
+            self._logger.error('Content %s send to topic "%s" publish failed.', payload, topic)
             self._logger.info('Error string:%s', error_string(result.rc))
 
     def _get_last_shadow_version(self):
