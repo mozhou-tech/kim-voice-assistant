@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
-import json,socket
-from config.path import APP_RESOURCES_DATA_PATH
+import json,socket,os
+from config.path import APP_RESOURCES_DATA_PATH ,HOTWORD_MODEL_PATH
 from config.profile import myname,timezone,city,\
     remote_control_service_enable,remote_control_password,remote_control_api_token,\
     aliyun_tablestore_endpoint, aliyun_tablestore_instance, aliyun_tablestore_table
@@ -8,6 +8,19 @@ from config.profile import myname,timezone,city,\
 组织用于报告给Iothub的数据
 """
 
+def __get_host_ip():
+    """
+    获取本地IP地址
+    :return:
+    """
+
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
+    return ip
 
 def save_shadow_kvs_for_settings():
     """
@@ -19,12 +32,7 @@ def save_shadow_kvs_for_settings():
     """
     获取IP地址
     """
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('8.8.8.8', 80))
-        ip = s.getsockname()[0]
-    finally:
-        s.close()
+
     kvs = {
         'cfg_myname': myname,
         'cfg_timezone': timezone,
@@ -32,8 +40,8 @@ def save_shadow_kvs_for_settings():
         'cfg_remote_control_service_enable': remote_control_service_enable,
         'cfg_remote_control_password': remote_control_password,
         'cfg_remote_control_api_token': remote_control_api_token,
-        'cfg_local_ip': ip,
-        'cfg_hotword_files': '',
+        'cfg_local_ip': __get_host_ip(),
+        'cfg_hotword_files': ','.join(os.listdir(HOTWORD_MODEL_PATH)),
         'cfg_device_client_version': '1.0',
         'cfg_tablestore_endpoint': aliyun_tablestore_endpoint,
         'cfg_tablestore_instance': aliyun_tablestore_instance,
