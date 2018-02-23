@@ -164,7 +164,7 @@ class IotClient:
         向服务器发送消息
         :param topic_name: Topic名称
         :param payload:
-        :param qos:
+        :param qos:f
         :param retain:
         :param is_shadow  是否是影子设备
         :return:
