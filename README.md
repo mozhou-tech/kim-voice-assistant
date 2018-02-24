@@ -22,7 +22,7 @@ Kim与阿里云的深度融合，使设备对云端能力触手可及，让你�
 
 ## 技术架构
 
-![image](http://github.com/tenstone/kim-voice-assistant-iot-client/raw/master/images/technical_architecture.png)
+![technical architecture](http://github.com/tenstone/kim-voice-assistant-iot-client/raw/master/images/technical_architecture.png)
 
 # 安装使用
 
