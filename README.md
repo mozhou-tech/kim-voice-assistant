@@ -14,7 +14,7 @@
 
 ## 主要特性
 
-1. 基于阿里云构建
+1. 基于阿里云服务构建
 1. Docker化快速安装部署
 1. 优化中文语义仲裁算法（KSM），精准理解中文语义
 2. 可选安装"远程会话服务"
@@ -29,7 +29,7 @@
 1. 听新闻头条，热门微博
 ……
 
-### 编写插件，扩展Kim的能力
+### 自定义插件，扩展Kim的能力
 
 1. 根据用户意图，请求外部网络接口，完成语音对话交互（或selenium实现Web语音交互）
 1. 语音客服机器人
@@ -59,7 +59,7 @@ Respbian/Ubuntu/CentOS等有声卡支持（/dev/snd）的设备。
 
 1. 感谢阿里云提供技术支持
 1. 感谢阿里云[天池大赛官方](https://tianchi.aliyun.com/)
-1. 感谢[The Jasper Project](http://jasperproject.github.io/)
+1. 感谢[The Jasper Project](http://jasperproject.github.io/)和[Dingang](https://github.com/wzpan/dingdang-robot)项目的开发者，他们给了我灵感
 
 
 
