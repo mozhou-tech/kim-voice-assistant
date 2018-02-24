@@ -43,13 +43,11 @@
 
 # 安装使用
 
-## 通过Docker镜像安装
-
-Respbian/Ubuntu/CentOS等有声卡支持（/dev/snd）的设备。
-
 ## 直接安装（支持Windows、macOS等平台）
 
-1. 通过
+### 安装步骤
+
+### 运行方法
 
 # TODO
 
@@ -58,8 +56,8 @@ Respbian/Ubuntu/CentOS等有声卡支持（/dev/snd）的设备。
 # 鸣谢
 
 1. 感谢阿里云提供技术支持
-1. 感谢阿里云[天池大赛官方](https://tianchi.aliyun.com/)
-1. 感谢[The Jasper Project](http://jasperproject.github.io/)和[Dingang](https://github.com/wzpan/dingdang-robot)项目的开发者，他们给了我灵感
+1. 感谢阿里云[天池大赛](https://tianchi.aliyun.com/)官方
+1. 感谢[The Jasper Project](http://jasperproject.github.io/)和[DingDang](https://github.com/wzpan/dingdang-robot)的开发者，他们启发了我的灵感
 
 
 
