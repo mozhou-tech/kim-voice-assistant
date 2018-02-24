@@ -7,7 +7,7 @@ import json
 from src.config.profile import device_name
 
 
-def init(info=False, debug=False):
+def init(info=False, debug=False, output=False):
     """
     args.debug   debug模式
     args.info    info模式
@@ -20,7 +20,7 @@ def init(info=False, debug=False):
     logger.propagate = False
 
     # 创建一个handler，用于写入日志文件
-    fh = logging.FileHandler(os.path.join(LOG_PATH, "xiaoyun.log"), encoding='utf-8')
+    fh = logging.FileHandler(os.path.join(LOG_PATH, "kim.log"), encoding='utf-8')
 
     # 再创建一个handler，用于输出到控制台
     ch = logging.StreamHandler()
@@ -49,7 +49,8 @@ def init(info=False, debug=False):
 
     # 给logger添加handler
     logger.addHandler(fh)
-    logger.addHandler(ch)   # stream
+    if output:
+        logger.addHandler(ch)   # 打印日志
 
     # 记录一条日志
     logger.info('logging module configure finished, setting level as %s.', logging.getLevelName(level))

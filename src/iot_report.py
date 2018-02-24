@@ -53,7 +53,7 @@ def save_shadow_kvs_for_settings():
     # kvs必须是Dict
     assert isinstance(kvs, dict)
     # 更新设备期望状态文件
-    with open(APP_RESOURCES_DATA_PATH + 'iotx_devstat/report_for_iot.json', mode='r+') as f:
+    with open(APP_RESOURCES_DATA_PATH + 'report_for_iot.json', mode='r+') as f:
         report_devstat_json = json.loads(f.read())
         for (key, value) in kvs.items():
             report_devstat_json['state']['reported'][key] = value

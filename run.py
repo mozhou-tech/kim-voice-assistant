@@ -21,6 +21,7 @@ parser.add_argument('--init', action='store_true', help='初始化')
 # 调试模式
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
 parser.add_argument('--info', action='store_true', help='Show info messages')
+parser.add_argument('--output', action='store_true', help='Output log directly.')
 args = parser.parse_args()
 if args.textmode:
     from src.mic_text import Mic
@@ -57,7 +58,7 @@ class App:
 
 
 if __name__ == "__main__":
-    loggingConfiger(info=args.info, debug=args.debug)      # 配置logging
+    loggingConfiger(info=args.info, debug=args.debug, output=args.output)      # 配置logging
     logger = logging.getLogger()
 
     if args.init:
