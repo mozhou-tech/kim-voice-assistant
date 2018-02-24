@@ -2,7 +2,7 @@
 
 from src.brain import Brain
 import logging, time
-from utils import logger
+from src.components import logger
 
 
 class Conversation:

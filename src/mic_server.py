@@ -1,8 +1,8 @@
 # -*- coding: utf-8-*-
 import logging
-from config import profile
+from src.config import profile
 from src.mic_base import MicBase
-from utils import logger
+from src.components import logger
 import requests, json, os,threading
 from src.tts import TTSEngine
 

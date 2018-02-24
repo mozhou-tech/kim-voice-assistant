@@ -1,8 +1,8 @@
 # -*- coding: utf-8-*-
 import logging
-from config import profile
+from src.config import profile
 from src.mic_base import MicBase
-from utils import logger
+from src.components import logger
 
 mic_name = 'text'
 

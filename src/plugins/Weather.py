@@ -6,10 +6,10 @@ import json
 WORDS = ["天气", "天气预报"]
 PRIORITY = 0
 logger = logging.getLogger()
-from utils.aliyun_fc.fc_client import FcClient
+from src.components.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
-from config.profile import city, myname, ali_appcode
-from config.path import APP_PATH
+from src.config.profile import city, myname, ali_appcode
+from src.config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
 

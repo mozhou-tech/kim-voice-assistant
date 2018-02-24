@@ -7,9 +7,9 @@ import random,math
 WORDS = ["讲个笑话", '说个笑话']
 PRIORITY = 0
 logger = logging.getLogger()
-from utils.aliyun_fc.fc_client import FcClient
-from config.profile import city, myname, ali_appcode
-from config.path import APP_PATH
+from src.components.aliyun_fc.fc_client import FcClient
+from src.config.profile import city, myname, ali_appcode
+from src.config.path import APP_PATH
 from src.plugins import is_all_word_segment_in_text
 
 

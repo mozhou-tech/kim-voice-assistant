@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 
-from utils import logger
+from src.components import logger
 
 
 class MicBase:

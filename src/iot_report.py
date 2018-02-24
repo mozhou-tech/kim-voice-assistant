@@ -1,12 +1,13 @@
 # -*- coding: utf-8-*-
 import json,socket,os
-from config.path import APP_RESOURCES_DATA_PATH ,HOTWORD_MODEL_PATH
-from config.profile import myname,timezone,city,\
+from src.config.path import APP_RESOURCES_DATA_PATH ,HOTWORD_MODEL_PATH
+from src.config.profile import myname,timezone,city,\
     remote_control_service_enable,remote_control_password,remote_control_api_token,\
     aliyun_tablestore_endpoint, aliyun_tablestore_instance, aliyun_tablestore_table
 """
 组织用于报告给Iothub的数据
 """
+
 
 def __get_host_ip():
     """
@@ -21,6 +22,7 @@ def __get_host_ip():
     finally:
         s.close()
     return ip
+
 
 def save_shadow_kvs_for_settings():
     """

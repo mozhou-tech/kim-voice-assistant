@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 
-from utils.snowboy import snowboydecoder
+from src.components.snowboy import snowboydecoder
 import sys
 import signal
 from config import snowboy

@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 import os
 import hashlib
-from config.path import CACHE_WAVE_PATH
+from src.config.path import CACHE_WAVE_PATH
 import logging
-from utils.aliyun_fc.fc_client import FcClient
+from src.components.aliyun_fc.fc_client import FcClient
 import time
 
 

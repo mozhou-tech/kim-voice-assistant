@@ -1,12 +1,12 @@
 # -*- coding: utf-8-*-
 
-from utils.logger import init as loggingConfiger
+from src.components.logger import init as loggingConfiger
 import logging
 from src.conversation import Conversation
-from config import profile
-from config.path import APP_RESOURCES_DATA_PATH
+from src.config import profile
+from src.config.path import APP_RESOURCES_DATA_PATH
 import argparse
-from utils.aliyun_iotx.iot_mqtt_client import IotClient
+from src.components.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
 from src.device_init import main as device_init
 import jieba

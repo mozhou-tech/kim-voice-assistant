@@ -2,9 +2,9 @@
 
 import logging
 import pkgutil
-from config.path import PLUGINS_PATH
+from src.config.path import PLUGINS_PATH
 import jieba
-from utils.aliyun_chatbot.chatbot import Chatbot
+from src.components.chatbot import Chatbot
 
 class Brain:
     """

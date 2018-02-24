@@ -1,5 +1,5 @@
 # -*- coding: utf-8-*-
-from utils.aliyun_fc.fc_client import FcClient
+from src.components.aliyun_fc.fc_client import FcClient
 import logging
 import subprocess
 import os

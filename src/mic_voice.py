@@ -1,18 +1,18 @@
 # -*- coding:utf-8 -*-
 import logging
-from utils.snowboy import snowboydecoder
+from src.components.snowboy import snowboydecoder
 import sys
 import signal
 import os
-from config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS, CACHE_WAVE_RECORDED
+from src.config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS, CACHE_WAVE_RECORDED
 from src.tts import TTSEngine
 import wave, pyaudio, audioop
 import time
-from utils.aliyun_fc.fc_client import FcClient
-from config import profile,path
+from src.components.aliyun_fc.fc_client import FcClient
+from src.config import profile,path
 from src.asr import ASREngine
 from src.mic_base import MicBase
-from utils import logger
+from src.components import logger
 
 mic_name = 'voice'
 
