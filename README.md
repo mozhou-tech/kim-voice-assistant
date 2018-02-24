@@ -1,6 +1,11 @@
 # 介绍 
 
-Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感来自外国友人的开源项目 [jasper-client](http://jasperproject.github.io/)。Kim在安装、本土化、控制方式等方面提出了不少改进方案，使得项目更容易安装，可玩性也有不少提升。
+交谈，是我们每天都在做的事，也是最容易习惯的人机交互方式，这是各种音箱大卖的原因之一。
+
+"Kim智能语音助理"是一个开源的语音、文本交互方案，由客户端、远程会话端两部分构成。通过部署云端服务，使远端APP控制和API接入能力，增加可玩性。除此之外，Kim的目标是将智能语音助理与智能家居系统无缝结合，我们已经支持著名开源智能家居系统"HomeAssistant"，支持小米、博联等主流品牌的智能家居设备。
+
+Kim与阿里云的深度融合，使设备对云端能力触手可及，让你的私人语音助理更加"智能化"，更容易实现功能扩展，充满魅力。
+
 
 [![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant-iot-client.svg)](https://github.com/tenstone/kim-voice-assistant-iot-client/issues)
 [![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
@@ -15,29 +20,29 @@ Kim Voice Assistant是一款开源智能语音助理（智能音箱），灵感�
 2. 可选安装Web和OpenAPI控制方案，提供丰富的设备的控制方式
 2. 支持树莓派（或其他物联网硬件）、macOS、PC，跨平台安装运行
 
-## 组件
+## 技术架构
 
-| 名称 | 描述 | 链接 |
-|----|----|----|
-| Kim Voice Assistant Iot Client | Kim设备端 | [Client Link](https://github.com/tenstone/kim-voice-assistant-iot-client) |
-| Kim Voice Assistant Server | Kim远程会话组件 | [Server Link](https://github.com/tenstone/kim-voice-assistant-server) |
+![image](http://github.com/tenstone/kim-voice-assistant-iot-client/raw/master/images/technical_architecture.png)
 
-# 安装
+# 安装使用
 
-## 通过Docker镜像安装（仅支持基于Linux Kernel的平台）
+## 通过Docker镜像安装
+
 Respbian/Ubuntu/CentOS等有声卡支持（/dev/snd）的设备。
-Dockerfile
 
 ## 直接安装（支持Windows、macOS等平台）
-blablabla
 
-# 参考
+1. 通过
 
-1. [Home Assistant中文文档](https://home-assistant-china.github.io)
-1. [阿里云物联网套件文档](https://help.aliyun.com/product/30520.html?spm=5176.11065259.1996646101.3.5bb13cb4OI00HP)
-1. [阿里云函数计算文档](https://help.aliyun.com/product/50980.html?spm=5176.11065259.1996646101.3.4aa04c2aAfJh0W)
+# TODO
 
+1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
 
+# 鸣谢
+
+1. 感谢阿里云提供技术支持
+1. 感谢阿里云[天池大赛官方](https://tianchi.aliyun.com/)
+1. 感谢[The Jasper Project](http://jasperproject.github.io/)
 
 
 
