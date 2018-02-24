@@ -1,5 +1,5 @@
 # -*- coding: utf-8-*-
-from src.config import device
+from src.config import profile as device
 import logging
 _logger = logging.getLogger()
 

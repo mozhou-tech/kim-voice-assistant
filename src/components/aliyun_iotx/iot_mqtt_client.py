@@ -2,7 +2,7 @@
 import paho.mqtt.client as mqtt
 from paho.mqtt.client import error_string
 from src.components.aliyun_iotx import topic
-from src.config import device
+from src.config import profile as device
 from src.config.path import APP_RESOURCES_DATA_PATH
 import json
 from src.components.aliyun_iotx.iot_server import IotServer

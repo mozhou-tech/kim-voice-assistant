@@ -37,3 +37,11 @@ aliyun_tablestore_endpoint = yaml_settings['aliyun']['tablestore']['endpoint']
 aliyun_tablestore_instance = yaml_settings['aliyun']['tablestore']['instance']
 aliyun_tablestore_table = yaml_settings['aliyun']['tablestore']['table']
 
+"""
+设备信息
+"""
+product_key = yaml_settings['aliyun']['iothub']['product_key']
+device_name = yaml_settings['aliyun']['iothub']['device_name']
+device_secret = yaml_settings['aliyun']['iothub']['device_secret']
+
+

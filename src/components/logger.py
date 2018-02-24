@@ -4,7 +4,7 @@ import os
 from src.config.path import LOG_PATH
 import time
 import json
-from src.config.device import device_name
+from src.config.profile import device_name
 
 
 def init(info=False, debug=False):
