@@ -1,8 +1,10 @@
 # -*- coding: utf-8-*-
 import logging
 
-WORDS = [u"echo", u"传话"]
+WORDS = ["echo", "传话", "重复一下"]
 PRIORITY = 0
+logger = logging.getLogger()
+from src.plugins import is_all_word_segment_in_text,plugin_output
 
 
 def handle(text, mic, profile, iot_client=None,chatbot=None):
@@ -15,9 +17,9 @@ def handle(text, mic, profile, iot_client=None,chatbot=None):
         profile -- contains information related to the user (e.g., phone
                    number)
     """
-    logger = logging.getLogger()
-    text = text.replace('echo', '').replace(u'传话', '')
-    mic.say(text)
+    text_str = ''.join(text)
+    robot_says = text_str.replace('echo', '').replace('传话', '').replace('重复一下', '')
+    plugin_output(text, mic, robot_says)
 
 
 def is_valid(text):
@@ -27,4 +29,4 @@ def is_valid(text):
         Arguments:
         text -- user-input, typically transcribed speech
     """
-    return any(word in text for word in WORDS)
+    return is_all_word_segment_in_text(WORDS, text)

@@ -1,7 +1,6 @@
 # -*- coding: utf-8-*-
-import datetime as dt
-import pytz,re,requests
-from src.plugins import is_all_word_segment_in_text
+import re,requests
+from src.plugins import is_all_word_segment_in_text, plugin_output
 import socket
 
 WORDS = ["IP地址", "IP", "网络地址", 'ip', 'ip地址']
@@ -31,8 +30,18 @@ def __get_host_ip():
     return ip
 
 
-def handle(text, mic, profile, iot_client=None,chatbot=None):
-    mic.say("我的I P地址是 "+__get_host_ip())
+def handle(text, mic, profile, iot_client=None, chatbot=None):
+    """
+    插件入口函数
+    :param text:
+    :param mic:
+    :param profile:
+    :param iot_client:
+    :param chatbot:
+    :return:
+    """
+    robot_says = "我的I P地址是 "+__get_host_ip()
+    plugin_output(text, mic, robot_says)
 
 
 def is_valid(text):

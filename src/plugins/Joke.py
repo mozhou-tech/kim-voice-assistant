@@ -4,13 +4,13 @@ import requests
 import json
 import random,math
 
-WORDS = ["讲个笑话", '说个笑话']
+WORDS = ["讲个笑话", '说个笑话', '讲一个笑话']
 PRIORITY = 0
 logger = logging.getLogger()
 from src.components.aliyun_fc.fc_client import FcClient
 from src.config.profile import city, myname, ali_appcode
 from src.config.path import APP_PATH
-from src.plugins import is_all_word_segment_in_text
+from src.plugins import is_all_word_segment_in_text,plugin_output
 
 
 def handle(text, mic, profile, iot_client=None, chatbot=None):
@@ -45,9 +45,11 @@ def handle(text, mic, profile, iot_client=None, chatbot=None):
     logger.info(result_raw)
     if result_raw['showapi_res_code'] == 0:
         joke_content = result_raw['showapi_res_body']['contentlist'][joke_id_in_page]
-        mic.say(joke_content['text'].replace('br', ' ').replace('<', '').replace('>', ''))
+        robot_says = joke_content['text'].replace('br', ' ').replace('<', '').replace('>', '')
+        plugin_output(text, mic, robot_says)
     else:
-        mic.say('我好像出了什么问题，需要治疗一下。调试信息：'+json.dumps(result_raw))
+        robot_says = '我好像出了什么问题，需要治疗一下。调试信息：'+json.dumps(result_raw)
+        plugin_output(text, mic, robot_says)
 
 
 def is_valid(text):

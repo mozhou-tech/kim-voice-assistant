@@ -2,15 +2,33 @@
 # coding=utf-8
 import requests
 import json,logging
-import sys
-import socket
-# -*- coding: utf-8-*-
-from src import config
+import sys,os
+import socket, importlib
+from src.config import load_yaml_settings
+from src.components.semantic import is_all_word_segment_in_text
+logger = logging.getLogger()
 
 
 class DingRobot:
+
     def __init__(self):
-        self.yaml_settings = config.load_yaml_settings()
+        self.yaml_settings = load_yaml_settings()
+
+    @classmethod
+    def dingtalk_handle(cls, text, robot_says):
+        """
+        钉钉消息处理
+        :param text:
+        :param mic:
+        :param robot_says:
+        :return:
+        """
+        if is_all_word_segment_in_text(["发送到钉钉", '发到钉钉', '发到丁丁', '发送到丁丁'], text):
+            ret = cls.send_message(title=''.join(text), markdown_content=robot_says)
+            if ret:
+                logger.info('钉钉消息发送成功')
+            else:
+                logger.error('钉钉消息发送失败')
 
     def get_token(self):
         return self.yaml_settings['dingding']['robot_token']
@@ -49,7 +67,6 @@ class DingRobot:
             "charset": "utf-8"
         })
         response_json = json.loads(response.content.decode('utf8'))
-        print(response_json)
         if response_json['errcode'] != 0:
             logger.info('dingtalk 发送消息错误：%s', response_json['errmsg'])
             return False

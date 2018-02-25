@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 import datetime as dt
 import pytz
-from src.plugins import is_all_word_segment_in_text
+from src.plugins import is_all_word_segment_in_text,plugin_output
 WORDS = ["时间", "几点", '周几', '星期几', '几号', '日期']
 
 week_map = ['日', '一', '二', '三', '四', '五', '六']
@@ -21,9 +21,9 @@ def handle(text, mic, profile, iot_client=None,chatbot=None):
     tz = pytz.timezone(profile.timezone)
     now = dt.datetime.now(tz=tz)
     if is_all_word_segment_in_text(['时间', '几点'], text):
-        mic.say(u"现在时间，%s " % now.strftime("%p%I时%M分").replace('AM', '上午').replace('PM', '下午'))
+        plugin_output(text, mic, "现在时间，%s " % now.strftime("%p%I时%M分").replace('AM', '上午').replace('PM', '下午'))
     else:
-        mic.say(u"今天是，" + now.strftime("%Y年%m月%d日") + '，星期'+week_map[int(now.strftime('%w'))])
+        plugin_output(text, mic, "今天是，" + now.strftime("%Y年%m月%d日") + '，星期'+week_map[int(now.strftime('%w'))])
 
 
 def is_valid(text):

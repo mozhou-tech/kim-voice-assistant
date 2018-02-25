@@ -6,6 +6,7 @@ from src.config.path import PLUGINS_PATH
 import jieba
 from src.components.chatbot import Chatbot
 
+
 class Brain:
     """
     指挥第三方插件响应，还是正常对话，还是控制

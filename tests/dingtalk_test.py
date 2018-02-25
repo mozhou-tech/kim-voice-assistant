@@ -18,7 +18,10 @@ class TestDingtalk(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_send_message(self):
+    def test_dingtalk_handle(self):
+        DingRobot.dingtalk_handle('ip地址发送到钉钉', '11111')
+
+    def atest_send_message(self):
         res = DingRobot.send_message(title='## 撒地方\n阿斯蒂芬', markdown_content='## 撒地方\n阿斯蒂芬')
         assert res is True
 

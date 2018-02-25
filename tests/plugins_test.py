@@ -10,7 +10,7 @@ from src import mic_voice
 import requests
 
 
-class TestSrcPlugins(unittest.TestCase):
+class TestPlugins(unittest.TestCase):
     """
 
     """

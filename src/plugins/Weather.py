@@ -10,7 +10,7 @@ from src.components.aliyun_fc.fc_client import FcClient
 import xml.etree.ElementTree as ET
 from src.config.profile import city, myname, ali_appcode
 from src.config.path import APP_PATH
-from src.plugins import is_all_word_segment_in_text
+from src.plugins import is_all_word_segment_in_text,plugin_output
 
 
 def handle(text, mic, profile, iot_client=None,chatbot=None):
@@ -56,7 +56,7 @@ def handle(text, mic, profile, iot_client=None,chatbot=None):
         forecast_output = day + forecast['conditionDay']+'，白天气温，'+forecast['tempDay'].replace('-', '零下')+\
                        '摄氏度，夜间气温，'+forecast['tempNight'].replace('-', '零下')+\
                        '摄氏度，'+forecast['windDirNight']+forecast['windLevelDay'].replace('-', '到')+'级'
-        mic.say(forecast_output)
+        plugin_output(text, mic, forecast_output)
     else:
         mic.say('天气获取失败')
 
