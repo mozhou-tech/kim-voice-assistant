@@ -4,7 +4,7 @@ profile:
   timezone: "Asia/Shanghai"
 
 custom:
-  # 自定义唤醒热词存放路径
+  # 自定义唤醒热词存放路径，建议不要使用太多的热词模型，防止误唤醒
   hotwords: '~/.kim/hotwords'
   # 自动以插件存放路径
   plugins: '~/.kim/plugins'
