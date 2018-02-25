@@ -53,7 +53,25 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 ### 安装步骤
 [详细安装方法...](https://github.com/tenstone/kim-voice-assistant/wiki/直接安装)
 
+### 配置说明
+
 ### 运行方法
+
+在项目根目录执行
+
+```bash
+python run.py
+```
+
+带参数运行
+
+```bash
+python run.py --textmode   # 文字交互模式
+python run.py --info # 在日志中输出调试信息
+python run.py --info --output # 调试信息直接在终端打印
+```
+
+# 技术支持
 
 ## 技术文档
 
@@ -65,9 +83,11 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
 
-# 技术支持
+## 钉钉交流群
 
-![钉钉群](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/dingdingqun.jpg){: width="600px""}
+用钉钉扫描下方二维码，入群交流。
+
+![钉钉群](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/dingdingqun.jpg)
 
 # TODO
 
