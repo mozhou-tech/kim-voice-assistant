@@ -65,9 +65,15 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
 
+# 技术支持
+
+![钉钉群](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/dingdingqun.jpg)
+
 # TODO
 
+1. 支持HomeAssistant
 1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
+1. 插件被修改时，Brain自动重载
 
 # 鸣谢
 
