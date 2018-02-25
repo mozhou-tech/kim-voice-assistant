@@ -40,7 +40,7 @@
 
 ## 技术架构
 
-Kim使用Python3.6编写，设备端实现了中文语义仲裁算法和"Kim大脑"；会话日志数据存储、插件、设备在线状态及数据传输等功能基于阿里云服务实现。
+Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大脑"，通过大脑理解设备输入；会话日志数据存储、插件、设备在线状态及数据传输等功能基于阿里云服务实现。
 
 ![technical architecture](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/technical_architecture.png)
 
@@ -51,22 +51,19 @@ Kim使用Python3.6编写，设备端实现了中文语义仲裁算法和"Kim大�
 
 ### 安装步骤
 
+### 运行方法
+
 ## 技术文档
 
 1. [智能语音交互(ASR)：一句话识别RESTful API](https://help.aliyun.com/document_detail/52787.html)
 1. [智能语音交互(TTS)：语音合成RESTful API](https://help.aliyun.com/document_detail/52793.html)
 1. [阿里云物联网套件：介绍](https://help.aliyun.com/document_detail/30522.html)
 1. [阿里云物联网套件：设备端基于MQTT接入](https://help.aliyun.com/document_detail/30539.html)
-1. [阿里云物联网套件：服务器端Python SDK使用](https://help.aliyun.com/document_detail/42700.html)
-1. [表格存储：使用与开通](https://help.aliyun.com/document_detail/27293.html)
 1. [表格存储：Python SDK](https://help.aliyun.com/document_detail/31723.html)
 1. [云小蜜：快速创建会话机器人](https://help.aliyun.com/document_detail/60459.html)
-1. [云小蜜：知识库配置指南](https://help.aliyun.com/document_detail/60747.html)
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssitant：接入文档](https://home-assistant.io/docs/)
 1. [HomeAssistant：智能家居组件接入](https://home-assistant.io/components/)
-
-### 运行方法
 
 # TODO
 
