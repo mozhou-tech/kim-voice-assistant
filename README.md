@@ -6,10 +6,11 @@
 
 与阿里云的深度融合，使Kim对云端能力触手可及，让你的私人语音助理更加智能，更易扩展，充满魅力。
 
-[![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/issues)
 [![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
-[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://pypi.python.org/pypi)
+[![Shippable](https://img.shields.io/shippable/5444c5ecb904a4b21567b0ff.svg)]()
+[![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
+
 
 
 ## 主要特性
@@ -35,7 +36,7 @@
 1. 语音客服机器人
 1. ……
 
-你完全可以把Kim作为一个交互入口，去实现更多功能。
+你完全可以把Kim作为一个交互入口，通过插件实现丰富的后端功能。
 
 ## 技术架构
 
