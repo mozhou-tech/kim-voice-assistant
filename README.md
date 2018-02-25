@@ -33,10 +33,11 @@
 ### 自定义插件，扩展Kim的能力
 
 1. 根据用户意图，请求外部网络接口，完成语音对话交互（或selenium实现Web语音交互）
-1. 语音客服机器人
-1. [更多...](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)
+1. 智能语音客服机器人
+1. 你完全可以把Kim作为一个交互入口，通过插件实现丰富的后端功能
 
-你完全可以把Kim作为一个交互入口，通过插件实现丰富的后端功能。
+参见文章"[如何构建你的自定义插件](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)"创建自定义插件。
+
 
 ## 技术架构
 
