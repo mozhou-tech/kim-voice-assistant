@@ -67,7 +67,7 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # 技术支持
 
-![钉钉群](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/dingdingqun.jpg)
+![钉钉群](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/dingdingqun.jpg =600)
 
 # TODO
 
