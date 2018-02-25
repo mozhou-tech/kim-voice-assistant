@@ -53,10 +53,9 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 [详细安装方法...](https://github.com/tenstone/kim-voice-assistant/wiki/直接安装)
 
-### 云端配置
+### 配置
 
-1. 项目运行之前，需要先修改配置文件，添加你的阿里云AccessKeyID和AccessKeySecret（AccessKey的获取方法请[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)）。
-1. 配置
+项目运行前，需先正确的修改配置，添加你的阿里云ak_id和ak_secret（AccessKey的获取方法请[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)），使设备能够正常使用阿里云云端服务。
 
 ### 运行
 
@@ -74,6 +73,10 @@ python run.py --info # 在日志中输出调试信息
 python run.py --info --output # 调试信息直接在终端打印
 ```
 
+### 远程会话服务
+
+项目提供Docker镜像，以便快速安装。请查看文档[远程会话服务](https://github.com/tenstone/kim-voice-assistant/wiki/远程会话服务)获得更多信息。
+
 # 技术支持
 
 ## 技术文档
@@ -85,6 +88,8 @@ python run.py --info --output # 调试信息直接在终端打印
 1. [云小蜜：快速创建会话机器人](https://help.aliyun.com/document_detail/60459.html)
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
+
+## 
 
 ## 钉钉交流群
 
