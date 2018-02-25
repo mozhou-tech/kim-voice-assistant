@@ -1,7 +1,8 @@
 # -*- coding: utf-8-*-
 
-import jieba, logging, yaml,json
-from src.config.path import APP_PATH
+import jieba, logging, yaml,json,os
+APP_PATH = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)).replace('/src', '')
+
 logger = logging.getLogger()
 
 SETTING_PATH = APP_PATH + '/setting.yaml'

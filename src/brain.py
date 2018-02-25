@@ -1,10 +1,11 @@
 # -*- coding: utf-8-*-
 
 import logging
-import pkgutil
+import pkgutil, os
 from src.config.path import PLUGINS_PATH
 import jieba
 from src.components.chatbot import Chatbot
+from src.config import load_yaml_settings
 
 
 class Brain:
@@ -25,9 +26,12 @@ class Brain:
         """
         动态加载所有的插件，并通过优先级排序。如果插件没有定义优先级则以0看待
         """
+        custom_dir = os.path.expanduser(load_yaml_settings()['custom']['plugins'])
         locations = [
             PLUGINS_PATH
         ]
+        if os.path.isdir(custom_dir):
+            locations.append(custom_dir)
         logger = logging.getLogger()
         plugins = []
         # plugins that are not allow to be call via Wechat or Email

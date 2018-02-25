@@ -3,14 +3,14 @@
 from src.components.logger import init as loggingConfiger
 import logging
 from src.conversation import Conversation
-from src.config import profile
+from src.config import profile, load_yaml_settings
 from src.config.path import APP_RESOURCES_DATA_PATH
 import argparse
 from src.components.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
 from src.device_init import main as device_init
 import jieba
-import io, sys, time
+import io, sys, time, os
 from src.mic_server import Mic as MicServer
 from src.iot_report import save_shadow_kvs_for_settings
 
@@ -48,11 +48,25 @@ class App:
         mic_server_thread = Thread(target=conversation.handle_forever, daemon=True)
         mic_server_thread.start()
 
+    def load_custom_plugins(self):
+        """
+        加载自定义的热词模型和插件
+        :return:
+        """
+        user_hotwords_dir = os.path.expanduser(load_yaml_settings()['custom']['hotwords'])
+        user_plugins_dir = os.path.expanduser(load_yaml_settings()['custom']['plugins'])
+        if os.path.isdir(user_hotwords_dir) is False:
+            os.makedirs(user_hotwords_dir)
+        if os.path.isdir(user_plugins_dir) is False:
+            os.makedirs(user_plugins_dir)
+        os.sys.path.append(user_plugins_dir)
+
     def run(self):
         """
         初始化对话
         :return:
         """
+        self.load_custom_plugins()
         conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile, iot_client=self.iot_client)
         conversation.handle_forever()
 

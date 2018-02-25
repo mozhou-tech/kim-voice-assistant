@@ -15,15 +15,16 @@ class DingRobot:
         self.yaml_settings = load_yaml_settings()
 
     @classmethod
-    def dingtalk_handle(cls, text, robot_says):
+    def dingtalk_handle(cls, text, robot_says, force_ding):
         """
         钉钉消息处理
         :param text:
         :param mic:
         :param robot_says:
+        :param force_ding
         :return:
         """
-        if is_all_word_segment_in_text(["发送到钉钉", '发到钉钉', '发到丁丁', '发送到丁丁'], text):
+        if is_all_word_segment_in_text(["发送到钉钉", '发到钉钉', '发到丁丁', '发送到丁丁'], text) or force_ding:
             ret = cls.send_message(title=''.join(text), markdown_content=robot_says)
             if ret:
                 logger.info('钉钉消息发送成功')
@@ -31,7 +32,7 @@ class DingRobot:
                 logger.error('钉钉消息发送失败')
 
     def get_token(self):
-        return self.yaml_settings['dingding']['robot_token']
+        return self.yaml_settings['dingtalk']['robot_token']
 
     # 发送钉钉消息
     @classmethod
