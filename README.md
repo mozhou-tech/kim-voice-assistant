@@ -12,7 +12,6 @@
 [![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
 
 
-
 ## 主要特性
 
 1. 基于阿里云服务构建
@@ -36,7 +35,7 @@
 1. 智能语音客服机器人
 1. 你完全可以把Kim作为一个交互入口，通过插件实现丰富的后端功能
 
-参见文章"[如何构建你的自定义插件](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)"创建自定义插件。
+参见文章"[自定义插件](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)"创建自定义插件。
 
 
 ## 技术架构
@@ -50,12 +49,16 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 ## 直接安装（支持Windows、macOS等平台）
 
-### 安装步骤
+### 客户端安装
+
 [详细安装方法...](https://github.com/tenstone/kim-voice-assistant/wiki/直接安装)
 
-### 配置说明
+### 云端配置
 
-### 运行方法
+1. 项目运行之前，需要先修改配置文件，添加你的阿里云AccessKeyID和AccessKeySecret（AccessKey的获取方法请[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)）。
+1. 配置
+
+### 运行
 
 在项目根目录执行
 
@@ -93,7 +96,7 @@ python run.py --info --output # 调试信息直接在终端打印
 
 1. 支持HomeAssistant
 1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
-1. 插件被修改时，Brain自动重载
+1. 插件被修改时，Brain自动重载插件
 
 # 鸣谢
 
