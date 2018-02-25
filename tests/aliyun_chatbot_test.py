@@ -1,15 +1,14 @@
 # -*- coding: utf-8-*-
 import unittest
 import os
-d
-from utils import logger
+from src.components import logger
 import logging
-from utils.aliyun_fc.fc_client import FcClient
+from src.components.aliyun_fc.fc_client import FcClient
 import json
 import wave
 import time
-from config.path import CACHE_WAVE_PATH
-from utils.aliyun_chatbot.chatbot import Chatbot
+from src.config.path import CACHE_WAVE_PATH
+from src.components.chatbot import Chatbot
 
 
 class TestAliyunFc(unittest.TestCase):

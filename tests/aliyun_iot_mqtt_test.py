@@ -2,15 +2,15 @@
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.aliyun_iotx.iot_mqtt_client import IotClient
-from config import profile
-from utils import logger
+from src.components.aliyun_iotx.iot_mqtt_client import IotClient
+from src.config import profile
+from src.components import logger
 import logging
-from utils.aliyun_iotx.sign import Sign
+from src.components.aliyun_iotx.iot_mqtt_client import Sign
 from threading import Thread
 import time
 import json, re
-from config.path import APP_RESOURCES_DATA_PATH
+from src.config.path import APP_RESOURCES_DATA_PATH
 from signal import pause
 
 

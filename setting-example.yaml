@@ -9,6 +9,9 @@ custom:
   # 自动以插件存放路径
   plugins: '~/.kim/plugins'
 
+dingding:
+  robot_token: "b1328efc9565fe32f5224a4329a48c8702dd13a65ac9a90a7da2f450e7b7a335"
+
 # 远端控制服务
 remote_control_service:
   enable: true

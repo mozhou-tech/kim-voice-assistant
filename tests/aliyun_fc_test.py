@@ -2,13 +2,13 @@
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils import logger
+from src.components import logger
 import logging
-from utils.aliyun_fc.fc_client import FcClient
+from src.components.aliyun_fc.fc_client import FcClient
 import json
 import wave
 import time
-from config.path import CACHE_WAVE_PATH
+from src.config.path import CACHE_WAVE_PATH
 from src.tts import TTSEngine
 
 

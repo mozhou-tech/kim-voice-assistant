@@ -2,7 +2,7 @@
 import unittest
 import os
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils import logger
+from src.components import logger
 from src.mic_voice import Mic
 from src.brain import Brain
 import jieba

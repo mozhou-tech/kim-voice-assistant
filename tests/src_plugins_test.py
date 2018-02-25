@@ -3,9 +3,9 @@ import unittest
 import os,jieba
 os.sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from src.plugins import Weather,WakeUpBell,Joke
-from utils import logger
+from src.components import logger
 from src import mic_text
-from config.path import APP_RESOURCES_DATA_PATH
+from src.config.path import APP_RESOURCES_DATA_PATH
 from src import mic_voice
 import requests
 
