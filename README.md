@@ -9,6 +9,7 @@
 [![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/issues)
 [![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
+[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://pypi.python.org/pypi)
 
 
 ## 主要特性
@@ -26,13 +27,13 @@
 1. 智能家居控制
 1. 讲段子，查天气、查快递等
 1. 听新闻头条，热门微博
-……
+1. ……
 
 ### 自定义插件，扩展Kim的能力
 
 1. 根据用户意图，请求外部网络接口，完成语音对话交互（或selenium实现Web语音交互）
 1. 语音客服机器人
-……
+1. ……
 
 你完全可以把Kim作为一个交互入口，去实现更多功能。
 
@@ -42,7 +43,14 @@ Kim使用Python3.6编写，设备端实现了中文语义仲裁算法和"Kim大�
 
 ![technical architecture](https://raw.githubusercontent.com/tenstone/kim-voice-assistant/master/images/technical_architecture.png)
 
-基础技术文档
+
+# 安装使用
+
+## 直接安装（支持Windows、macOS等平台）
+
+### 安装步骤
+
+## 技术文档
 
 1. [智能语音交互(ASR)：一句话识别RESTful API](https://help.aliyun.com/document_detail/52787.html)
 1. [智能语音交互(TTS)：语音合成RESTful API](https://help.aliyun.com/document_detail/52793.html)
@@ -56,12 +64,6 @@ Kim使用Python3.6编写，设备端实现了中文语义仲裁算法和"Kim大�
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssitant：接入文档](https://home-assistant.io/docs/)
 1. [HomeAssistant：智能家居组件接入](https://home-assistant.io/components/)
-
-# 安装使用
-
-## 直接安装（支持Windows、macOS等平台）
-
-### 安装步骤
 
 ### 运行方法
 
