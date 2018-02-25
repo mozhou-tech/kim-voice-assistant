@@ -59,13 +59,11 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 1. [智能语音交互(ASR)：一句话识别RESTful API](https://help.aliyun.com/document_detail/52787.html)
 1. [智能语音交互(TTS)：语音合成RESTful API](https://help.aliyun.com/document_detail/52793.html)
-1. [阿里云物联网套件：介绍](https://help.aliyun.com/document_detail/30522.html)
 1. [阿里云物联网套件：设备端基于MQTT接入](https://help.aliyun.com/document_detail/30539.html)
 1. [表格存储：Python SDK](https://help.aliyun.com/document_detail/31723.html)
 1. [云小蜜：快速创建会话机器人](https://help.aliyun.com/document_detail/60459.html)
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
-1. [HomeAssistant：智能家居组件接入](https://home-assistant.io/components/)
 
 # TODO
 
