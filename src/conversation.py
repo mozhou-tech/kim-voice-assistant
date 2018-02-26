@@ -9,7 +9,7 @@ class Conversation:
     """
     交谈
     """
-    def __init__(self, mic, persona, profile, iot_client):
+    def __init__(self, mic, profile, iot_client):
         """
         初始化
         :param mic:
@@ -21,7 +21,6 @@ class Conversation:
         self.text_mode = False
         self.mic = mic
         self.profile = profile
-        self.persona = persona
         self._logger.debug(mic)
         self.brain = Brain(mic, profile, iot_client)
         self._is_server_listen_thread = self.mic.is_server_listen_thread
@@ -56,9 +55,9 @@ class Conversation:
                 # for notif in notifications:
                 #     self._logger.info("Received notification: '%s'", str(notif))
 
-                self._logger.debug("Started listening for keyword '%s'", self.persona)
+                self._logger.debug("Started listening for keyword")
                 threshold, transcribed = self.mic.passive_listen()
-                self._logger.debug("Stopped listening for keyword '%s'", self.persona)
+                self._logger.debug("Stopped listening for keyword")
 
                 if not transcribed or not threshold:
                     self._logger.info("Nothing has been said or transcribed.")

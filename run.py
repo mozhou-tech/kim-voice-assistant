@@ -8,6 +8,7 @@ from src.config.path import APP_RESOURCES_DATA_PATH
 import argparse
 from src.components.aliyun_iotx.iot_mqtt_client import IotClient
 from threading import Thread
+from multiprocessing import Process
 from src.device_init import main as device_init
 import jieba
 import io, sys, time, os
@@ -31,7 +32,6 @@ else:
 
 class App:
     def __init__(self):
-        self.persona = 'abc'
         self.iot_client = IotClient.get_instance()
         Thread(target=self.iot_client.do_connect, daemon=True).start()   # 建立IoTHub监听进程
         # Initialize Mic
@@ -43,7 +43,7 @@ class App:
 
     def launch_server_listen_thread(self):
         self._logger.info('start server conversation listener...')
-        conversation = Conversation(mic=MicServer(self.iot_client, peer_mic=self.mic), persona=self.persona, profile=profile,
+        conversation = Conversation(mic=MicServer(self.iot_client, peer_mic=self.mic), profile=profile,
                                     iot_client=self.iot_client)
         mic_server_thread = Thread(target=conversation.handle_forever, daemon=True)
         mic_server_thread.start()
@@ -67,7 +67,7 @@ class App:
         :return:
         """
         self.load_custom_plugins()
-        conversation = Conversation(mic=self.mic, persona=self.persona, profile=profile, iot_client=self.iot_client)
+        conversation = Conversation(mic=self.mic, profile=profile, iot_client=self.iot_client)
         conversation.handle_forever()
 
 
