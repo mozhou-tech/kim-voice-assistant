@@ -11,14 +11,14 @@
 [![Shippable](https://img.shields.io/shippable/5444c5ecb904a4b21567b0ff.svg)]()
 [![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
 
-
 ## 主要特性
 
 1. 基于阿里云服务构建
 1. Docker化快速安装部署
 1. 优化中文语义仲裁算法（KSM），精准理解中文语义
-2. 可选安装"远程会话服务"
+2. 可选安装"远程会话服务 (RemoteTalk)"
 2. 跨平台支持Respberry Pi、macOS、Windows
+1. 响应消息可通过[DingTalk机器人](DingTalk机器人)推送到群
 
 ## 应用场景
 
@@ -55,7 +55,10 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 ### 配置
 
-项目运行前，需先正确的修改配置，添加你的阿里云ak_id和ak_secret（AccessKey的获取方法请[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)），使设备能够正常使用阿里云云端服务。
+1. 项目运行前，需先修改配置文件，添加你的阿里云AccessKeyId和AccessKeySecret（AccessKey获取方法[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)），正确的配置AccessKey是使用Kim的第一步。
+1. 配置物联网(IOT)套件
+1. 配置函数计算
+1. 开通云小蜜(ChatBot)
 
 ### 运行
 
@@ -76,6 +79,9 @@ python run.py --info --output # 调试信息直接在终端打印
 ### 远程会话服务
 
 项目提供Docker镜像，以便快速安装。请查看文档[远程会话服务](https://github.com/tenstone/kim-voice-assistant/wiki/远程会话服务)获得更多信息。
+"远程会话服务"建议部署到阿里云ECS，方便从远端与设备会话。
+
+[领取阿里云ECS优惠券](https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=tez2yu1g&productCode=vm&utm_source=tez2yu1g)
 
 # 技术支持
 
@@ -88,8 +94,6 @@ python run.py --info --output # 调试信息直接在终端打印
 1. [云小蜜：快速创建会话机器人](https://help.aliyun.com/document_detail/60459.html)
 1. [阿里云云市场：API市场](https://market.aliyun.com/data)
 1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
-
-## 
 
 ## 钉钉交流群
 
@@ -108,6 +112,7 @@ python run.py --info --output # 调试信息直接在终端打印
 1. 感谢阿里云提供技术支持
 1. 感谢阿里云[天池大赛](https://tianchi.aliyun.com/)官方
 1. 感谢[The Jasper Project](http://jasperproject.github.io/)和[DingDang](https://github.com/wzpan/dingdang-robot)的开发者，他们启发了我的灵感
+
 
 
 
