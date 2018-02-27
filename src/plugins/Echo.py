@@ -7,26 +7,25 @@ logger = logging.getLogger()
 from src.plugins import is_all_word_segment_in_text,plugin_output
 
 
-def handle(text, mic, profile, iot_client=None,chatbot=None):
+def handle(text, mic, profile, iot_client=None, chatbot=None):
     """
-        Reports the current time based on the user's timezone.
-
-        Arguments:
-        text -- user-input, typically transcribed speech
-        mic -- used to interact with the user (for both input and output)
-        profile -- contains information related to the user (e.g., phone
-                   number)
+    插件处理入口
+    :param text: 插件传入文本
+    :param mic:
+    :param profile:
+    :param iot_client: 传入物联网对象，自定插件照写即可
+    :param chatbot: 传入chatbot对象
+    :return:
     """
     text_str = ''.join(text)
     robot_says = text_str.replace('echo', '').replace('传话', '').replace('重复一下', '')
-    plugin_output(text, mic, robot_says)
+    plugin_output(text, mic, robot_says,force_ding=True)  # 输出响应
 
 
 def is_valid(text):
     """
-        Returns True if input is related to the time.
-
-        Arguments:
-        text -- user-input, typically transcribed speech
+    判断输入text与插件定义的WORDS是否语义匹配
+    :param text:
+    :return:
     """
     return is_all_word_segment_in_text(WORDS, text)
