@@ -1,7 +1,8 @@
 # -*- coding: utf-8-*-
-import random
+import random,logging
 import aliyunsdkchatbot
 from src.config import load_yaml_settings
+logger = logging.getLogger()
 
 WORDS = []
 PRIORITY = -99999
@@ -15,7 +16,9 @@ def handle(text, mic, profile, iot_client=None, chatbot=None):
     :param profile:
     :return:
     """
+    logger.info('机器人回复')
     if load_yaml_settings()['aliyun']['chatbot']['enable']:
+        logger.info('云小蜜已开启，通过云小蜜回复')
         return_text = chatbot.send_message(text)
     else:
         return_text = random.choice([

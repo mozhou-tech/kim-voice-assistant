@@ -26,7 +26,7 @@ class Chatbot:
         self.clt = client.AcsClient(self.accessKeyId, self.accessKeySecret, load_yaml_settings()['aliyun']['chatbot']['region'])
         self.request = ChatRequest.ChatRequest()
         self.request.set_Utterance(message)
-        self.request.set_InstanceId(load_yaml_settings()['aliyun']['chatbot']['region'])
+        self.request.set_InstanceId(load_yaml_settings()['aliyun']['chatbot']['instance'])
         if self.chatbot_session_id is not None:
             self.request.set_SessionId(self.chatbot_session_id)
         result_str = self.clt.do_action_with_exception(self.request).decode('utf-8')
