@@ -37,6 +37,11 @@ aliyun:
     instance: "kim-project"
     table: "conversations"
 
+  chatbot:
+    enable: true  # 是否开启云小蜜
+    region: "cn-shanghai"  # 实例所在区域region_id
+    instance: "chatbot-cn-v0h0g51gf00090" # 实例ID
+
   fc:   # 函数计算
     endpoint: "https://1435638266713387.cn-hangzhou.fc.aliyuncs.com"
     service_name: "kim_project"
