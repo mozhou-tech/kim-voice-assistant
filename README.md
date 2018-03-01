@@ -11,12 +11,17 @@
 [![Shippable](https://img.shields.io/shippable/5444c5ecb904a4b21567b0ff.svg)]()
 [![GitHub license](https://img.shields.io/github/license/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/blob/master/LICENSE)
 
+## 关联项目
+
+1. [Kim远程会话服务(RemoteTalk)](https://github.com/tenstone/kim-voice-assistant-remotetalk)
+1. [Kim插件集](https://github.com/tenstone/kim-voice-assistant-plugins)
+
 ## 主要特性
 
 1. 基于阿里云服务构建
 1. Docker化快速安装部署
 1. 优化中文语义仲裁算法（KSM），精准理解中文语义
-2. 可选安装"远程会话服务 (RemoteTalk)"
+2. 可选安装"远程会话服务"
 2. 跨平台支持Respberry Pi、macOS、Windows
 1. 响应消息可通过[DingTalk机器人](DingTalk机器人)推送到群
 
@@ -35,7 +40,7 @@
 1. 智能语音客服机器人
 1. 你完全可以把Kim作为一个交互入口，通过插件实现丰富的后端功能
 
-参见文章"[自定义插件](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)"创建自定义插件。
+参见文章"[自定义插件](https://github.com/tenstone/kim-voice-assistant/wiki/自定义插件)"查看自定义插件的详细介绍。
 
 
 ## 技术架构
@@ -47,53 +52,23 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # 安装使用
 
-## 直接安装（支持Win、macOS等平台）
+## 安装
 
-### 客户端安装
-
-[详细安装方法...](https://github.com/tenstone/kim-voice-assistant/wiki/直接安装)
+* [安装设备端](https://github.com/tenstone/kim-voice-assistant/wiki/安装(IotClient))
+* [安装远程会话端](https://github.com/tenstone/kim-voice-assistant/wiki/安装(RemoteTalk))
 
 ### 配置
 
-1. 项目运行前，需先修改配置文件，添加你的阿里云AccessKeyId和AccessKeySecret（AccessKey获取方法[参照此文](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)），正确的配置AccessKey是使用Kim的第一步。
-1. 配置物联网(IOT)套件
-1. 配置函数计算
-1. 开通云小蜜(ChatBot)
-
-### 运行
-
-在项目根目录执行
-
-```bash
-python run.py
-```
-
-带参数运行
-
-```bash
-python run.py --textmode   # 文字交互模式
-python run.py --info # 在日志中输出调试信息
-python run.py --info --output # 调试信息直接在终端打印
-```
-
-### 远程会话服务
-
-项目提供Docker镜像，以便快速安装。请查看文档[远程会话服务](https://github.com/tenstone/kim-voice-assistant/wiki/远程会话服务)获得更多信息。
-"远程会话服务"建议部署到阿里云ECS，方便从远端与设备会话。
-
-[领取阿里云ECS优惠券](https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=tez2yu1g&productCode=vm&utm_source=tez2yu1g)
+* [获取阿里云AccessKey](https://github.com/tenstone/kim-voice-assistant/wiki/获取阿里云AccessKey)
+* [配置物联网套件](https://github.com/tenstone/kim-voice-assistant/wiki/配置物联网套件)
+* [配置表格存储](https://github.com/tenstone/kim-voice-assistant/wiki/配置表格存储)
+* [配置云小蜜聊天机器人](https://github.com/tenstone/kim-voice-assistant/wiki/配置云小蜜聊天机器人)
+* [配置DingTalk群机器人](https://github.com/tenstone/kim-voice-assistant/wiki/配置DingTalk群机器人)
+* [配置HomeAssistant](https://github.com/tenstone/kim-voice-assistant/wiki/)
+* [配置HA与阿里智能](https://github.com/tenstone/kim-voice-assistant/wiki/)
+* [配置HA与小米智能](https://github.com/tenstone/kim-voice-assistant/wiki/配置HA与小米智能)
 
 # 技术支持
-
-## 技术文档
-
-1. [智能语音交互(ASR)：一句话识别RESTful API](https://help.aliyun.com/document_detail/52787.html)
-1. [智能语音交互(TTS)：语音合成RESTful API](https://help.aliyun.com/document_detail/52793.html)
-1. [阿里云物联网套件：设备端基于MQTT接入](https://help.aliyun.com/document_detail/30539.html)
-1. [表格存储：Python SDK](https://help.aliyun.com/document_detail/31723.html)
-1. [云小蜜：快速创建会话机器人](https://help.aliyun.com/document_detail/60459.html)
-1. [阿里云云市场：API市场](https://market.aliyun.com/data)
-1. [HomeAssistant：接入文档](https://home-assistant.io/docs/)
 
 ## 钉钉交流群
 
