@@ -7,6 +7,20 @@ import jieba
 from src.components.chatbot import Chatbot
 from src.config import load_yaml_settings
 
+from watchdog.observers import Observer
+from watchdog.events import LoggingEventHandler, FileSystemEventHandler
+
+
+class MyFileSystemEventHander(FileSystemEventHandler):
+    def __init__(self, fn):
+        super(MyFileSystemEventHander, self).__init__()
+        self.restart = fn
+
+    def on_any_event(self, event):
+        if event.src_path.endswith('.py'):
+            print('Python source file changed: %s' % event.src_path)
+            self.restart()
+
 
 class Brain:
     """
@@ -15,29 +29,35 @@ class Brain:
     def __init__(self, mic, profile, iot_client):
         self.mic = mic
         self.profile = profile
-        self.plugins = self.get_plugins()
+        self._plugin_name_list = []
+        self.watchdog_event_handler = MyFileSystemEventHander
+        self.plugins = None
         self._logger = logging.getLogger()
         self._iot_client = iot_client
         self.handling = False
         self.chatbot = Chatbot.get_instance()
+        self._custom_plugin_path = os.path.expanduser(load_yaml_settings()['custom']['plugins'])
+        self.get_plugins()
+        self.start_watch()
 
-    @classmethod
-    def get_plugins(cls):
+    # @classmethod
+    def get_plugins(self):
         """
         动态加载所有的插件，并通过优先级排序。如果插件没有定义优先级则以0看待
         """
-        custom_dir = os.path.expanduser(load_yaml_settings()['custom']['plugins'])
         locations = [
             PLUGINS_PATH
         ]
-        if os.path.isdir(custom_dir):
-            locations.append(custom_dir)
+        if os.path.isdir(self._custom_plugin_path):
+            locations.append(self._custom_plugin_path)
         logger = logging.getLogger()
         plugins = []
+        self._plugin_name_list = []
         # plugins that are not allow to be call via Wechat or Email
         logger.debug("Looking for plugins in: %s", ', '.join(["'%s'" % location for location in locations]))
         for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
+                self._plugin_name_list.append(name)
                 loader = finder.find_module(name)
                 mod = loader.load_module(name)
             except Exception:
@@ -49,7 +69,8 @@ class Brain:
                 else:
                     logger.warning("Skipped plugin '%s' because it misses the WORDS constant.", name)
         plugins.sort(key=lambda mod: mod.PRIORITY if hasattr(mod, 'PRIORITY') else 0, reverse=True)
-        return plugins
+        logger.info('支持的插件：'+','.join(self._plugin_name_list))
+        self.plugins = plugins
 
     def query(self, texts):
         """
@@ -75,6 +96,15 @@ class Brain:
                 finally:
                     return
         self._logger.debug("No plugin was able to handle any of these phrases: %r", texts)
+
+    def mod_change_detected(self):
+        return LoggingEventHandler()
+
+    def start_watch(self):
+        observer = Observer()
+        observer.schedule(self.watchdog_event_handler(self.get_plugins), self._custom_plugin_path, recursive=True)
+        observer.start()
+        self._logger.info('Watching directory %s...' % self._custom_plugin_path)
 
 
 
