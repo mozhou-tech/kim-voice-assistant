@@ -1,3 +1,4 @@
 [submodule "contrib"]
 	path = contrib
 	url = https://github.com/tenstone/kim-voice-assistant-plugins.git
+	branch = master
