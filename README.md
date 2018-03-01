@@ -103,9 +103,9 @@ python run.py --info --output # 调试信息直接在终端打印
 
 # TODO
 
+1. 插件被修改时，Brain自动重载插件（已实现）
 1. 支持HomeAssistant
 1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
-1. 插件被修改时，Brain自动重载插件
 
 # 鸣谢
 
