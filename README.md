@@ -78,7 +78,7 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # TODO
 
-1. 插件被修改时，Brain自动重载插件（已实现）
+1. ~~插件被修改时，Brain自动重载插件（已实现）~~
 1. 支持HomeAssistant
 1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
 
