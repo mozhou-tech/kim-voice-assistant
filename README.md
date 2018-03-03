@@ -1,10 +1,9 @@
 # 介绍 
 
-交谈，是我们每天都在做的事，也是最容易习惯的人机交互方式，这是各种音箱大卖的原因之一。"Kim智能语音助理"是一个开源的语音、文本交互方案。同时，通过部署云端服务，使设备具备远程会话能力能力，增加可玩性。
+Kim，是一套完整的智能家居方案。交谈，是我们每天都在做的事，所以人们最容易接受的人机交互方式之一。"Kim智能语音助理"提供了一个开源的语音、文本交互方案。同时Kim借助云端服务，使设备具备远程会话能力能力，增加可玩性。Kim已支持著名开源智能家居系统"HomeAssistant"，可以接入小米、博联等主流品牌的智能家居设备。
 
-除此之外，Kim的目标是将智能语音助理与智能家居系统无缝结合，我们已经支持著名开源智能家居系统"HomeAssistant"，可以接入小米、博联等主流品牌的智能家居设备。
+Kim与阿里云的深度融合，使Kim对云端能力触手可及，让你的私人语音助理更加智能，更易扩展，充满魅力。
 
-与阿里云的深度融合，使Kim对云端能力触手可及，让你的私人语音助理更加智能，更易扩展，充满魅力。
 
 [![Python3.6](https://img.shields.io/badge/python3.6-green-brightgreen.svg)](https://www.python.org)
 [![GitHub issues](https://img.shields.io/github/issues/tenstone/kim-voice-assistant.svg)](https://github.com/tenstone/kim-voice-assistant/issues)
@@ -78,7 +77,7 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # TODO
 
-1. ~~插件被修改时，Brain自动重载插件（已实现）~~
+1. ~~插件被修改时，Kim大脑自动重载插件（已实现）~~
 1. 支持HomeAssistant
 1. 支持Docker镜像安装（语音模式仅支持基于Linux Kernel的平台）
 
