@@ -98,14 +98,13 @@ class Mic(MicBase):
         threshold = None
         print('Listen Instructions...')
         chunk = 1024
-        wave_format = pyaudio.paInt16
         channels = 1
         rate = 16000
         record_seconds = 12         # 录音持续时间
 
-        stream = self._audio.open(format=wave_format,
+        stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=channels,
-                                  input_device_index=0,
+                                  # input_device_index=0,
                                   rate=rate,
                                   input=True,
                                   frames_per_buffer=chunk)
@@ -144,7 +143,7 @@ class Mic(MicBase):
         stream.close()
         wf = wave.open(CACHE_WAVE_RECORDED, 'wb')
         wf.setnchannels(channels)
-        wf.setsampwidth(self._audio.get_sample_size(wave_format))
+        wf.setsampwidth(self._audio.get_sample_size(pyaudio.paInt16))
         wf.setframerate(rate)
         wf.writeframes(b''.join(frames))
         wf.close()
