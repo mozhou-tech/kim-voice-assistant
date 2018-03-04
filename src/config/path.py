@@ -12,7 +12,7 @@ PLUGINS_CONTRIB_PATH = os.path.join(APP_PATH, 'contrib')
 
 CACHE_PATH = os.path.join(APP_PATH, 'data/cache')
 
-CACHE_WAVE_PATH = CACHE_PATH + '/wave/'
+CACHE_WAVE_PATH = CACHE_PATH + '/wave'
 
 CACHE_WAVE_RECORDED = CACHE_WAVE_PATH + '/record_output.wav'
 """
