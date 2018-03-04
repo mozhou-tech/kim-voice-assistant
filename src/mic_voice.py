@@ -132,7 +132,7 @@ class Mic(MicBase):
             # self._logger.info('average:%s, threshold:%s', average, threshold)
 
             # 采样声音的最大值突破100时，开始检测
-            if threshold > 120:
+            if threshold > 80:
                 if average < 120:
                     low_volume_count = low_volume_count + 1
                 if average > 400:               # 如果有声音，就清空周期计数
