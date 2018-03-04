@@ -25,7 +25,7 @@ aliyun:
   ak_secret: "" # <填写你的阿里云AccessKeySecret>
 
   api_market:  # 云市场
-    appcode: "cd08e261838a42328340f49cd28c02b4"
+    appcode: "" # <填写你的APPCode>
 
   iothub:  # 物联网IoThub
     product_name: "kim_voice_assistant"
