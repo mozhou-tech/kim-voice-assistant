@@ -36,7 +36,6 @@ class Mic(MicBase):
 
         self._mic_hat_led_supported = mic_hat.support_led()  # 知否支持LED闪烁
 
-
     def __del__(self):
         if isinstance(self._audio, object):
             self._audio.terminate()
@@ -75,8 +74,7 @@ class Mic(MicBase):
             监听到热词怎么办
             :return:
             """
-            if self._mic_hat_led_supported:
-                mic_hat.pixels.wakeup()
+            mic_hat.pixels.wakeup() if self._mic_hat_led_supported else None
 
             self.play(WAVE_DING)
             self._logger.info('Hotword Detected.')
