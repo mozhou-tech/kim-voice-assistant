@@ -101,6 +101,7 @@ class Mic(MicBase):
         """
         threshold = None
         print('Listen Instructions...')
+        mic_hat.pixels.listen() if self._mic_hat_led_supported else None
         chunk = 1024
         channels = 1
         rate = 16000
