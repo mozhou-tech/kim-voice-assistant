@@ -51,7 +51,7 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # 安装&配置
 
-## 安装方法****
+## 安装方法
 
 * [安装设备端](https://github.com/tenstone/kim-voice-assistant/wiki/安装(IotClient))
 * [安装远程会话端](https://github.com/tenstone/kim-voice-assistant/wiki/安装(RemoteTalk))
