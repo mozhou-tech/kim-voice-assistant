@@ -38,7 +38,6 @@ class Brain:
         self.chatbot = Chatbot.get_instance()
         self._custom_plugin_path = os.path.expanduser(load_yaml_settings()['custom']['plugins'])
         self.get_plugins()
-        self.start_watch()
 
     # @classmethod
     def get_plugins(self):
@@ -50,6 +49,8 @@ class Brain:
         ]
         if os.path.isdir(self._custom_plugin_path):
             locations.append(self._custom_plugin_path)
+            self.start_watch()       # 监听自定义插件目录的修改
+
         logger = logging.getLogger()
         plugins = []
         self._plugin_name_list = []

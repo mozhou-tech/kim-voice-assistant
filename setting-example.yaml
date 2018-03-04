@@ -9,19 +9,20 @@ custom:
   # 自动以插件存放路径
   plugins: '~/.kim/plugins'
 
-dingding:
+dingtalk:
+  enable: true
   robot_token: "b1328efc9565fe32f5224a4329a48c8702dd13a65ac9a90a7da2f450e7b7a335"
 
 # 远端控制服务
 remote_control_service:
   enable: true
   passwd: "123456"     # Web端密码
-  api_token: "9DSU9987jK"  # a-zA-z0-9  不要使用符号
+  api_token: "9DSU9987jK"  # a-zA-z0-9  不b要使用符号
 
 aliyun:
   # 阿里云账号AK，（建议使用子账号，并赋予函数计算、IOT权限、表格存储权限）
-  ak_id: ""   # <填写你的阿里云AccessKeyID>
-  ak_secret: "" # <填写你的阿里云AccessKeySecret>
+  ak_id: "LTAIsk0qFRkhyL2Q"   # <填写你的阿里云AccessKeyID>
+  ak_secret: "xi7FP7EFafFV3CNUO0G2HAOzvSRAPi" # <填写你的阿里云AccessKeySecret>
 
   api_market:  # 云市场
     appcode: "cd08e261838a42328340f49cd28c02b4"
@@ -38,9 +39,9 @@ aliyun:
     table: "conversations"
 
   chatbot:
-    enable: true  # 是否开启云小蜜
-    region: "cn-shanghai"  # 实例所在区域region_id
-    instance: "chatbot-cn-v0h0g51gf00090" # 实例ID
+    enable: true
+    region: "cn-shanghai"
+    instance: "chatbot-cn-v0h0g51gf00090"
 
   fc:   # 函数计算
     endpoint: "https://1435638266713387.cn-hangzhou.fc.aliyuncs.com"
