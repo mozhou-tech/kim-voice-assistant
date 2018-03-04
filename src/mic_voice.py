@@ -80,7 +80,6 @@ class Mic(MicBase):
             self.play(WAVE_DING)
             self._logger.info('Hotword Detected.')
             detector.terminate()
-            mic_hat.pixels.off() if self._mic_hat_led_supported else None
 
         # capture SIGINT signal, e.g., Ctrl+C
         signal.signal(signal.SIGINT, signal_handler)
@@ -102,7 +101,7 @@ class Mic(MicBase):
         """
         threshold = None
         print('Listen Instructions...')
-        mic_hat.pixels.think() if self._mic_hat_led_supported else None
+        mic_hat.pixels.listen() if self._mic_hat_led_supported else None
         chunk = 1024
         channels = 1
         rate = 16000
@@ -133,17 +132,17 @@ class Mic(MicBase):
             # self._logger.info('average:%s, threshold:%s', average, threshold)
 
             # 采样声音的最大值突破100时，开始检测
-            if threshold > 100:
-                if average < 80:
+            if threshold > 120:
+                if average < 120:
                     low_volume_count = low_volume_count + 1
-                if average > 100:               # 如果有声音，就清空周期计数
+                if average > 400:               # 如果有声音，就清空周期计数
                     low_volume_count = 0
-                if low_volume_count >= 20:      # 等待周期数
+                if low_volume_count >= 30:      # 等待周期数
                     break
+            self._logger.info('average:'+str(average))
 
         self.play(WAVE_DONG)
         self._logger.info("active listen done recording")
-
         stream.stop_stream()
         stream.close()
         wf = wave.open(CACHE_WAVE_RECORDED, 'wb')
@@ -170,7 +169,7 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
-        mic_hat.pixels.speak() if self._mic_hat_led_supported else None
+        mic_hat.pixels.think() if self._mic_hat_led_supported else None
 
         logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase, speaker='device')
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)

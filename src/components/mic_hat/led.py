@@ -65,6 +65,8 @@ class Pixels:
             colors = [i * v for v in self.basis]
             self.write(colors)
             time.sleep(0.02)
+            if self.next.is_set():
+                break
 
         self.colors = colors
 
@@ -73,6 +75,8 @@ class Pixels:
             colors = [i * v for v in self.basis]
             self.write(colors)
             time.sleep(0.5)
+            if self.next.is_set():
+                break
 
         self.colors = colors
 
@@ -91,6 +95,8 @@ class Pixels:
             self.write([(v * (4 - i) / 4) for v in colors])
             time.sleep(t)
             t /= 2
+            if self.next.is_set():
+                break
 
         # time.sleep(0.5)
 
