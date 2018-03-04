@@ -7,12 +7,11 @@ import os
 from src.config.path import WAVE_DING, WAVE_DONG, HOTWORD_MODELS, CACHE_WAVE_RECORDED
 from src.tts import TTSEngine
 import wave, pyaudio, audioop
-import time
-from src.components.aliyun_fc.fc_client import FcClient
 from src.config import profile,path
 from src.asr import ASREngine
 from src.mic_base import MicBase
 from src.components import logger
+from src.components import mic_hat
 
 mic_name = 'voice'
 
@@ -34,6 +33,9 @@ class Mic(MicBase):
         # exit(self._audio.get_device_info_by_index(2))
         # exit(self._audio.get_default_input_device_info())
         self.is_server_listen_thread = False
+
+        self._mic_hat_led_supported = mic_hat.support_led()  # 知否支持LED闪烁
+
 
     def __del__(self):
         if isinstance(self._audio, object):
@@ -73,6 +75,9 @@ class Mic(MicBase):
             监听到热词怎么办
             :return:
             """
+            if self._mic_hat_led_supported:
+                mic_hat.pixels.wakeup()
+
             self.play(WAVE_DING)
             self._logger.info('Hotword Detected.')
             detector.terminate()
@@ -104,7 +109,6 @@ class Mic(MicBase):
 
         stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=channels,
-                                  # input_device_index=0,
                                   rate=rate,
                                   input=True,
                                   frames_per_buffer=chunk)
