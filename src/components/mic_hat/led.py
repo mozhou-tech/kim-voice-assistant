@@ -61,10 +61,10 @@ class Pixels:
             func()
 
     def _wakeup(self, direction=0):
-        for i in range(1, 25):
+        for i in range(1, 100):
             colors = [i * v for v in self.basis]
             self.write(colors)
-            time.sleep(0.01)
+            time.sleep(0.02)
 
         self.colors = colors
 
@@ -72,7 +72,7 @@ class Pixels:
         for i in range(1, 25):
             colors = [i * v for v in self.basis]
             self.write(colors)
-            time.sleep(0.01)
+            time.sleep(0.5)
 
         self.colors = colors
 
@@ -85,7 +85,7 @@ class Pixels:
             self.write(colors)
             time.sleep(0.2)
 
-        t = 0.1
+        t = 0.05
         for i in range(0, 5):
             colors = colors[3:] + colors[:3]
             self.write([(v * (4 - i) / 4) for v in colors])
@@ -103,13 +103,13 @@ class Pixels:
         while not self.next.is_set():
             for i in range(5, 25):
                 self.write([(v * i / 24) for v in colors])
-                time.sleep(0.01)
+                time.sleep(0.02)
 
             time.sleep(0.3)
 
             for i in range(24, 4, -1):
                 self.write([(v * i / 24) for v in colors])
-                time.sleep(0.01)
+                time.sleep(0.02)
 
             time.sleep(0.3)
 

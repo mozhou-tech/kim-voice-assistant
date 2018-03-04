@@ -39,6 +39,7 @@ class Mic(MicBase):
     def __del__(self):
         if isinstance(self._audio, object):
             self._audio.terminate()
+        mic_hat.pixels.off() if self._mic_hat_led_supported else None
 
     def _get_score(self, data):
         """
@@ -101,7 +102,7 @@ class Mic(MicBase):
         """
         threshold = None
         print('Listen Instructions...')
-        mic_hat.pixels.listen() if self._mic_hat_led_supported else None
+        mic_hat.pixels.think() if self._mic_hat_led_supported else None
         chunk = 1024
         channels = 1
         rate = 16000
@@ -170,6 +171,7 @@ class Mic(MicBase):
         :return:
         """
         mic_hat.pixels.speak() if self._mic_hat_led_supported else None
+
         logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase, speaker='device')
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
@@ -177,6 +179,8 @@ class Mic(MicBase):
             self.play(cache_file_path)
         else:
             print("%s,%s" % profile.myname, phrase)
+
+        mic_hat.pixels.off() if self._mic_hat_led_supported else None
 
     def play(self, src):
         """
