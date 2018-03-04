@@ -105,7 +105,7 @@ class Mic(MicBase):
 
         stream = self._audio.open(format=wave_format,
                                   channels=channels,
-                                  input_device_index=1,
+                                  input_device_index=0,
                                   rate=rate,
                                   input=True,
                                   frames_per_buffer=chunk)
