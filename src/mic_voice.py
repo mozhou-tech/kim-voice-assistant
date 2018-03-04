@@ -79,6 +79,7 @@ class Mic(MicBase):
             self.play(WAVE_DING)
             self._logger.info('Hotword Detected.')
             detector.terminate()
+            mic_hat.pixels.off() if self._mic_hat_led_supported else None
 
         # capture SIGINT signal, e.g., Ctrl+C
         signal.signal(signal.SIGINT, signal_handler)
