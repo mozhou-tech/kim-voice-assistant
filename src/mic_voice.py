@@ -169,6 +169,7 @@ class Mic(MicBase):
         :param phrase:
         :return:
         """
+        mic_hat.pixels.speak() if self._mic_hat_led_supported else None
         logger.send_conversation_log(self.iot_client, mic_name, '(TTS)' + phrase, speaker='device')
         is_tts_cached, cache_file_path = self._tts_engine.get_speech_cache(phrase, fetch_wave_on_no_cache=True)
         if is_tts_cached:
