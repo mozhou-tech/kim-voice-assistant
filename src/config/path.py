@@ -8,6 +8,7 @@ APP_RESOURCES_DATA_PATH = APP_PATH + '/data/resources/'
 LOG_PATH = os.path.join(APP_PATH, 'data/log')
 
 PLUGINS_PATH = os.path.join(APP_PATH, 'src/plugins')
+PLUGINS_CONTRIB_PATH = os.path.join(APP_PATH, 'contrib')
 
 CACHE_PATH = os.path.join(APP_PATH, 'data/cache')
 
