@@ -47,6 +47,12 @@ aliyun:
     endpoint: "https://1435638266713387.cn-hangzhou.fc.aliyuncs.com"
     service_name: "kim_project"
 
+homeassistant:    # 配置 HA
+  enable: true
+  connection:
+    ip: "127.0.0.1"
+    passwd: "kim-project-a8df78a9df"
+
 
 
 
