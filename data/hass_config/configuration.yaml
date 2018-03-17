@@ -17,7 +17,7 @@ homeassistant:
 introduction:
 
 xiaomi_aqara:
-  discovery_retry: 5
+  discovery_retry: 3
   gateways:
     - key: 3CFBE8E80DDF4D60
 
