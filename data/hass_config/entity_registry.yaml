@@ -1,0 +1,12 @@
+sensor.illumination_7811dcb790a4:
+  platform: xiaomi_aqara
+  unique_id: illumination7811dcb790a4
+light.gateway_light_7811dcb790a4:
+  platform: xiaomi_aqara
+  unique_id: rgb7811dcb790a4
+sensor.humidity_158d0002229ec1:
+  platform: xiaomi_aqara
+  unique_id: humidity158d0002229ec1
+sensor.temperature_158d0002229ec1:
+  platform: xiaomi_aqara
+  unique_id: temperature158d0002229ec1
