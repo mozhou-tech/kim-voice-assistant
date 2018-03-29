@@ -31,9 +31,10 @@ class Hass:
         :param entity_id:
         :return:
         """
-        state_obj = remote.get_state(self._api, entity_id);
+        state_obj = remote.get_state(self._api, entity_id)
         return {
             'state': state_obj.state,
+            'attributes': state_obj.attributes
         }
 
 
