@@ -1,6 +1,4 @@
-from src.components.mic_hat.led import pixels
 from importlib import util
-
 
 def support_led():
     """
@@ -11,3 +9,6 @@ def support_led():
         return False
     else:
         return True
+
+if support_led():
+    from src.components.mic_hat.led import pixels
