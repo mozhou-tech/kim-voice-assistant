@@ -25,8 +25,18 @@ class Hass:
         domain = 'light'        # state的前缀
         remote.call_service(self._api, domain, state, service_data=service_data)
 
-    def get_entity_by(self):
-        pass
+    def get_entity_states(self, entity_id):
+        """
+        获取设备状态
+        :param entity_id:
+        :return:
+        """
+        state_obj = remote.get_state(self._api, entity_id);
+        return {
+            'state': state_obj.state,
+        }
+
+
 
         #
         # print('-- Available services:')
