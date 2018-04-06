@@ -1,1 +1,4 @@
 home-assistant_v2.db
+.HA_VERSION
+.uuid
+home-assistant.log
