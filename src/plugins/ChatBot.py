@@ -22,9 +22,7 @@ def handle(text, mic, profile, iot_client=None, chatbot=None):
         return_text = chatbot.send_message(text)
     else:
         return_text = random.choice([
-            '你说啥，我不明白哈？',
-            '宝宝没听懂',
-            '我还不支持这个功能'
+            '',
         ])
     mic.say(return_text)
 

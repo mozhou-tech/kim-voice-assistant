@@ -37,7 +37,7 @@ class Chatbot:
         if len(result_json['Messages']) >= 1:
             return result_json['Messages'][0]['Text']['Content']
         else:
-            return '这个问题我还不知道怎么回答'
+            return ''
 
     @classmethod
     def get_instance(cls):
