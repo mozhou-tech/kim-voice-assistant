@@ -16,7 +16,7 @@ class TestHaConn(unittest.TestCase):
         pass
 
     def test_connection(self):
-        entity_id = load_yaml_settings()['hass']['entities']['xiaomi']['gateway_light']
+        entity_id = load_yaml_settings()['hass']['entities']['light']
         hass = Hass.get_instance()
         hass.conn()
         hass.xiaomi_gateway_light(entity_id=entity_id, state='turn_on', rgb_color=[255, 100, 100], brightness=10)
