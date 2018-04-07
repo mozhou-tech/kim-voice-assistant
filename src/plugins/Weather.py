@@ -53,7 +53,7 @@ def handle(text, mic, profile, iot_client=None,chatbot=None):
         else:
             forecast = result_raw['data']['forecast'][0]
             day = '今天'
-        forecast_output = day + forecast['conditionDay']+'，白天气温，'+forecast['tempDay'].replace('-', '零下')+\
+        forecast_output = return_text + day + forecast['conditionDay']+'，白天气温，'+forecast['tempDay'].replace('-', '零下')+\
                        '摄氏度，夜间气温，'+forecast['tempNight'].replace('-', '零下')+\
                        '摄氏度，'+forecast['windDirNight']+forecast['windLevelDay'].replace('-', '到')+'级'
         plugin_output(text, mic, forecast_output)
