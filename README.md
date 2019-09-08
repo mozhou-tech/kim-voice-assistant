@@ -83,6 +83,7 @@ Kim基于Python36构建，设备端实现了中文语义仲裁算法和"Kim大�
 
 # 鸣谢
 
+1. 感谢[supermei](https://github.com/supermei)参与开发"远程会话端"实现通过Web网页对IOT设备的远程控制
 1. 感谢阿里云提供技术支持
 1. 感谢[The Jasper Project](http://jasperproject.github.io/)和[DingDang](https://github.com/wzpan/dingdang-robot)的开发者，他们启发了我的灵感
 
