@@ -28,7 +28,7 @@ cssutils==1.0.2
 decorator==4.1.2
 distro==1.2.0
 docutils==0.14
-ecdsa==0.13
+ecdsa==0.13.3
 EditorConfig==0.12.1
 enum-compat==0.0.2
 envs==1.2.4
