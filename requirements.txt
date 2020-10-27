@@ -23,7 +23,7 @@ chardet==3.0.4
 click==6.7
 colorlog==3.1.2
 construct==2.9.31
-cryptography==2.1.1
+cryptography==3.2
 cssutils==1.0.2
 decorator==4.1.2
 distro==1.2.0
