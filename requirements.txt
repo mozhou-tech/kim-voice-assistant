@@ -1,4 +1,4 @@
-aiohttp==2.3.10
+aiohttp==3.7.4
 aiohttp-cors==0.6.0
 aliyun-fc2==2.0.2
 aliyun-python-sdk-chatbot==1.0.0
