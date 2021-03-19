@@ -51,7 +51,7 @@ ipython-genutils==0.2.0
 itsdangerous==0.24
 jedi==0.11.0
 jieba==0.39
-Jinja2==2.10
+Jinja2==2.11.3
 jmespath==0.9.3
 jsbeautifier==1.6.14
 kaitaistruct==0.6
