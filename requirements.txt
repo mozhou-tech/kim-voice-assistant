@@ -46,7 +46,7 @@ html2text==2016.9.19
 hyperframe==4.0.2
 idna==2.6
 idna-ssl==1.0.1
-ipython==6.2.1
+ipython==7.16.3
 ipython-genutils==0.2.0
 itsdangerous==0.24
 jedi==0.11.0
